@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create an Account — EventSphere</title>
+  <meta name="description" content="Register as an Attendee or Event Organizer with EventSphere.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body style="display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: var(--space-6) var(--space-4); background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%), var(--bg-main);">
+
+  <div class="card-base animate-fade-in-up" style="width: 100%; max-width: 500px; padding: var(--space-8); box-shadow: var(--shadow-xl);">
+    <!-- Brand Header -->
+    <div style="text-align: center; margin-bottom: var(--space-6);">
+      <a href="/index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+        <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--primary-600), var(--accent-purple)); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800;">✦</div>
+        <span>EventSphere</span>
+      </a>
+      <h1 style="font-size: var(--font-size-2xl); font-weight: 800; letter-spacing: -0.02em;">Create Your Account</h1>
+      <p style="color: var(--text-muted); font-size: var(--font-size-sm); margin-top: 0.25rem;">Start exploring or organizing world-class events</p>
+    </div>
+
+    <!-- Role Selection Radios -->
+    <div class="role-select-grid">
+      <div class="role-card-option selected" id="roleAttendeeOption" onclick="selectRole('attendee')">
+        <div class="role-icon">🎟️</div>
+        <div class="role-title">Attendee</div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">Explore & book passes</div>
+      </div>
+
+      <div class="role-card-option" id="roleOrganizerOption" onclick="selectRole('organizer')">
+        <div class="role-icon">⚡</div>
+        <div class="role-title">Organizer</div>
+        <div style="font-size: 0.75rem; color: var(--text-muted);">Host & manage events</div>
+      </div>
+    </div>
+
+    <!-- Registration Form -->
+    <form id="registerForm">
+      <input type="hidden" id="selectedRole" value="attendee">
+
+      <div class="form-group">
+        <label for="regName" class="form-label form-label-required">Full Name</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">👤</span>
+          <input type="text" id="regName" required class="input-control" placeholder="Jane Doe">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regEmail" class="form-label form-label-required">Email Address</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="regEmail" required class="input-control" placeholder="jane@example.com">
+        </div>
+      </div>
+
+      <div class="form-group" id="orgNameGroup" style="display: none;">
+        <label for="regOrgName" class="form-label">Organization or Brand Name</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">🏢</span>
+          <input type="text" id="regOrgName" class="input-control" placeholder="e.g. Apex Global Summits">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regPhone" class="form-label">Phone Number (Optional)</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">📞</span>
+          <input type="tel" id="regPhone" class="input-control" placeholder="+91 98765 43210">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regPassword" class="form-label form-label-required">Password</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="regPassword" required minlength="6" class="input-control" placeholder="Min. 6 characters">
+          <span class="input-password-toggle">👁️‍🗨️</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regConfirmPassword" class="form-label form-label-required">Confirm Password</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="regConfirmPassword" required minlength="6" class="input-control" placeholder="Re-enter password">
+          <span class="input-password-toggle">👁️‍🗨️</span>
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1.5rem; font-size: var(--font-size-xs); color: var(--text-muted);">
+        By creating an account, you agree to EventSphere's <a href="#" style="color: var(--primary-600);">Terms of Service</a> and <a href="#" style="color: var(--primary-600);">Privacy Policy</a>.
+      </div>
+
+      <button type="submit" id="submitRegisterBtn" class="btn btn-primary btn-lg btn-full" style="margin-bottom: 1.25rem;">
+        Create Account ✦
+      </button>
+
+      <div style="text-align: center; font-size: var(--font-size-sm); color: var(--text-muted);">
+        Already have an account? <a href="/auth/login.html" style="color: var(--primary-600); font-weight: 600;">Sign In</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/auth.js"></script>
+
+  <script>
+    function selectRole(role) {
+      document.getElementById('selectedRole').value = role;
+      document.getElementById('roleAttendeeOption').classList.toggle('selected', role === 'attendee');
+      document.getElementById('roleOrganizerOption').classList.toggle('selected', role === 'organizer');
+      document.getElementById('orgNameGroup').style.display = role === 'organizer' ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.initPasswordToggles();
+
+      const form = document.getElementById('registerForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const password = document.getElementById('regPassword').value;
+        const confirmPass = document.getElementById('regConfirmPassword').value;
+
+        if (password !== confirmPass) {
+          Components.showToast('Passwords do not match. Please verify.', 'warning');
+          return;
+        }
+
+        const btn = document.getElementById('submitRegisterBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Creating Account...';
+
+        const payload = {
+          name: document.getElementById('regName').value.trim(),
+          email: document.getElementById('regEmail').value.trim(),
+          phone: document.getElementById('regPhone').value.trim(),
+          role: document.getElementById('selectedRole').value,
+          organizationName: document.getElementById('regOrgName')?.value.trim() || '',
+          password
+        };
+
+        try {
+          await Auth.register(payload);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Create Account ✦';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

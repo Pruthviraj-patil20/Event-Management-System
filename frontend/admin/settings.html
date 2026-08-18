@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Settings — EventSphere Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol" style="background: linear-gradient(135deg, #DC2626, #EF4444);">✦</div>
+          <span class="brand-name">EventSphere Admin</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/admin/admin-dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">🛡️</span> Command Center
+        </a>
+        <a href="/admin/events.html" class="sidebar-link">
+          <span class="sidebar-icon">📅</span> All Events
+        </a>
+        <a href="/admin/users.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Users
+        </a>
+        <a href="/admin/venues.html" class="sidebar-link">
+          <span class="sidebar-icon">🏢</span> Venues
+        </a>
+        <a href="/admin/payments.html" class="sidebar-link">
+          <span class="sidebar-icon">💳</span> Transactions
+        </a>
+        <a href="/admin/reports.html" class="sidebar-link">
+          <span class="sidebar-icon">📈</span> Reports
+        </a>
+        <a href="/admin/settings.html" class="sidebar-link active">
+          <span class="sidebar-icon">⚙️</span> System Config
+        </a>
+      </nav>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">Global System Configuration</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div style="max-width: 680px;">
+          <div class="form-section-card">
+            <h2 class="form-section-title">Platform Operations</h2>
+            <p class="form-section-desc">Manage system-wide defaults and moderation policies.</p>
+
+            <div class="form-group">
+              <label class="form-label">Platform Name</label>
+              <input type="text" class="input-control" value="EventSphere">
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Default Currency</label>
+              <select class="select-control">
+                <option value="INR" selected>Indian Rupee (INR ₹)</option>
+                <option value="USD">US Dollar (USD $)</option>
+                <option value="EUR">Euro (EUR €)</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: var(--primary-600);">
+                <span style="font-size: 0.875rem; font-weight: 600;">Enable Automatic Event Moderation Filter</span>
+              </label>
+            </div>
+
+            <div class="form-group">
+              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
+                <input type="checkbox" checked style="accent-color: var(--primary-600);">
+                <span style="font-size: 0.875rem; font-weight: 600;">Require Dynamic QR Cryptographic Signatures on Pass Issuance</span>
+              </label>
+            </div>
+
+            <button type="button" onclick="Components.showToast('System configuration saved successfully.', 'success')" class="btn btn-primary">Save Configuration</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.requireAuth(['admin']);
+    });
+  </script>
+</body>
+</html>

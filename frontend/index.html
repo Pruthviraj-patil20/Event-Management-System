@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventSphere — Plan. Discover. Experience.</title>
+  <meta name="description" content="Discover world-class conferences, concerts, workshops, festivals and tech summits with EventSphere.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/hero.css">
+  <link rel="stylesheet" href="/css/events.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Dynamic Navigation Bar -->
+  <header class="navbar" id="navbar"></header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-glow"></div>
+    <div class="container hero-content">
+      <div class="hero-badge">
+        <span>✨ The Next Generation Event Experience</span>
+      </div>
+      <h1 class="hero-title">
+        Discover experiences <br/>
+        <span class="hero-title-gradient">worth remembering.</span>
+      </h1>
+      <p class="hero-subtitle">
+        Find conferences, concerts, workshops, festivals and summits happening around you. Plan your schedule, book instant QR passes, and connect with global communities.
+      </p>
+
+      <!-- Integrated Hero Search Box -->
+      <form class="hero-search-box" id="heroSearchForm">
+        <div class="search-field-group">
+          <span class="search-field-icon">🔍</span>
+          <div class="search-field-content">
+            <label for="heroSearchTerm" class="search-field-label">Search Event</label>
+            <input type="text" id="heroSearchTerm" class="search-field-input" placeholder="e.g. AI Summit, Jazz Night...">
+          </div>
+        </div>
+
+        <div class="search-field-group">
+          <span class="search-field-icon">📍</span>
+          <div class="search-field-content">
+            <label for="heroCitySelect" class="search-field-label">City / Location</label>
+            <select id="heroCitySelect" class="search-field-select">
+              <option value="All">All Cities</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Pune">Pune</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="New Delhi">New Delhi</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-field-group">
+          <span class="search-field-icon">🏷️</span>
+          <div class="search-field-content">
+            <label for="heroCategorySelect" class="search-field-label">Category</label>
+            <select id="heroCategorySelect" class="search-field-select">
+              <option value="All">All Categories</option>
+              <option value="Technology">Technology</option>
+              <option value="Music">Music</option>
+              <option value="Business">Business</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Conference">Conference</option>
+              <option value="Festival">Festival</option>
+              <option value="Sports">Sports</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="height: 52px;">
+          Explore Now
+        </button>
+      </form>
+
+      <!-- Hero Category Quick Links -->
+      <div class="hero-category-pills">
+        <a href="/events.html?category=Technology" class="cat-pill">💻 Technology</a>
+        <a href="/events.html?category=Music" class="cat-pill">🎵 Music & Concerts</a>
+        <a href="/events.html?category=Business" class="cat-pill">💼 Startups & Business</a>
+        <a href="/events.html?category=Workshop" class="cat-pill">🛠️ AI Workshops</a>
+        <a href="/events.html?category=Conference" class="cat-pill">🎙️ DesignX Summits</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Live Animated Statistics Banner -->
+  <section class="section" style="padding-top: 0;" id="statsSection">
+    <div class="container">
+      <div class="stats-banner">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="10000" data-suffix="+">10,000+</div>
+            <div class="stat-label">Curated Events</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="50000" data-suffix="+">50,000+</div>
+            <div class="stat-label">Active Attendees</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="2000" data-suffix="+">2,000+</div>
+            <div class="stat-label">Verified Organizers</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="100" data-suffix="+">100+</div>
+            <div class="stat-label">Global Tech Cities</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Events Showcase -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-eyebrow">Handpicked Highlights</span>
+        <h2 class="section-heading">Featured Experiences</h2>
+        <p class="section-subheading">Discover high-demand gatherings, tech conferences, and music performances trending this week.</p>
+      </div>
+
+      <div class="grid-4" id="featuredEventsGrid">
+        <!-- Injected dynamically via JS -->
+      </div>
+
+      <div style="text-align: center; margin-top: var(--space-10);">
+        <a href="/events.html" class="btn btn-secondary btn-lg">Browse All Events →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Browse by Category -->
+  <section class="section" style="background-color: var(--bg-subtle);">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-eyebrow">Explore Passions</span>
+        <h2 class="section-heading">Browse by Category</h2>
+        <p class="section-subheading">From deep technology masterclasses to open-air music festivals, pick your next journey.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="category-card" onclick="window.location.href='/events.html?category=Technology'">
+          <div class="category-icon-box">💻</div>
+          <div class="category-name">Technology</div>
+          <div class="category-count">AI, Cloud, Distributed Systems</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Music'">
+          <div class="category-icon-box">🎵</div>
+          <div class="category-name">Music</div>
+          <div class="category-count">Symphonies, Live Bands & Jazz</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Business'">
+          <div class="category-icon-box">💼</div>
+          <div class="category-name">Business</div>
+          <div class="category-count">Pitch Summits, VC & Leadership</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Sports'">
+          <div class="category-icon-box">🏃</div>
+          <div class="category-name">Sports</div>
+          <div class="category-count">City Marathons & Fitness Expos</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Education'">
+          <div class="category-icon-box">🎓</div>
+          <div class="category-name">Education</div>
+          <div class="category-count">Robotics, Labs & Research</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Workshop'">
+          <div class="category-icon-box">🛠️</div>
+          <div class="category-name">Workshop</div>
+          <div class="category-count">Hands-on Code & Product Labs</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Conference'">
+          <div class="category-icon-box">🎙️</div>
+          <div class="category-name">Conference</div>
+          <div class="category-count">Design Systems & Keynotes</div>
+        </div>
+        <div class="category-card" onclick="window.location.href='/events.html?category=Festival'">
+          <div class="category-icon-box">🎪</div>
+          <div class="category-name">Festival</div>
+          <div class="category-count">Art Bazaars & Culinary Fusions</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Why EventSphere Value Proposition -->
+  <section class="section">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-eyebrow">Enterprise Grade Architecture</span>
+        <h2 class="section-heading">Why Leaders Choose EventSphere</h2>
+        <p class="section-subheading">A modern platform built specifically for frictionless event management, ticketing, and attendee delight.</p>
+      </div>
+
+      <div class="grid-4">
+        <div class="card-base card-hover" style="padding: var(--space-8);">
+          <div style="font-size: 2.25rem; margin-bottom: 1rem;">🔍</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Discover</h3>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6;">Find curated experiences matching your exact interests with lightning-fast multi-factor search.</p>
+        </div>
+
+        <div class="card-base card-hover" style="padding: var(--space-8);">
+          <div style="font-size: 2.25rem; margin-bottom: 1rem;">⚡</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Organize</h3>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6;">Create, price, and publish multi-tier ticket passes with built-in venue management tools.</p>
+        </div>
+
+        <div class="card-base card-hover" style="padding: var(--space-8);">
+          <div style="font-size: 2.25rem; margin-bottom: 1rem;">📱</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Dynamic QR</h3>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6;">Instant cryptographic QR code generation for digital wallets, frictionless check-ins, and fraud prevention.</p>
+        </div>
+
+        <div class="card-base card-hover" style="padding: var(--space-8);">
+          <div style="font-size: 2.25rem; margin-bottom: 1rem;">📊</div>
+          <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Analyze</h3>
+          <p style="color: var(--text-muted); font-size: 0.875rem; line-height: 1.6;">Real-time Chart.js revenue reports, attendance curves, tier conversions, and attendee export tools.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Carousel -->
+  <section class="section" style="background-color: var(--bg-subtle);">
+    <div class="container">
+      <div class="section-title-wrap">
+        <span class="section-eyebrow">Attendee & Host Stories</span>
+        <h2 class="section-heading">Loved by Creators Worldwide</h2>
+        <p class="section-subheading">Here is what leading summit organizers and active attendees say about EventSphere.</p>
+      </div>
+
+      <div class="grid-3">
+        <div class="card-base" style="padding: var(--space-8);">
+          <div class="star-rating" style="margin-bottom: 1rem;">★★★★★</div>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+            "EventSphere transformed how we ran FutureTech India. Real-time attendee check-ins with dynamic QR codes were completely seamless with zero line delays!"
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80" style="width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover;" alt="Elena">
+            <div>
+              <div style="font-weight: 700; font-size: 0.875rem;">Elena Rostova</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Lead Organizer, Apex Global Summits</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-base" style="padding: var(--space-8);">
+          <div class="star-rating" style="margin-bottom: 1rem;">★★★★★</div>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+            "The ticket wallet and instant receipt generation are so smooth. I booked VIP passes for my engineering team in under 60 seconds without any friction."
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=400&q=80" style="width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover;" alt="Devon">
+            <div>
+              <div style="font-weight: 700; font-size: 0.875rem;">Devon Chen</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Senior Software Architect, Meta</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-base" style="padding: var(--space-8);">
+          <div class="star-rating" style="margin-bottom: 1rem;">★★★★★</div>
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+            "The analytics dashboard gives us accurate hourly revenue breakdowns and tier velocities. EventSphere is clearly the most sophisticated platform on the market."
+          </p>
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80" style="width: 44px; height: 44px; border-radius: var(--radius-full); object-fit: cover;" alt="Sarah">
+            <div>
+              <div style="font-weight: 700; font-size: 0.875rem;">Sarah Lin</div>
+              <div style="font-size: 0.75rem; color: var(--text-muted);">Executive Producer, Hyperion Media</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Big Call to Action -->
+  <section class="section">
+    <div class="container">
+      <div style="background: linear-gradient(135deg, #111827 0%, #1F2937 100%); border-radius: var(--radius-2xl); padding: var(--space-16) var(--space-8); text-align: center; color: #FFFFFF; position: relative; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <div style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 600px; height: 300px; background: radial-gradient(circle, rgba(99, 102, 241, 0.3) 0%, transparent 70%); filter: blur(50px);"></div>
+        <h2 style="font-size: clamp(2rem, 4vw, var(--font-size-4xl)); font-weight: 800; margin-bottom: 1rem; color: #FFFFFF; position: relative;">
+          Your next unforgettable event starts here.
+        </h2>
+        <p style="font-size: 1.125rem; color: #94A3B8; max-width: 600px; margin: 0 auto 2rem auto; position: relative;">
+          Join over 50,000+ creators, attendees, and organizations using EventSphere to plan, discover, and experience extraordinary events.
+        </p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative;">
+          <a href="/events.html" class="btn btn-primary btn-lg">Explore Events</a>
+          <a href="/dashboard/create-event.html" class="btn btn-secondary btn-lg" style="background: transparent; color: #FFFFFF; border-color: rgba(255, 255, 255, 0.3);">Create an Event</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dynamic Footer -->
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/events.js"></script>
+  <script src="/js/main.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Components.renderNavbar('home');
+      Components.renderFooter();
+      App.init();
+    });
+  </script>
+</body>
+</html>

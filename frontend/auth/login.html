@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign In — EventSphere</title>
+  <meta name="description" content="Sign in to your EventSphere account to manage events and digital passes.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body style="display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: var(--space-4); background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%), var(--bg-main);">
+
+  <div class="card-base animate-fade-in-up" style="width: 100%; max-width: 440px; padding: var(--space-8); box-shadow: var(--shadow-xl);">
+    <!-- Logo & Brand Header -->
+    <div style="text-align: center; margin-bottom: var(--space-6);">
+      <a href="/index.html" style="display: inline-flex; align-items: center; gap: 0.5rem; font-family: var(--font-heading); font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem;">
+        <div style="width: 36px; height: 36px; border-radius: var(--radius-md); background: linear-gradient(135deg, var(--primary-600), var(--accent-purple)); display: flex; align-items: center; justify-content: center; color: #FFFFFF; font-weight: 800;">✦</div>
+        <span>EventSphere</span>
+      </a>
+      <h1 style="font-size: var(--font-size-2xl); font-weight: 800; letter-spacing: -0.02em;">Welcome Back</h1>
+      <p style="color: var(--text-muted); font-size: var(--font-size-sm); margin-top: 0.25rem;">Sign in to your account to continue</p>
+    </div>
+
+    <!-- Demo Credential Fill Buttons -->
+    <div style="background-color: var(--bg-subtle); border-radius: var(--radius-md); padding: 0.75rem; margin-bottom: 1.25rem; font-size: 0.75rem;">
+      <div style="font-weight: 700; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">Quick Demo Sign-In:</div>
+      <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('attendee@example.com', 'Attendee123!')" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">Attendee</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('organizer@example.com', 'Organizer123!')" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">Organizer</button>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="fillDemo('admin@example.com', 'Admin123!')" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">Admin</button>
+      </div>
+    </div>
+
+    <!-- Sign In Form -->
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="loginEmail" class="form-label form-label-required">Email Address</label>
+        <div class="input-icon-wrap">
+          <span class="input-icon">✉️</span>
+          <input type="email" id="loginEmail" required class="input-control" placeholder="name@example.com" autocomplete="email">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2);">
+          <label for="loginPassword" class="form-label form-label-required" style="margin-bottom: 0;">Password</label>
+          <a href="/auth/forgot-password.html" style="font-size: var(--font-size-xs); color: var(--primary-600); font-weight: 600;">Forgot Password?</a>
+        </div>
+        <div class="input-icon-wrap">
+          <span class="input-icon">🔒</span>
+          <input type="password" id="loginPassword" required class="input-control" placeholder="••••••••" autocomplete="current-password">
+          <span class="input-password-toggle">👁️‍🗨️</span>
+        </div>
+      </div>
+
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; font-size: var(--font-size-sm);">
+        <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; color: var(--text-secondary);">
+          <input type="checkbox" id="rememberMe" checked style="accent-color: var(--primary-600);">
+          <span>Remember me for 30 days</span>
+        </label>
+      </div>
+
+      <button type="submit" id="submitLoginBtn" class="btn btn-primary btn-lg btn-full" style="margin-bottom: 1.25rem;">
+        Sign In 🚀
+      </button>
+
+      <div style="text-align: center; font-size: var(--font-size-sm); color: var(--text-muted);">
+        Don't have an account? <a href="/auth/register.html" style="color: var(--primary-600); font-weight: 600;">Create Account</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/auth.js"></script>
+
+  <script>
+    function fillDemo(email, pass) {
+      document.getElementById('loginEmail').value = email;
+      document.getElementById('loginPassword').value = pass;
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      Auth.initPasswordToggles();
+
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('submitLoginBtn');
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+
+        const email = document.getElementById('loginEmail').value.trim();
+        const password = document.getElementById('loginPassword').value;
+
+        try {
+          await Auth.login(email, password);
+        } catch (err) {
+          btn.disabled = false;
+          btn.innerHTML = 'Sign In 🚀';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

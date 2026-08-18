@@ -1,0 +1,48 @@
+/* ==========================================================================
+   Theme Switcher & Specific Dark Mode Visual Enhancements
+   ========================================================================== */
+
+/* Dark mode specific glows & gradients */
+[data-theme="dark"] body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+}
+
+[data-theme="dark"] .card-base,
+[data-theme="dark"] .event-card,
+[data-theme="dark"] .category-card,
+[data-theme="dark"] .metric-card,
+[data-theme="dark"] .chart-card,
+[data-theme="dark"] .table-wrapper,
+[data-theme="dark"] .filter-sidebar,
+[data-theme="dark"] .details-card,
+[data-theme="dark"] .ticket-sidebar,
+[data-theme="dark"] .form-section-card,
+[data-theme="dark"] .modal-dialog,
+[data-theme="dark"] .toast {
+  background-color: var(--bg-surface);
+  border-color: var(--border-subtle);
+}
+
+[data-theme="dark"] .event-card-fav-btn {
+  background: rgba(17, 24, 39, 0.85);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--text-muted);
+}
+
+[data-theme="dark"] .event-card-fav-btn:hover {
+  background: #1F2937;
+  color: #EF4444;
+}
+
+[data-theme="dark"] .hero-glow {
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.25) 0%, rgba(139, 92, 246, 0.15) 40%, transparent 70%);
+}
+
+[data-theme="dark"] input:-webkit-autofill,
+[data-theme="dark"] input:-webkit-autofill:hover, 
+[data-theme="dark"] input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--text-main);
+  -webkit-box-shadow: 0 0 0px 1000px #1F2937 inset;
+  transition: background-color 5000s ease-in-out 0s;
+}

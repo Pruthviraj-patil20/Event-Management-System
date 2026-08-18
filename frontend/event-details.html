@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details — EventSphere</title>
+  <meta name="description" content="View event itinerary, select ticket tiers, and book instant digital passes with EventSphere.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/event-details.css">
+  <link rel="stylesheet" href="/css/events.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Dynamic Navigation Bar -->
+  <header class="navbar" id="navbar"></header>
+
+  <main class="section" style="padding-top: var(--space-6);" id="detailsContainer">
+    <div class="container">
+      <!-- Details Hero Banner -->
+      <div class="details-hero">
+        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80" alt="Event Cover" id="eventHeroImg" class="details-hero-img">
+        <div class="details-hero-overlay">
+          <div class="details-badge-row">
+            <span class="badge badge-primary" id="eventCategoryBadge">Technology</span>
+            <span class="badge badge-success">Official Pass</span>
+          </div>
+          <h1 class="details-title" id="eventHeroTitle">Loading Event Details...</h1>
+          <div class="details-meta-bar">
+            <div class="details-meta-item">
+              <span>📅</span>
+              <span id="eventDateText">--</span>
+            </div>
+            <div class="details-meta-item">
+              <span>⏰</span>
+              <span id="eventTimeText">--</span>
+            </div>
+            <div class="details-meta-item">
+              <span>📍</span>
+              <span id="eventVenueText">--</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2-Column Main Details Layout -->
+      <div class="details-layout">
+        <!-- Left Content Area -->
+        <div class="details-main-content">
+          <!-- Overview Card -->
+          <div class="details-card">
+            <h2 class="details-section-title">About This Experience</h2>
+            <div class="details-description-text" id="eventDescription">Loading description...</div>
+            <div style="margin-top: 1.5rem; display: flex; gap: 0.5rem; flex-wrap: wrap;" id="eventTagsList"></div>
+          </div>
+
+          <!-- Venue & Location Details -->
+          <div class="details-card">
+            <h2 class="details-section-title">Venue & Location</h2>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
+              <div>
+                <h3 style="font-size: 1.15rem; font-weight: 700;" id="venueDetailName">Venue Name</h3>
+                <p style="color: var(--text-muted); font-size: 0.875rem; margin-top: 0.25rem;" id="venueDetailAddress">Address</p>
+                <div style="margin-top: 0.5rem; font-size: 0.8125rem; color: var(--primary-600); font-weight: 600;" id="venueDetailCapacity">Capacity</div>
+              </div>
+              <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm">
+                🗺️ Open in Google Maps
+              </a>
+            </div>
+          </div>
+
+          <!-- Organizer Profile Card -->
+          <div class="details-card">
+            <h2 class="details-section-title">Hosted By</h2>
+            <div class="organizer-profile-card">
+              <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Organizer" id="orgAvatar" class="organizer-avatar">
+              <div>
+                <div class="organizer-info-name" id="orgName">Organizer Name</div>
+                <div class="organizer-info-org" id="orgOrganization">Organization</div>
+                <p style="font-size: 0.8125rem; color: var(--text-muted); margin-top: 0.25rem;" id="orgBio">Passionate event creator.</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Reviews & Ratings Section -->
+          <div class="details-card">
+            <h2 class="details-section-title">Attendee Reviews & Feedback</h2>
+            <div id="reviewsList"></div>
+
+            <!-- Post Review Form -->
+            <div style="margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border-subtle);">
+              <h3 style="font-size: 1rem; font-weight: 700; margin-bottom: 0.75rem;">Leave a Review</h3>
+              <form id="addReviewForm">
+                <div style="margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem;">
+                  <span style="font-size: 0.875rem; font-weight: 600;">Rating:</span>
+                  <label><input type="radio" name="rating" value="5" checked> 5 ★</label>
+                  <label><input type="radio" name="rating" value="4"> 4 ★</label>
+                  <label><input type="radio" name="rating" value="3"> 3 ★</label>
+                  <label><input type="radio" name="rating" value="2"> 2 ★</label>
+                  <label><input type="radio" name="rating" value="1"> 1 ★</label>
+                </div>
+                <div class="form-group">
+                  <textarea id="reviewCommentInput" class="textarea-control" required placeholder="Share your experience with future attendees..." style="min-height: 80px;"></textarea>
+                </div>
+                <button type="submit" class="btn btn-secondary btn-sm">Submit Review</button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Related Events -->
+          <div style="margin-top: 1rem;">
+            <h2 class="details-section-title" style="border-bottom: none; margin-bottom: 1rem;">Related Events in Category</h2>
+            <div class="grid-3" id="relatedEventsGrid"></div>
+          </div>
+        </div>
+
+        <!-- Right Sticky Ticket Selection Sidebar -->
+        <aside class="ticket-sidebar">
+          <div class="ticket-sidebar-header">
+            <h2 style="font-size: 1.25rem; font-weight: 800; margin-bottom: 0.25rem;">Select Tickets</h2>
+            <p style="font-size: 0.8125rem; color: var(--text-muted);">Choose your pass tier and quantity.</p>
+          </div>
+
+          <!-- Tier Cards -->
+          <div id="ticketTiersList"></div>
+
+          <!-- Quantity Selector -->
+          <div style="display: flex; justify-content: space-between; align-items: center; margin: 1.25rem 0; padding: 0.75rem 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
+            <span style="font-size: 0.875rem; font-weight: 600;">Quantity:</span>
+            <div class="qty-counter">
+              <button class="qty-btn" id="qtyDecBtn" aria-label="Decrease quantity">−</button>
+              <span class="qty-val" id="ticketQtyVal">1</span>
+              <button class="qty-btn" id="qtyIncBtn" aria-label="Increase quantity">+</button>
+            </div>
+          </div>
+
+          <!-- Price Calculation -->
+          <div style="margin-bottom: 1.5rem;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.25rem;">
+              <span>Subtotal:</span>
+              <span id="ticketSubtotal">₹0</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1.15rem; font-weight: 800; color: var(--text-main); margin-top: 0.5rem;">
+              <span>Total:</span>
+              <span id="ticketTotal">₹0</span>
+            </div>
+          </div>
+
+          <button id="openCheckoutModalBtn" class="btn btn-primary btn-lg btn-full" style="box-shadow: 0 4px 18px rgba(79, 70, 229, 0.4);">
+            Book Pass Now 🎟️
+          </button>
+
+          <div style="text-align: center; margin-top: 1rem; font-size: 0.75rem; color: var(--text-muted);">
+            🔒 Guaranteed authentic digital passes with dynamic QR.
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- Checkout Confirmation Modal -->
+  <div class="modal-backdrop" id="checkoutModal">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 class="modal-title">Confirm Ticket Booking</h3>
+        <button class="modal-close-btn" onclick="document.getElementById('checkoutModal').classList.remove('active')">&times;</button>
+      </div>
+      <form id="checkoutForm">
+        <div class="modal-body">
+          <div style="background-color: var(--bg-subtle); padding: 1rem; border-radius: var(--radius-md); margin-bottom: 1.25rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.875rem;">
+              <span style="color: var(--text-muted);">Selected Pass:</span>
+              <strong id="modalSummaryTier">VIP Pass</strong>
+            </div>
+            <div style="display: flex; justify-content: space-between; font-size: 1rem; font-weight: 800;">
+              <span>Total Payable:</span>
+              <span style="color: var(--primary-600);" id="modalSummaryTotal">₹2,999</span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label form-label-required">Primary Attendee Full Name</label>
+            <input type="text" id="checkoutName" required class="input-control" placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label form-label-required">Email for QR Ticket Delivery</label>
+            <input type="email" id="checkoutEmail" required class="input-control" placeholder="john@example.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Phone Number (Optional)</label>
+            <input type="tel" id="checkoutPhone" class="input-control" placeholder="+91 98765 43210">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Payment Method</label>
+            <select id="checkoutPaymentMethod" class="select-control">
+              <option value="Credit / Debit Card">Credit / Debit Card</option>
+              <option value="UPI / Google Pay / PhonePe">UPI / Google Pay / PhonePe</option>
+              <option value="Net Banking">Net Banking</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="document.getElementById('checkoutModal').classList.remove('active')">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm">Confirm & Pay</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Dynamic Footer -->
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/event-details.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Components.renderNavbar('events');
+      Components.renderFooter();
+      EventDetails.init();
+    });
+  </script>
+</body>
+</html>

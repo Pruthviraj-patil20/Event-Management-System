@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Notifications — EventSphere</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol">✦</div>
+          <span class="brand-name">EventSphere</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="/dashboard/dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="/dashboard/my-events.html" class="sidebar-link">
+          <span class="sidebar-icon">📅</span> My Events
+        </a>
+        <a href="/dashboard/tickets.html" class="sidebar-link">
+          <span class="sidebar-icon">🎟️</span> My Tickets
+        </a>
+        <a href="/dashboard/notifications.html" class="sidebar-link active">
+          <span class="sidebar-icon">🔔</span> Notifications
+        </a>
+        <a href="/dashboard/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Settings
+        </a>
+      </nav>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">Notification Center</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+          <button onclick="Notifications.markAllAsRead()" class="btn btn-secondary btn-sm">Mark All as Read</button>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div style="max-width: 760px;" id="notificationsFeed">
+          <!-- Populated via Notifications.init() -->
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/notifications.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Notifications.init();
+    });
+  </script>
+</body>
+</html>

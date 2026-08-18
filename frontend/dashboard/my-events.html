@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Events — EventSphere</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/tables.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol">✦</div>
+          <span class="brand-name">EventSphere</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Management</div>
+        <a href="/dashboard/dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="/dashboard/my-events.html" class="sidebar-link active">
+          <span class="sidebar-icon">📅</span> My Events
+        </a>
+        <a href="/dashboard/create-event.html" class="sidebar-link">
+          <span class="sidebar-icon">➕</span> Create Event
+        </a>
+        <a href="/dashboard/attendees.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Attendees
+        </a>
+        <a href="/dashboard/tickets.html" class="sidebar-link">
+          <span class="sidebar-icon">🎟️</span> My Tickets
+        </a>
+        <a href="/dashboard/analytics.html" class="sidebar-link">
+          <span class="sidebar-icon">📈</span> Analytics
+        </a>
+        <a href="/dashboard/notifications.html" class="sidebar-link">
+          <span class="sidebar-icon">🔔</span> Notifications
+        </a>
+
+        <div class="sidebar-section-label">Preferences</div>
+        <a href="/dashboard/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button onclick="Auth.logout()" class="btn btn-ghost btn-sm btn-full" style="justify-content: flex-start; color: var(--color-error);">
+          🚪 Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">My Created Events</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+          <a href="/dashboard/create-event.html" class="btn btn-primary btn-sm">➕ Create New Event</a>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div class="table-wrapper">
+          <div class="table-toolbar">
+            <div style="font-weight: 700;">All Events Organized by You</div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Event Details</th>
+                  <th>Date</th>
+                  <th>Capacity Filled</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="myEventsTableBody">
+                <tr><td colspan="5" style="text-align: center; padding: 2rem;">Loading your events...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/dashboard.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Dashboard.initMyEvents();
+    });
+  </script>
+</body>
+</html>

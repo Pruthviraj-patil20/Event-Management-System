@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Organizer Dashboard — EventSphere</title>
+  
+  <!-- Google Fonts & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/tables.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar Navigation -->
+    <aside class="dashboard-sidebar" id="dashboardSidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol">✦</div>
+          <span class="brand-name">EventSphere</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Management</div>
+        <a href="/dashboard/dashboard.html" class="sidebar-link active">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="/dashboard/my-events.html" class="sidebar-link">
+          <span class="sidebar-icon">📅</span> My Events
+        </a>
+        <a href="/dashboard/create-event.html" class="sidebar-link">
+          <span class="sidebar-icon">➕</span> Create Event
+        </a>
+        <a href="/dashboard/attendees.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Attendees
+        </a>
+        <a href="/dashboard/tickets.html" class="sidebar-link">
+          <span class="sidebar-icon">🎟️</span> My Tickets
+        </a>
+        <a href="/dashboard/analytics.html" class="sidebar-link">
+          <span class="sidebar-icon">📈</span> Analytics
+        </a>
+        <a href="/dashboard/notifications.html" class="sidebar-link">
+          <span class="sidebar-icon">🔔</span> Notifications
+        </a>
+
+        <div class="sidebar-section-label">Preferences</div>
+        <a href="/dashboard/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button onclick="Auth.logout()" class="btn btn-ghost btn-sm btn-full" style="justify-content: flex-start; color: var(--color-error);">
+          🚪 Sign Out
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-main">
+      <!-- Topbar Header -->
+      <header class="dashboard-topbar">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+          <button class="mobile-nav-toggle" id="sidebarToggleBtn" style="display: none;" onclick="document.getElementById('dashboardSidebar').classList.toggle('mobile-open')">
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+            <span class="hamburger-line"></span>
+          </button>
+          <h1 class="dashboard-page-title">Executive Overview</h1>
+        </div>
+
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+          <a href="/dashboard/notifications.html" class="btn btn-secondary btn-sm" title="Notifications">🔔</a>
+          <a href="/dashboard/create-event.html" class="btn btn-primary btn-sm">➕ Create Event</a>
+        </div>
+      </header>
+
+      <!-- Dashboard Body Content -->
+      <main class="dashboard-body">
+        <!-- KPI Metric Cards -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div>
+              <div class="metric-label">Total Events</div>
+              <div class="metric-value" id="statTotalEvents">0</div>
+              <div class="metric-trend up">↑ Active Published</div>
+            </div>
+            <div class="metric-icon-wrap metric-icon-indigo">📅</div>
+          </div>
+
+          <div class="metric-card">
+            <div>
+              <div class="metric-label">Tickets Sold</div>
+              <div class="metric-value" id="statTicketsSold">0</div>
+              <div class="metric-trend up">↑ +18% this month</div>
+            </div>
+            <div class="metric-icon-wrap metric-icon-cyan">🎟️</div>
+          </div>
+
+          <div class="metric-card">
+            <div>
+              <div class="metric-label">Checked-In Attendees</div>
+              <div class="metric-value" id="statTotalAttendees">0</div>
+              <div class="metric-trend up">↑ High Turnout</div>
+            </div>
+            <div class="metric-icon-wrap metric-icon-emerald">👥</div>
+          </div>
+
+          <div class="metric-card">
+            <div>
+              <div class="metric-label">Gross Revenue</div>
+              <div class="metric-value" id="statTotalRevenue">₹0</div>
+              <div class="metric-trend up">↑ Real-Time Sync</div>
+            </div>
+            <div class="metric-icon-wrap metric-icon-amber">💰</div>
+          </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="charts-grid">
+          <!-- Monthly Revenue Chart -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Revenue Trajectory (Last 6 Months)</div>
+              <span class="badge badge-primary">Gross Revenue</span>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="revenueChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <!-- Tier Distribution Chart -->
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Sales by Ticket Tier</div>
+            </div>
+            <div class="chart-canvas-wrap">
+              <canvas id="tierChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Registrations Table -->
+        <div class="table-wrapper">
+          <div class="table-toolbar">
+            <div style="font-weight: 700; font-size: 1rem;">Recent Attendee Bookings</div>
+            <a href="/dashboard/attendees.html" class="btn btn-secondary btn-sm">View Full Roster →</a>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Attendee</th>
+                  <th>Event</th>
+                  <th>Tier / Items</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody id="recentRegistrationsTable">
+                <tr><td colspan="5" style="text-align: center; padding: 2rem;">Loading bookings...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/analytics.js"></script>
+  <script src="/js/dashboard.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Dashboard.initOverview();
+      Analytics.init();
+    });
+  </script>
+</body>
+</html>

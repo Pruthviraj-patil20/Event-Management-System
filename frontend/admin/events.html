@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Manage All Events — EventSphere Admin</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/tables.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol" style="background: linear-gradient(135deg, #DC2626, #EF4444);">✦</div>
+          <span class="brand-name">EventSphere Admin</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Administration</div>
+        <a href="/admin/admin-dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">🛡️</span> Command Center
+        </a>
+        <a href="/admin/events.html" class="sidebar-link active">
+          <span class="sidebar-icon">📅</span> All Events
+        </a>
+        <a href="/admin/users.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Users
+        </a>
+        <a href="/admin/venues.html" class="sidebar-link">
+          <span class="sidebar-icon">🏢</span> Venues
+        </a>
+        <a href="/admin/payments.html" class="sidebar-link">
+          <span class="sidebar-icon">💳</span> Transactions
+        </a>
+        <a href="/admin/reports.html" class="sidebar-link">
+          <span class="sidebar-icon">📈</span> Reports
+        </a>
+        <a href="/admin/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> System Config
+        </a>
+      </nav>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">Master Events Oversight</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div class="table-wrapper">
+          <div class="table-toolbar">
+            <div style="font-weight: 700;">Platform Events Directory</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <select id="adminStatusFilter" class="select-control" style="font-size: 0.8125rem; width: auto;">
+                <option value="All">All Statuses</option>
+                <option value="published">Published</option>
+                <option value="pending">Pending</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="table-responsive">
+            <table class="data-table">
+              <thead>
+                <tr>
+                  <th>Event Details</th>
+                  <th>Organizer</th>
+                  <th>Date & City</th>
+                  <th>Status</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="adminAllEventsTable">
+                <tr><td colspan="5" style="text-align: center; padding: 2rem;">Loading platform events...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+
+  <script>
+    async function loadAdminEvents(statusFilter = 'All') {
+      const tbody = document.getElementById('adminAllEventsTable');
+      if (!tbody) return;
+
+      try {
+        const params = {};
+        if (statusFilter !== 'All') params.status = statusFilter;
+        const data = await API.get('/events', params);
+        const events = data.events || [];
+
+        tbody.innerHTML = events.map(e => `
+          <tr>
+            <td>
+              <div class="table-user-cell">
+                <img src="${e.image}" style="width: 44px; height: 44px; border-radius: var(--radius-sm); object-fit: cover;" alt="Cover">
+                <div>
+                  <div class="table-title-main">${Utils.escapeHtml(e.title)}</div>
+                  <div class="table-sub-text">${Utils.escapeHtml(e.category)}</div>
+                </div>
+              </div>
+            </td>
+            <td>${Utils.escapeHtml(e.organizer?.name || 'Organizer')}</td>
+            <td>${Utils.formatDate(e.date, 'short')} • ${Utils.escapeHtml(e.venueDetails?.city || 'City')}</td>
+            <td>
+              <span class="badge ${e.status === 'published' ? 'badge-success' : e.status === 'pending' ? 'badge-warning' : 'badge-neutral'}">
+                ${e.status.toUpperCase()}
+              </span>
+            </td>
+            <td>
+              <div class="table-actions">
+                <a href="/event-details.html?id=${e._id}" class="table-action-btn" title="View Public Page">👁️</a>
+                <button onclick="deleteEventAdmin('${e._id}')" class="table-action-btn" style="color: var(--color-error);" title="Delete Event">🗑️</button>
+              </div>
+            </td>
+          </tr>
+        `).join('');
+      } catch (err) {
+        tbody.innerHTML = `<tr><td colspan="5" style="text-align: center; color: var(--color-error);">${err.message}</td></tr>`;
+      }
+    }
+
+    async function deleteEventAdmin(id) {
+      if (!confirm('Are you sure you want to delete this event from the platform?')) return;
+      try {
+        await API.delete(`/events/${id}`);
+        Components.showToast('Event removed successfully', 'success');
+        loadAdminEvents();
+      } catch (err) {
+        Components.showToast(err.message, 'error');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Auth.requireAuth(['admin'])) return;
+      loadAdminEvents();
+
+      const statusFilter = document.getElementById('adminStatusFilter');
+      if (statusFilter) {
+        statusFilter.addEventListener('change', (e) => loadAdminEvents(e.target.value));
+      }
+    });
+  </script>
+</body>
+</html>

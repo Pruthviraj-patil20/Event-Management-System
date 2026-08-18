@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detailed Analytics — EventSphere</title>
+
+  <!-- Google Fonts & Chart.js -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/tables.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol">✦</div>
+          <span class="brand-name">EventSphere</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Management</div>
+        <a href="/dashboard/dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="/dashboard/my-events.html" class="sidebar-link">
+          <span class="sidebar-icon">📅</span> My Events
+        </a>
+        <a href="/dashboard/create-event.html" class="sidebar-link">
+          <span class="sidebar-icon">➕</span> Create Event
+        </a>
+        <a href="/dashboard/attendees.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Attendees
+        </a>
+        <a href="/dashboard/tickets.html" class="sidebar-link">
+          <span class="sidebar-icon">🎟️</span> My Tickets
+        </a>
+        <a href="/dashboard/analytics.html" class="sidebar-link active">
+          <span class="sidebar-icon">📈</span> Analytics
+        </a>
+        <a href="/dashboard/notifications.html" class="sidebar-link">
+          <span class="sidebar-icon">🔔</span> Notifications
+        </a>
+        <a href="/dashboard/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Settings
+        </a>
+      </nav>
+    </aside>
+
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">Performance Analytics & Insights</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div class="charts-grid" style="grid-template-columns: 1fr 1fr; margin-bottom: 2rem;">
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Revenue Trajectory</div>
+              <span class="badge badge-primary">Gross (INR)</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height: 320px;">
+              <canvas id="revenueChartCanvas"></canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <div class="chart-card-header">
+              <div class="chart-card-title">Ticket Pass Distribution</div>
+              <span class="badge badge-success">Volume Breakdown</span>
+            </div>
+            <div class="chart-canvas-wrap" style="height: 320px;">
+              <canvas id="tierChartCanvas"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card-base" style="padding: 1.5rem;">
+          <h2 style="font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem;">Growth Highlights</h2>
+          <p style="color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+            Your events have sustained an average 82% conversion rate on early registrations. VIP tier upgrade requests increased by 34% across technology summits.
+          </p>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/analytics.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Analytics.init();
+    });
+  </script>
+</body>
+</html>

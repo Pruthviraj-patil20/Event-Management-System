@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Event — EventSphere</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
+          <div class="logo-symbol">✦</div>
+          <span class="brand-name">EventSphere</span>
+        </a>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="sidebar-section-label">Management</div>
+        <a href="/dashboard/dashboard.html" class="sidebar-link">
+          <span class="sidebar-icon">📊</span> Dashboard
+        </a>
+        <a href="/dashboard/my-events.html" class="sidebar-link">
+          <span class="sidebar-icon">📅</span> My Events
+        </a>
+        <a href="/dashboard/create-event.html" class="sidebar-link active">
+          <span class="sidebar-icon">➕</span> Create Event
+        </a>
+        <a href="/dashboard/attendees.html" class="sidebar-link">
+          <span class="sidebar-icon">👥</span> Attendees
+        </a>
+        <a href="/dashboard/tickets.html" class="sidebar-link">
+          <span class="sidebar-icon">🎟️</span> My Tickets
+        </a>
+        <a href="/dashboard/analytics.html" class="sidebar-link">
+          <span class="sidebar-icon">📈</span> Analytics
+        </a>
+        <a href="/dashboard/notifications.html" class="sidebar-link">
+          <span class="sidebar-icon">🔔</span> Notifications
+        </a>
+
+        <div class="sidebar-section-label">Preferences</div>
+        <a href="/dashboard/settings.html" class="sidebar-link">
+          <span class="sidebar-icon">⚙️</span> Settings
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="dashboard-main">
+      <header class="dashboard-topbar">
+        <h1 class="dashboard-page-title">Publish New Event</h1>
+        <div class="topbar-right-controls">
+          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
+        </div>
+      </header>
+
+      <main class="dashboard-body">
+        <div style="max-width: 800px; margin: 0 auto;">
+          <form id="createEventForm">
+            <!-- 1. Basic Info -->
+            <div class="form-section-card">
+              <h2 class="form-section-title">1. Basic Information</h2>
+              <p class="form-section-desc">Define the title, category, and core summary of your experience.</p>
+
+              <div class="form-group">
+                <label for="eventTitle" class="form-label form-label-required">Event Title</label>
+                <input type="text" id="eventTitle" required class="input-control" placeholder="e.g. NextGen Web3 & AI Summit 2026">
+              </div>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="eventCategory" class="form-label form-label-required">Category</label>
+                  <select id="eventCategory" required class="select-control">
+                    <option value="Technology">Technology</option>
+                    <option value="Music">Music</option>
+                    <option value="Business">Business</option>
+                    <option value="Sports">Sports</option>
+                    <option value="Education">Education</option>
+                    <option value="Workshop">Workshop</option>
+                    <option value="Conference">Conference</option>
+                    <option value="Festival">Festival</option>
+                  </select>
+                </div>
+
+                <div class="form-group">
+                  <label for="eventTags" class="form-label">Tags (Comma Separated)</label>
+                  <input type="text" id="eventTags" class="input-control" placeholder="AI, Cloud, React, Design">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="eventDescription" class="form-label form-label-required">Full Event Description</label>
+                <textarea id="eventDescription" required class="textarea-control" placeholder="Detail the schedule, speaker highlights, and what attendees will learn or experience..."></textarea>
+              </div>
+            </div>
+
+            <!-- 2. Event Media -->
+            <div class="form-section-card">
+              <h2 class="form-section-title">2. Event Media & Artwork</h2>
+              <p class="form-section-desc">Provide a high-resolution 16:9 banner image for your event card.</p>
+
+              <div class="form-group">
+                <label for="eventImageUrl" class="form-label">Banner Image URL</label>
+                <input type="url" id="eventImageUrl" class="input-control" placeholder="https://images.unsplash.com/photo-1540575467063-178a50c2df87..." value="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80">
+              </div>
+
+              <div class="image-preview-box" id="imagePreviewBox" style="display: block;">
+                <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80" alt="Preview" id="imagePreviewImg">
+              </div>
+            </div>
+
+            <!-- 3. Date, Time & Venue -->
+            <div class="form-section-card">
+              <h2 class="form-section-title">3. Schedule & Venue</h2>
+              <p class="form-section-desc">Specify when and where the event takes place.</p>
+
+              <div class="grid-3">
+                <div class="form-group">
+                  <label for="eventDate" class="form-label form-label-required">Event Date</label>
+                  <input type="date" id="eventDate" required class="input-control">
+                </div>
+                <div class="form-group">
+                  <label for="eventStartTime" class="form-label form-label-required">Start Time</label>
+                  <input type="text" id="eventStartTime" required class="input-control" value="09:00 AM">
+                </div>
+                <div class="form-group">
+                  <label for="eventEndTime" class="form-label form-label-required">End Time</label>
+                  <input type="text" id="eventEndTime" required class="input-control" value="06:00 PM">
+                </div>
+              </div>
+
+              <div class="grid-3">
+                <div class="form-group">
+                  <label for="venueName" class="form-label form-label-required">Venue / Center Name</label>
+                  <input type="text" id="venueName" required class="input-control" placeholder="e.g. Nexus Convention Center">
+                </div>
+                <div class="form-group">
+                  <label for="venueAddress" class="form-label form-label-required">Street Address</label>
+                  <input type="text" id="venueAddress" required class="input-control" placeholder="e.g. Outer Ring Road">
+                </div>
+                <div class="form-group">
+                  <label for="venueCity" class="form-label form-label-required">City</label>
+                  <input type="text" id="venueCity" required class="input-control" placeholder="e.g. Bangalore">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="eventCapacity" class="form-label form-label-required">Total Seating Capacity</label>
+                <input type="number" id="eventCapacity" required min="10" class="input-control" value="500">
+              </div>
+            </div>
+
+            <!-- 4. Ticket Pricing Tiers -->
+            <div class="form-section-card">
+              <h2 class="form-section-title">4. Ticket Tiers & Pricing</h2>
+              <p class="form-section-desc">Set ticket prices for Standard and VIP access tiers.</p>
+
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="stdTicketPrice" class="form-label form-label-required">Standard Pass Price (₹)</label>
+                  <input type="number" id="stdTicketPrice" required min="0" class="input-control" value="499">
+                </div>
+                <div class="form-group">
+                  <label for="vipTicketPrice" class="form-label form-label-required">VIP Pass Price (₹)</label>
+                  <input type="number" id="vipTicketPrice" required min="0" class="input-control" value="1499">
+                </div>
+              </div>
+            </div>
+
+            <!-- Actions -->
+            <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-bottom: 3rem;">
+              <a href="/dashboard/my-events.html" class="btn btn-secondary btn-lg">Cancel</a>
+              <button type="submit" class="btn btn-primary btn-lg">Publish Event 🚀</button>
+            </div>
+          </form>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/dashboard.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Set default date to 14 days from today
+      const d = new Date();
+      d.setDate(d.getDate() + 14);
+      const dateInput = document.getElementById('eventDate');
+      if (dateInput) dateInput.value = d.toISOString().split('T')[0];
+
+      Dashboard.initCreateEventForm();
+    });
+  </script>
+</body>
+</html>

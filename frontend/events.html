@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Events — EventSphere</title>
+  <meta name="description" content="Search, filter, and discover upcoming conferences, music concerts, and workshops.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/events.css">
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/notifications.css">
+  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Dynamic Navigation Bar -->
+  <header class="navbar" id="navbar"></header>
+
+  <main class="section" style="padding-top: var(--space-8);">
+    <div class="container">
+      <!-- Breadcrumb / Header -->
+      <div style="margin-bottom: var(--space-6);">
+        <h1 style="font-size: var(--font-size-3xl); font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.25rem;">
+          Explore Events & Experiences
+        </h1>
+        <p style="color: var(--text-muted); font-size: var(--font-size-sm);">
+          Discover conferences, concerts, workshops, and gatherings worldwide.
+        </p>
+      </div>
+
+      <!-- Main Explorer Layout -->
+      <div class="events-explorer-wrap">
+        <!-- Left Filter Sidebar -->
+        <aside class="filter-sidebar">
+          <div class="filter-header">
+            <h2 class="filter-title">Filter By</h2>
+            <button id="resetFiltersBtn" class="btn btn-ghost btn-sm" style="font-size: 0.75rem;">Reset All</button>
+          </div>
+
+          <!-- Keyword Search -->
+          <div class="filter-group">
+            <label for="eventSearchInput" class="filter-group-title">Search Keywords</label>
+            <input type="text" id="eventSearchInput" class="input-control" placeholder="Search by title or topic...">
+          </div>
+
+          <!-- Category -->
+          <div class="filter-group">
+            <label for="categoryFilter" class="filter-group-title">Category</label>
+            <select id="categoryFilter" class="select-control">
+              <option value="All">All Categories</option>
+              <option value="Technology">Technology</option>
+              <option value="Music">Music</option>
+              <option value="Business">Business</option>
+              <option value="Sports">Sports</option>
+              <option value="Education">Education</option>
+              <option value="Workshop">Workshop</option>
+              <option value="Conference">Conference</option>
+              <option value="Festival">Festival</option>
+            </select>
+          </div>
+
+          <!-- Location -->
+          <div class="filter-group">
+            <label for="cityFilter" class="filter-group-title">Location / City</label>
+            <select id="cityFilter" class="select-control">
+              <option value="All">All Locations</option>
+              <option value="Bangalore">Bangalore</option>
+              <option value="Pune">Pune</option>
+              <option value="Mumbai">Mumbai</option>
+              <option value="Hyderabad">Hyderabad</option>
+              <option value="New Delhi">New Delhi</option>
+            </select>
+          </div>
+
+          <!-- Price Range Filter -->
+          <div class="filter-group">
+            <div class="filter-group-title">Price Range (₹)</div>
+            <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+              <input type="number" id="priceMinInput" class="input-control" placeholder="Min" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
+              <input type="number" id="priceMaxInput" class="input-control" placeholder="Max" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
+            </div>
+            <button id="applyPriceFilter" class="btn btn-secondary btn-sm btn-full">Apply Price</button>
+          </div>
+        </aside>
+
+        <!-- Right Event Grid Area -->
+        <section>
+          <!-- Toolbar -->
+          <div class="explorer-toolbar">
+            <div class="results-count" id="resultsCount">
+              Loading available events...
+            </div>
+
+            <div class="toolbar-controls">
+              <label for="sortSelect" style="font-size: 0.8125rem; color: var(--text-muted);">Sort by:</label>
+              <select id="sortSelect" class="select-control" style="width: auto; padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
+                <option value="upcoming">Upcoming First</option>
+                <option value="newest">Newly Added</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="popular">Most Popular</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Events Grid Container -->
+          <div class="grid-3" id="eventsGrid">
+            <!-- Injected via EventsHandler -->
+          </div>
+
+          <!-- Pagination -->
+          <div id="eventsPagination"></div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <!-- Dynamic Footer -->
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/events.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Components.renderNavbar('events');
+      Components.renderFooter();
+      EventsHandler.init();
+    });
+  </script>
+</body>
+</html>

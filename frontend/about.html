@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — EventSphere</title>
+  <meta name="description" content="Learn more about EventSphere's mission to power extraordinary events worldwide.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/navbar.css">
+  <link rel="stylesheet" href="/css/footer.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/responsive.css">
+</head>
+<body>
+
+  <!-- Dynamic Navigation Bar -->
+  <header class="navbar" id="navbar"></header>
+
+  <main class="section">
+    <div class="container container-narrow">
+      <div class="section-title-wrap">
+        <span class="section-eyebrow">Our Story & Mission</span>
+        <h1 class="section-heading">Plan. Discover. Experience.</h1>
+        <p class="section-subheading">EventSphere was founded on a singular belief: the most impactful human breakthroughs happen when curious minds gather in one room.</p>
+      </div>
+
+      <div class="card-base" style="padding: var(--space-10); margin-bottom: var(--space-8);">
+        <h2 style="font-size: 1.5rem; margin-bottom: 1rem;">Architected for Modern Gatherings</h2>
+        <p style="color: var(--text-secondary); line-height: 1.7; margin-bottom: 1rem;">
+          Whether it’s a 3,500-attendee deep-tech summit in Bangalore, an open-air acoustic concert under the Mumbai sky, or an intimate hands-on AI masterclass in Pune, EventSphere gives creators, organizers, and attendees the seamless infrastructure they deserve.
+        </p>
+        <p style="color: var(--text-secondary); line-height: 1.7;">
+          From dynamic cryptographic QR ticketing to live Chart.js revenue telemetry and instant check-in verification, we eliminate the complexity of event logistics so hosts can focus on what matters most — delivering unforgettable experiences.
+        </p>
+      </div>
+
+      <div class="grid-3" style="margin-bottom: var(--space-12);">
+        <div class="card-base" style="padding: var(--space-6); text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🌍</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Global Scale</h3>
+          <p style="font-size: 0.8125rem; color: var(--text-muted);">Serving events across 100+ cities with real-time seat reservation synchronization.</p>
+        </div>
+
+        <div class="card-base" style="padding: var(--space-6); text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">🔒</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Zero Ticket Fraud</h3>
+          <p style="font-size: 0.8125rem; color: var(--text-muted);">Dynamic cryptographic payloads prevent unauthorized badge duplication.</p>
+        </div>
+
+        <div class="card-base" style="padding: var(--space-6); text-align: center;">
+          <div style="font-size: 2rem; margin-bottom: 0.5rem;">⚡</div>
+          <h3 style="font-size: 1.15rem; margin-bottom: 0.25rem;">Ultra Low Latency</h3>
+          <p style="font-size: 0.8125rem; color: var(--text-muted);">Sub-millisecond API response times and robust database failover resilience.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Dynamic Footer -->
+  <footer class="footer" id="footer"></footer>
+
+  <!-- Core Scripts -->
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      Components.renderNavbar('about');
+      Components.renderFooter();
+    });
+  </script>
+</body>
+</html>
