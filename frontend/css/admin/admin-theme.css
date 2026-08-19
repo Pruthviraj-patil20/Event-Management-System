@@ -1,0 +1,71 @@
+/* ==========================================================================
+   EventSphere Admin — Design Tokens & Theme Overrides
+   Premium SaaS aesthetic: light content surfaces, deep dark sidebar
+   ========================================================================== */
+
+:root {
+  --admin-sidebar-bg: #0F172A;
+  --admin-sidebar-bg-2: #1E293B;
+  --admin-sidebar-text: #94A3B8;
+  --admin-sidebar-text-active: #FFFFFF;
+  --admin-sidebar-hover: rgba(255, 255, 255, 0.06);
+  --admin-sidebar-border: rgba(148, 163, 184, 0.14);
+  --admin-sidebar-accent: #6366F1;
+  --admin-sidebar-accent-soft: rgba(99, 102, 241, 0.16);
+
+  --admin-topbar-bg: rgba(255, 255, 255, 0.86);
+  --admin-content-max: 1600px;
+  --admin-sidebar-w: 264px;
+  --admin-sidebar-w-collapsed: 80px;
+  --admin-topbar-h: 68px;
+
+  --admin-card-radius: 16px;
+  --admin-stat-icon: 46px;
+}
+
+[data-theme="dark"] {
+  --admin-sidebar-bg: #0B0F19;
+  --admin-sidebar-bg-2: #111827;
+  --admin-sidebar-text: #7C8A9F;
+  --admin-sidebar-border: rgba(148, 163, 184, 0.1);
+  --admin-topbar-bg: rgba(11, 15, 25, 0.86);
+}
+
+/* Admin body always uses the light surface base */
+body.admin-body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Subtle layered background texture for content area */
+.admin-content {
+  background-image:
+    radial-gradient(circle at 100% 0%, rgba(99, 102, 241, 0.045), transparent 40%),
+    radial-gradient(circle at 0% 100%, rgba(139, 92, 246, 0.035), transparent 40%);
+}
+
+/* Refined scrollbars for admin chrome */
+.admin-sidebar::-webkit-scrollbar,
+.admin-topbar-dropdown::-webkit-scrollbar,
+.admin-table-scroll::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+.admin-sidebar::-webkit-scrollbar-thumb,
+.admin-topbar-dropdown::-webkit-scrollbar-thumb,
+.admin-table-scroll::-webkit-scrollbar-thumb {
+  background: var(--border-medium);
+  border-radius: var(--radius-full);
+}
+
+/* Admin focus ring */
+.admin-app button:focus-visible,
+.admin-app a:focus-visible,
+.admin-app input:focus-visible,
+.admin-app select:focus-visible,
+.admin-app textarea:focus-visible {
+  outline: 2px solid var(--primary-500);
+  outline-offset: 2px;
+}

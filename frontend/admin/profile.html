@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>My Profile — EventSphere Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/admin/admin-theme.css">
+  <link rel="stylesheet" href="/css/admin/admin-layout.css">
+  <link rel="stylesheet" href="/css/admin/admin-components.css">
+  <link rel="stylesheet" href="/css/admin/admin-dashboard.css">
+  <link rel="stylesheet" href="/css/admin/admin-tables.css">
+  <link rel="stylesheet" href="/css/admin/admin-forms.css">
+  <link rel="stylesheet" href="/css/admin/admin-modal.css">
+  <link rel="stylesheet" href="/css/admin/admin-responsive.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-app">
+    <aside class="admin-sidebar" data-admin-sidebar></aside>
+    <div class="admin-main">
+      <header class="admin-topbar" data-admin-topbar></header>
+      <main class="admin-content">
+
+        <div class="admin-page-header">
+          <div>
+            <h1 class="admin-page-title">My Profile</h1>
+            <p class="admin-page-subtitle">Manage your admin account details and security.</p>
+          </div>
+        </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card">
+            <div class="admin-card-body">
+              <div style="display:flex;align-items:center;gap:var(--space-5);margin-bottom:var(--space-5);">
+                <img class="admin-avatar admin-avatar-xl" src="" alt="Profile" data-preview>
+                <div>
+                  <div class="admin-card-title" data-name>—</div>
+                  <div style="color:var(--text-secondary);font-size:var(--font-size-sm);">Administrator</div>
+                </div>
+              </div>
+              <div class="admin-form">
+                <div class="admin-form-grid">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Full Name</label>
+                    <input class="admin-input" data-p="name">
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Email</label>
+                    <input class="admin-input" data-p="email" disabled>
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Phone</label>
+                    <input class="admin-input" data-p="phone">
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Organization</label>
+                    <input class="admin-input" data-p="organizationName">
+                  </div>
+                  <div class="admin-form-group" style="grid-column:1/-1;">
+                    <label class="admin-form-label">Profile Image URL</label>
+                    <input class="admin-input" data-p="profileImage" placeholder="https://…">
+                  </div>
+                  <div class="admin-form-group" style="grid-column:1/-1;">
+                    <label class="admin-form-label">Bio</label>
+                    <textarea class="admin-input" rows="3" data-p="bio"></textarea>
+                  </div>
+                </div>
+                <div class="admin-form-actions">
+                  <button class="admin-btn admin-btn-primary admin-btn-sm" data-save-profile>Save Profile</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Change Password</div><div class="admin-card-subtitle">Use at least 6 characters</div></div></div>
+            <div class="admin-card-body">
+              <div class="admin-form">
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Current Password</label>
+                  <input class="admin-input" type="password" data-pass="currentPassword" placeholder="••••••••">
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-form-label">New Password</label>
+                  <input class="admin-input" type="password" data-pass="newPassword" placeholder="••••••••">
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Confirm New Password</label>
+                  <input class="admin-input" type="password" data-pass="confirmPassword" placeholder="••••••••">
+                </div>
+                <div class="admin-form-actions">
+                  <button class="admin-btn admin-btn-primary admin-btn-sm" data-change-password>Update Password</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin/admin-layout.js"></script>
+  <script src="/js/admin/profile.js"></script>
+</body>
+</html>

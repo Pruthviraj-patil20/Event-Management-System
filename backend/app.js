@@ -17,6 +17,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 const attendeeRoutes = require('./routes/attendeeRoutes');
 const notificationRoutes = require('./routes/notificationRoutes');
 const analyticsRoutes = require('./routes/analyticsRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 const app = express();
 
@@ -84,6 +85,7 @@ app.use('/api/payments', paymentRoutes);
 app.use('/api/attendees', attendeeRoutes);
 app.use('/api/notifications', notificationRoutes);
 app.use('/api/analytics', analyticsRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Catch-all route to serve frontend index.html for root or SPA paths if desired
 app.get('/', (req, res) => {

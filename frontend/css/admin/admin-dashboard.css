@@ -1,0 +1,136 @@
+/* ==========================================================================
+   EventSphere Admin — Dashboard Layout & Chart Composition
+   ========================================================================== */
+
+.admin-dash-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.admin-dash-main {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+.admin-dash-rail {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+  min-width: 0;
+}
+
+/* Revenue chart card sizing */
+.admin-chart-card .admin-card-body {
+  padding: var(--space-4) var(--space-5) var(--space-5);
+}
+
+.admin-chart-toolbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.admin-chart-period-btn {
+  padding: 5px 12px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.admin-chart-period-btn:hover { color: var(--text-main); border-color: var(--border-medium); }
+.admin-chart-period-btn.active {
+  background: var(--primary-50);
+  border-color: var(--primary-500);
+  color: var(--primary-600);
+}
+
+[data-theme="dark"] .admin-chart-period-btn.active {
+  background: rgba(99, 102, 241, 0.18);
+  color: var(--primary-300);
+}
+
+/* Two-up chart pair under revenue */
+.admin-dash-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-5);
+}
+
+/* Pending approvals quick card */
+.admin-approval-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.admin-approval-item:last-child { border-bottom: none; }
+
+.admin-approval-item .grow { flex: 1; min-width: 0; }
+.admin-approval-item .cell-main {
+  font-weight: var(--font-weight-semibold);
+  font-size: var(--font-size-sm);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.admin-approval-item .cell-sub {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 1px;
+}
+
+.admin-approval-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Dashboard greeting banner */
+.admin-greeting {
+  background: linear-gradient(120deg, var(--primary-600), var(--accent-purple));
+  color: #fff;
+  border-radius: var(--admin-card-radius);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  flex-wrap: wrap;
+  box-shadow: 0 12px 30px rgba(79, 70, 229, 0.28);
+}
+
+.admin-greeting h2 {
+  font-family: var(--font-heading);
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  margin: 0 0 4px;
+}
+
+.admin-greeting p {
+  opacity: 0.9;
+  font-size: var(--font-size-sm);
+  margin: 0;
+}
+
+.admin-greeting .greet-date {
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 8px 16px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  backdrop-filter: blur(6px);
+}

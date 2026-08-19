@@ -1,0 +1,160 @@
+/* ==========================================================================
+   EventSphere Admin — Modal & Confirm Dialog System
+   ========================================================================== */
+
+.admin-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  background: rgba(15, 23, 42, 0.55);
+  backdrop-filter: blur(3px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-normal);
+}
+
+.admin-modal-overlay.show {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.admin-modal {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-2xl);
+  transform: scale(0.95) translateY(8px);
+  transition: transform var(--transition-spring);
+}
+
+.admin-modal.lg { max-width: 760px; }
+.admin-modal.sm { max-width: 420px; }
+
+.admin-modal-overlay.show .admin-modal {
+  transform: scale(1) translateY(0);
+}
+
+.admin-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-6);
+  border-bottom: 1px solid var(--border-subtle);
+  position: sticky;
+  top: 0;
+  background: var(--bg-surface);
+  z-index: 1;
+}
+
+.admin-modal-title {
+  font-family: var(--font-heading);
+  font-size: var(--font-size-lg);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.admin-modal-subtitle {
+  font-size: var(--font-size-xs);
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.admin-modal-close {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-sm);
+  display: grid;
+  place-items: center;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  font-size: 16px;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.admin-modal-close:hover {
+  background: var(--bg-subtle);
+  color: var(--text-main);
+}
+
+.admin-modal-body {
+  padding: var(--space-6);
+}
+
+.admin-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-6);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* Confirm dialog special styling */
+.admin-confirm-icon {
+  width: 54px;
+  height: 54px;
+  border-radius: var(--radius-full);
+  display: grid;
+  place-items: center;
+  font-size: 24px;
+  margin: 0 auto var(--space-4);
+}
+
+.admin-confirm-icon.danger { background: var(--color-error-bg); color: var(--color-error); }
+.admin-confirm-icon.warning { background: var(--color-warning-bg); color: var(--color-warning); }
+
+.admin-confirm-text {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-relaxed);
+  margin: var(--space-2) 0 var(--space-5);
+}
+
+.admin-confirm-text strong { color: var(--text-main); }
+
+.admin-confirm-footer {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-3);
+}
+
+/* Modal body sections (for review/detail views) */
+.admin-modal-section {
+  margin-bottom: var(--space-5);
+}
+
+.admin-modal-section h4 {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-bold);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  margin: 0 0 var(--space-3);
+}
+
+.admin-detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-4);
+  padding: 8px 0;
+  border-bottom: 1px dashed var(--border-subtle);
+  font-size: var(--font-size-sm);
+}
+
+.admin-detail-row:last-child { border-bottom: none; }
+.admin-detail-row dt { color: var(--text-muted); }
+.admin-detail-row dd { font-weight: var(--font-weight-medium); text-align: right; }

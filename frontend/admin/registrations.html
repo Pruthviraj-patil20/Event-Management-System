@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Payments — EventSphere Admin</title>
+  <title>Registrations — EventSphere Admin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,38 +33,27 @@
 
         <div class="admin-page-header">
           <div>
-            <h1 class="admin-page-title">Payments</h1>
-            <p class="admin-page-subtitle">Financial ledger — transactions, refunds and revenue health.</p>
+            <h1 class="admin-page-title">Registrations</h1>
+            <p class="admin-page-subtitle">Track every registration, its payment state and check-in status.</p>
           </div>
           <div class="admin-page-actions">
             <button class="admin-btn admin-btn-secondary admin-btn-sm" data-export-csv>Export CSV</button>
           </div>
         </div>
 
-        <div class="admin-stat-grid" id="revenueGrid">
-          <div class="admin-skeleton admin-skeleton-card"></div>
-          <div class="admin-skeleton admin-skeleton-card"></div>
-          <div class="admin-skeleton admin-skeleton-card"></div>
-          <div class="admin-skeleton admin-skeleton-card"></div>
-          <div class="admin-skeleton admin-skeleton-card"></div>
-          <div class="admin-skeleton admin-skeleton-card"></div>
-        </div>
-
         <div class="admin-card">
           <div class="admin-toolbar">
             <div class="admin-search-field">
               <span class="sf-icon">🔍</span>
-              <input type="text" data-search placeholder="Search by transaction ID..." aria-label="Search payments">
+              <input type="text" data-search placeholder="Search by registration number or attendee..." aria-label="Search registrations">
             </div>
-            <select class="admin-select" data-filter-status aria-label="Filter by status">
-              <option value="all">All Status</option>
-              <option value="completed">Success</option>
+            <select class="admin-select" data-filter-status aria-label="Filter by payment status">
+              <option value="all">All Payment States</option>
+              <option value="completed">Completed</option>
               <option value="pending">Pending</option>
               <option value="failed">Failed</option>
               <option value="refunded">Refunded</option>
             </select>
-            <input type="date" class="admin-select" data-filter-from aria-label="From date">
-            <input type="date" class="admin-select" data-filter-to aria-label="To date">
             <div class="spacer"></div>
             <span class="admin-count" data-count>Loading…</span>
           </div>
@@ -73,17 +62,18 @@
             <table class="admin-table">
               <thead>
                 <tr>
-                  <th>Transaction</th>
-                  <th>User</th>
+                  <th>Registration</th>
+                  <th>Attendee</th>
                   <th>Event</th>
-                  <th>Amount</th>
-                  <th>Method</th>
-                  <th>Date</th>
-                  <th>Status</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Payment</th>
+                  <th>Check-in</th>
+                  <th>Registered</th>
                   <th style="text-align:right;">Actions</th>
                 </tr>
               </thead>
-              <tbody id="paymentsTable"></tbody>
+              <tbody id="registrationsTable"></tbody>
             </table>
           </div>
 
@@ -102,6 +92,6 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/admin/admin-layout.js"></script>
-  <script src="/js/admin/payments.js"></script>
+  <script src="/js/admin/registrations.js"></script>
 </body>
 </html>

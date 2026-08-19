@@ -1,0 +1,74 @@
+/* ==========================================================================
+   EventSphere Admin — Responsive Rules
+   Desktop → tablet (collapsed) → mobile (drawer)
+   ========================================================================== */
+
+@media (max-width: 1280px) {
+  .admin-stat-grid { grid-template-columns: repeat(3, 1fr); }
+  .admin-dash-grid { grid-template-columns: 1fr; }
+  .admin-dash-rail {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-items: start;
+  }
+}
+
+@media (max-width: 1080px) {
+  .admin-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .admin-dash-row { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 980px) {
+  .admin-stat-grid { grid-template-columns: repeat(2, 1fr); }
+  .admin-topbar-search { width: 220px; }
+}
+
+@media (max-width: 860px) {
+  .admin-app.sidebar-collapsed .admin-sidebar,
+  .admin-sidebar {
+    transform: translateX(-100%);
+    width: var(--admin-sidebar-w);
+  }
+
+  .admin-app.sidebar-collapsed .admin-sidebar {
+    width: var(--admin-sidebar-w);
+  }
+
+  .admin-app.sidebar-open .admin-sidebar {
+    transform: translateX(0);
+  }
+
+  .admin-app.sidebar-collapsed .admin-main,
+  .admin-main {
+    margin-left: 0;
+  }
+
+  .admin-grid-3 { grid-template-columns: 1fr; }
+  .admin-form-grid { grid-template-columns: 1fr; }
+  .admin-dash-rail { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .admin-content { padding: var(--space-4); }
+  .admin-topbar { padding: 0 var(--space-4); gap: var(--space-2); }
+  .admin-topbar-search { display: none; }
+  .admin-breadcrumb { font-size: var(--font-size-xs); }
+  .admin-stat-grid { grid-template-columns: 1fr 1fr; gap: var(--space-3); }
+  .admin-stat-card { padding: var(--space-4); flex-direction: column; }
+  .admin-stat-value { font-size: 1.35rem; }
+  .admin-grid-2 { grid-template-columns: 1fr; }
+  .admin-grid-4 { grid-template-columns: 1fr 1fr; }
+  .admin-page-header { align-items: flex-start; flex-direction: column; }
+  .admin-table-footer { justify-content: center; }
+  .admin-avatar-btn .chev,
+  .admin-avatar-btn .admin-badge { display: none; }
+  .admin-toast-container { left: 12px; right: 12px; max-width: none; }
+  .admin-modal { max-height: calc(100vh - 24px); }
+  .admin-toolbar { align-items: stretch; flex-direction: column; }
+  .admin-toolbar .admin-search-field { min-width: 0; }
+}
+
+@media (max-width: 400px) {
+  .admin-stat-grid { grid-template-columns: 1fr; }
+  .admin-grid-4 { grid-template-columns: 1fr; }
+}

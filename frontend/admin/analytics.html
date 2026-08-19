@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics — EventSphere Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/reset.css">
+  <link rel="stylesheet" href="/css/global.css">
+  <link rel="stylesheet" href="/css/themes.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/admin/admin-theme.css">
+  <link rel="stylesheet" href="/css/admin/admin-layout.css">
+  <link rel="stylesheet" href="/css/admin/admin-components.css">
+  <link rel="stylesheet" href="/css/admin/admin-dashboard.css">
+  <link rel="stylesheet" href="/css/admin/admin-tables.css">
+  <link rel="stylesheet" href="/css/admin/admin-forms.css">
+  <link rel="stylesheet" href="/css/admin/admin-modal.css">
+  <link rel="stylesheet" href="/css/admin/admin-responsive.css">
+</head>
+<body class="admin-body">
+
+  <div class="admin-app">
+    <aside class="admin-sidebar" data-admin-sidebar></aside>
+    <div class="admin-main">
+      <header class="admin-topbar" data-admin-topbar></header>
+      <main class="admin-content">
+
+        <div class="admin-page-header">
+          <div>
+            <h1 class="admin-page-title">Analytics</h1>
+            <p class="admin-page-subtitle">Deep platform intelligence — growth, revenue and audience behaviour.</p>
+          </div>
+          <div class="admin-chart-toolbar" data-chart-periods>
+            <button class="admin-chart-period-btn" data-period="today">Today</button>
+            <button class="admin-chart-period-btn" data-period="7d">7 Days</button>
+            <button class="admin-chart-period-btn active" data-period="30d">30 Days</button>
+            <button class="admin-chart-period-btn" data-period="90d">3 Months</button>
+            <button class="admin-chart-period-btn" data-period="6m">6 Months</button>
+            <button class="admin-chart-period-btn" data-period="12m">1 Year</button>
+            <button class="admin-chart-period-btn" data-period="custom">Custom</button>
+          </div>
+        </div>
+
+        <div class="admin-card admin-chart-card admin-mb-6">
+          <div class="admin-card-header">
+            <div>
+              <div class="admin-card-title">Revenue</div>
+              <div class="admin-card-subtitle" data-range-label>Completed payments over the selected period</div>
+            </div>
+          </div>
+          <div class="admin-card-body">
+            <div class="admin-chart" style="height:300px;"><canvas id="revenueChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card admin-chart-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">User Growth</div><div class="admin-card-subtitle">New accounts</div></div></div>
+            <div class="admin-card-body"><div class="admin-chart" style="height:250px;"><canvas id="userChart"></canvas></div></div>
+          </div>
+          <div class="admin-card admin-chart-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Event Growth</div><div class="admin-card-subtitle">New events</div></div></div>
+            <div class="admin-card-body"><div class="admin-chart" style="height:250px;"><canvas id="eventChart"></canvas></div></div>
+          </div>
+        </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card admin-chart-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Registrations</div><div class="admin-card-subtitle">Booking volume</div></div></div>
+            <div class="admin-card-body"><div class="admin-chart" style="height:250px;"><canvas id="registrationChart"></canvas></div></div>
+          </div>
+          <div class="admin-card admin-chart-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Ticket Sales</div><div class="admin-card-subtitle">Passes issued</div></div></div>
+            <div class="admin-card-body"><div class="admin-chart" style="height:250px;"><canvas id="ticketChart"></canvas></div></div>
+          </div>
+        </div>
+
+        <div class="admin-card admin-chart-card admin-mb-6">
+          <div class="admin-card-header">
+            <div>
+              <div class="admin-card-title">Popular Categories</div>
+              <div class="admin-card-subtitle">Events by category</div>
+            </div>
+          </div>
+          <div class="admin-card-body">
+            <div class="admin-chart" style="height:280px;"><canvas id="categoryChart"></canvas></div>
+          </div>
+        </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Top Events</div><div class="admin-card-subtitle">By registrations</div></div></div>
+            <div class="admin-table-scroll">
+              <table class="admin-table">
+                <thead><tr><th>Event</th><th>Category</th><th>Registrations</th><th>Revenue</th></tr></thead>
+                <tbody id="topEventsTable"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Top Organizers</div><div class="admin-card-subtitle">By revenue</div></div></div>
+            <div class="admin-table-scroll">
+              <table class="admin-table">
+                <thead><tr><th>Organizer</th><th>Sales</th><th>Revenue</th></tr></thead>
+                <tbody id="topOrganizersTable"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <script src="/js/utils.js"></script>
+  <script src="/js/theme.js"></script>
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/admin/admin-layout.js"></script>
+  <script src="/js/admin/analytics.js"></script>
+</body>
+</html>

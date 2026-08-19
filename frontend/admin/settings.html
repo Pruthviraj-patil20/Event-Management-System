@@ -3,105 +3,179 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>System Settings — EventSphere Admin</title>
+  <title>Settings — EventSphere Admin</title>
 
-  <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Stylesheets -->
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/reset.css">
   <link rel="stylesheet" href="/css/global.css">
-  <link rel="stylesheet" href="/css/dashboard.css">
-  <link rel="stylesheet" href="/css/forms.css">
-  <link rel="stylesheet" href="/css/notifications.css">
   <link rel="stylesheet" href="/css/themes.css">
   <link rel="stylesheet" href="/css/animations.css">
-  <link rel="stylesheet" href="/css/responsive.css">
+  <link rel="stylesheet" href="/css/admin/admin-theme.css">
+  <link rel="stylesheet" href="/css/admin/admin-layout.css">
+  <link rel="stylesheet" href="/css/admin/admin-components.css">
+  <link rel="stylesheet" href="/css/admin/admin-dashboard.css">
+  <link rel="stylesheet" href="/css/admin/admin-tables.css">
+  <link rel="stylesheet" href="/css/admin/admin-forms.css">
+  <link rel="stylesheet" href="/css/admin/admin-modal.css">
+  <link rel="stylesheet" href="/css/admin/admin-responsive.css">
 </head>
-<body>
+<body class="admin-body">
 
-  <div class="dashboard-wrapper">
-    <aside class="dashboard-sidebar">
-      <div class="sidebar-brand">
-        <a href="/index.html" style="display: flex; align-items: center; gap: 0.5rem;">
-          <div class="logo-symbol" style="background: linear-gradient(135deg, #DC2626, #EF4444);">✦</div>
-          <span class="brand-name">EventSphere Admin</span>
-        </a>
-      </div>
+  <div class="admin-app">
+    <aside class="admin-sidebar" data-admin-sidebar></aside>
+    <div class="admin-main">
+      <header class="admin-topbar" data-admin-topbar></header>
+      <main class="admin-content">
 
-      <nav class="sidebar-nav">
-        <a href="/admin/admin-dashboard.html" class="sidebar-link">
-          <span class="sidebar-icon">🛡️</span> Command Center
-        </a>
-        <a href="/admin/events.html" class="sidebar-link">
-          <span class="sidebar-icon">📅</span> All Events
-        </a>
-        <a href="/admin/users.html" class="sidebar-link">
-          <span class="sidebar-icon">👥</span> Users
-        </a>
-        <a href="/admin/venues.html" class="sidebar-link">
-          <span class="sidebar-icon">🏢</span> Venues
-        </a>
-        <a href="/admin/payments.html" class="sidebar-link">
-          <span class="sidebar-icon">💳</span> Transactions
-        </a>
-        <a href="/admin/reports.html" class="sidebar-link">
-          <span class="sidebar-icon">📈</span> Reports
-        </a>
-        <a href="/admin/settings.html" class="sidebar-link active">
-          <span class="sidebar-icon">⚙️</span> System Config
-        </a>
-      </nav>
-    </aside>
-
-    <div class="dashboard-main">
-      <header class="dashboard-topbar">
-        <h1 class="dashboard-page-title">Global System Configuration</h1>
-        <div class="topbar-right-controls">
-          <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
-        </div>
-      </header>
-
-      <main class="dashboard-body">
-        <div style="max-width: 680px;">
-          <div class="form-section-card">
-            <h2 class="form-section-title">Platform Operations</h2>
-            <p class="form-section-desc">Manage system-wide defaults and moderation policies.</p>
-
-            <div class="form-group">
-              <label class="form-label">Platform Name</label>
-              <input type="text" class="input-control" value="EventSphere">
-            </div>
-
-            <div class="form-group">
-              <label class="form-label">Default Currency</label>
-              <select class="select-control">
-                <option value="INR" selected>Indian Rupee (INR ₹)</option>
-                <option value="USD">US Dollar (USD $)</option>
-                <option value="EUR">Euro (EUR €)</option>
-              </select>
-            </div>
-
-            <div class="form-group">
-              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                <input type="checkbox" checked style="accent-color: var(--primary-600);">
-                <span style="font-size: 0.875rem; font-weight: 600;">Enable Automatic Event Moderation Filter</span>
-              </label>
-            </div>
-
-            <div class="form-group">
-              <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer;">
-                <input type="checkbox" checked style="accent-color: var(--primary-600);">
-                <span style="font-size: 0.875rem; font-weight: 600;">Require Dynamic QR Cryptographic Signatures on Pass Issuance</span>
-              </label>
-            </div>
-
-            <button type="button" onclick="Components.showToast('System configuration saved successfully.', 'success')" class="btn btn-primary">Save Configuration</button>
+        <div class="admin-page-header">
+          <div>
+            <h1 class="admin-page-title">Settings</h1>
+            <p class="admin-page-subtitle">Platform configuration — branding, events, payments and security.</p>
+          </div>
+          <div class="admin-page-actions">
+            <button class="admin-btn admin-btn-primary admin-btn-sm" data-save>Save Changes</button>
           </div>
         </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">General</div><div class="admin-card-subtitle">Platform branding & contact</div></div></div>
+            <div class="admin-card-body">
+              <div class="admin-form">
+                <div class="admin-form-grid">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Platform Name</label>
+                    <input class="admin-input" data-s="platform.name">
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Support Email</label>
+                    <input class="admin-input" data-s="platform.supportEmail">
+                  </div>
+                  <div class="admin-form-group" style="grid-column:1/-1;">
+                    <label class="admin-form-label">Tagline</label>
+                    <input class="admin-input" data-s="platform.tagline">
+                  </div>
+                  <div class="admin-form-group" style="grid-column:1/-1;">
+                    <label class="admin-form-label">Logo URL</label>
+                    <input class="admin-input" data-s="platform.logo" placeholder="https://…">
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Timezone</label>
+                    <input class="admin-input" data-s="platform.timezone">
+                  </div>
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Maintenance Mode</strong><span>Show a maintenance notice to all visitors</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="platform.maintenanceMode"><span class="track"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Event Settings</div><div class="admin-card-subtitle">Lifecycle defaults & limits</div></div></div>
+            <div class="admin-card-body">
+              <div class="admin-form">
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Default Event Status</label>
+                  <select class="admin-input" data-s="event.defaultStatus">
+                    <option value="pending">Require approval (pending)</option>
+                    <option value="published">Auto-publish</option>
+                    <option value="draft">Draft</option>
+                  </select>
+                </div>
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Maximum Event Capacity</label>
+                  <input class="admin-input" type="number" min="1" data-s="event.maxCapacity">
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Allow Reviews</strong><span>Attendees can rate and review events</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="event.allowReviews"><span class="track"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-dash-row admin-mb-6">
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Payment Settings</div><div class="admin-card-subtitle">Currency & gateway</div></div></div>
+            <div class="admin-card-body">
+              <div class="admin-form">
+                <div class="admin-form-grid">
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Currency</label>
+                    <select class="admin-input" data-s="payment.currency">
+                      <option value="INR">INR — Indian Rupee</option>
+                      <option value="USD">USD — US Dollar</option>
+                      <option value="EUR">EUR — Euro</option>
+                      <option value="GBP">GBP — British Pound</option>
+                    </select>
+                  </div>
+                  <div class="admin-form-group">
+                    <label class="admin-form-label">Gateway Name</label>
+                    <input class="admin-input" data-s="payment.gatewayName">
+                  </div>
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Enable Payments</strong><span>Allow online ticket payments</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="payment.enablePayments"><span class="track"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="admin-card">
+            <div class="admin-card-header"><div><div class="admin-card-title">Notification Settings</div><div class="admin-card-subtitle">What the platform sends</div></div></div>
+            <div class="admin-card-body">
+              <div class="admin-form">
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Email Notifications</strong><span>Transactional emails to users</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="notification.emailNotifications"><span class="track"></span></label>
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Push Notifications</strong><span>In-app push notifications</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="notification.pushNotifications"><span class="track"></span></label>
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Event Reminders</strong><span>Reminders before events</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="notification.eventReminders"><span class="track"></span></label>
+                </div>
+                <div class="admin-setting-row">
+                  <div class="setting-text"><strong>Approval Emails</strong><span>Notify organizers on approval</span></div>
+                  <label class="admin-switch"><input type="checkbox" data-s="notification.approvalEmails"><span class="track"></span></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="admin-card admin-mb-6">
+          <div class="admin-card-header"><div><div class="admin-card-title">Security</div><div class="admin-card-subtitle">Access & session policy</div></div></div>
+          <div class="admin-card-body">
+            <div class="admin-form">
+              <div class="admin-form-grid">
+                <div class="admin-form-group">
+                  <label class="admin-form-label">Session Timeout (minutes)</label>
+                  <input class="admin-input" type="number" min="5" data-s="security.sessionTimeoutMinutes">
+                </div>
+              </div>
+              <div class="admin-setting-row">
+                <div class="setting-text"><strong>Allow Registration</strong><span>New users can create accounts</span></div>
+                <label class="admin-switch"><input type="checkbox" data-s="security.allowRegistration"><span class="track"></span></label>
+              </div>
+              <div class="admin-setting-row">
+                <div class="setting-text"><strong>Require Email Verification</strong><span>Verify email before account is active</span></div>
+                <label class="admin-switch"><input type="checkbox" data-s="security.requireEmailVerification"><span class="track"></span></label>
+              </div>
+            </div>
+          </div>
+        </div>
+
       </main>
     </div>
   </div>
@@ -110,12 +184,7 @@
   <script src="/js/theme.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
-  <script src="/js/components.js"></script>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      Auth.requireAuth(['admin']);
-    });
-  </script>
+  <script src="/js/admin/admin-layout.js"></script>
+  <script src="/js/admin/settings.js"></script>
 </body>
 </html>

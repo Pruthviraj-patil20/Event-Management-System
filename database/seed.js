@@ -8,6 +8,8 @@ const Registration = require('../backend/models/Registration');
 const Payment = require('../backend/models/Payment');
 const Notification = require('../backend/models/Notification');
 const Review = require('../backend/models/Review');
+const AdminActivity = require('../backend/models/AdminActivity');
+const SystemSettings = require('../backend/models/SystemSettings');
 const { generateQRCode } = require('../backend/utils/generateQRCode');
 const { generateTicketNumber, generateRegistrationNumber, generateTransactionId } = require('../backend/utils/generateTicket');
 const logger = require('../backend/utils/logger');
@@ -27,7 +29,9 @@ const seedDatabase = async () => {
       Registration.deleteMany({}),
       Payment.deleteMany({}),
       Notification.deleteMany({}),
-      Review.deleteMany({})
+      Review.deleteMany({}),
+      AdminActivity.deleteMany({}),
+      SystemSettings.deleteMany({})
     ]);
 
     logger.info('Creating Demo Users...');
@@ -582,6 +586,103 @@ const seedDatabase = async () => {
       seatNumber: 'STD-104'
     });
 
+    // Additional bookings across events so dashboards, payments & reports feel real
+    const bookingSpecs = [
+      { event: createdEvents[2], user: attendee2, type: 'Standard', price: 649, qty: 2, method: 'UPI' },
+      { event: createdEvents[3], user: attendee2, type: 'VIP', price: 2499, qty: 1, method: 'Credit Card' },
+      { event: createdEvents[4], user: attendee1, type: 'Standard', price: 1499, qty: 1, method: 'Net Banking' },
+      { event: createdEvents[5], user: attendee2, type: 'VIP', price: 8999, qty: 1, method: 'Credit Card' },
+      { event: createdEvents[7], user: attendee1, type: 'Standard', price: 499, qty: 3, method: 'UPI' },
+      { event: createdEvents[9], user: attendee2, type: 'VIP', price: 2999, qty: 2, method: 'Credit Card' },
+      { event: createdEvents[10], user: attendee1, type: 'Standard', price: 1999, qty: 1, method: 'Net Banking' }
+    ];
+
+    for (const spec of bookingSpecs) {
+      const reg = await Registration.create({
+        registrationNumber: generateRegistrationNumber(),
+        user: spec.user._id,
+        event: spec.event._id,
+        attendeeInfo: { name: spec.user.name, email: spec.user.email, phone: spec.user.phone },
+        items: [{ ticketType: spec.type, price: spec.price, quantity: spec.qty, subtotal: spec.price * spec.qty }],
+        totalAmount: spec.price * spec.qty,
+        paymentStatus: PAYMENT_STATUS.COMPLETED,
+        paymentMethod: spec.method,
+        paymentId: generateTransactionId()
+      });
+
+      await Payment.create({
+        transactionId: reg.paymentId,
+        user: spec.user._id,
+        event: spec.event._id,
+        registration: reg._id,
+        amount: spec.price * spec.qty,
+        currency: 'INR',
+        paymentMethod: spec.method,
+        status: PAYMENT_STATUS.COMPLETED
+      });
+
+      for (let i = 0; i < spec.qty; i++) {
+        const ticketNum = generateTicketNumber();
+        const qrData = await generateQRCode({
+          t: ticketNum,
+          e: spec.event._id.toString(),
+          u: spec.user._id.toString(),
+          n: spec.user.name,
+          k: spec.type,
+          v: spec.event.venueDetails.name,
+          d: spec.event.date
+        });
+        await Ticket.create({
+          ticketNumber: ticketNum,
+          event: spec.event._id,
+          user: spec.user._id,
+          registration: reg._id,
+          ticketType: spec.type,
+          price: spec.price,
+          qrCodeData: qrData,
+          status: TICKET_STATUS.CONFIRMED,
+          attendeeName: spec.user.name,
+          attendeeEmail: spec.user.email,
+          seatNumber: `${spec.type.slice(0, 3).toUpperCase()}-${100 + i}`
+        });
+      }
+    }
+
+    // A failed payment + a pending registration for admin insight
+    const failedReg = await Registration.create({
+      registrationNumber: generateRegistrationNumber(),
+      user: attendee2._id,
+      event: createdEvents[8]._id,
+      attendeeInfo: { name: attendee2.name, email: attendee2.email, phone: attendee2.phone },
+      items: [{ ticketType: 'Standard', price: 750, quantity: 2, subtotal: 1500 }],
+      totalAmount: 1500,
+      paymentStatus: PAYMENT_STATUS.FAILED,
+      paymentMethod: 'Credit Card',
+      paymentId: generateTransactionId()
+    });
+    await Payment.create({
+      transactionId: failedReg.paymentId,
+      user: attendee2._id,
+      event: createdEvents[8]._id,
+      registration: failedReg._id,
+      amount: 1500,
+      currency: 'INR',
+      paymentMethod: 'Credit Card',
+      status: PAYMENT_STATUS.FAILED
+    });
+
+    await Registration.create({
+      registrationNumber: generateRegistrationNumber(),
+      user: attendee1._id,
+      event: createdEvents[11]._id,
+      attendeeInfo: { name: attendee1.name, email: attendee1.email, phone: attendee1.phone },
+      items: [{ ticketType: 'Standard', price: 1200, quantity: 1, subtotal: 1200 }],
+      totalAmount: 1200,
+      paymentStatus: PAYMENT_STATUS.PENDING,
+      paymentMethod: 'UPI',
+      paymentId: generateTransactionId()
+    });
+
     // 5. Create Reviews
     logger.info('Creating Sample Reviews...');
     await Review.create([
@@ -605,6 +706,14 @@ const seedDatabase = async () => {
         rating: 5,
         title: 'Met our lead seed investor here!',
         comment: 'The structured pitch tables were unmatched. High ROI for any early-stage startup.'
+      },
+      {
+        event: createdEvents[3]._id,
+        user: attendee1._id,
+        rating: 2,
+        title: 'Audio mix was off for the front rows',
+        comment: 'The lineup was great but the front-row sound balancing ruined the first act for us.',
+        status: 'hidden'
       }
     ]);
 
@@ -640,8 +749,90 @@ const seedDatabase = async () => {
         title: 'Event Moderation Required',
         message: 'A new event "Global Fintech & DeFi Summit" was submitted by Elena Rostova for platform approval.',
         type: NOTIFICATION_TYPES.SYSTEM,
-        link: '/admin/events.html',
+        link: '/admin/event-approvals.html',
         isRead: false
+      },
+      {
+        recipient: adminUser._id,
+        title: 'New Registration Alert',
+        message: 'Priya Patel booked 1 VIP ticket for Music Under The Stars (₹2,499).',
+        type: NOTIFICATION_TYPES.REGISTRATION,
+        link: '/admin/registrations.html',
+        isRead: false
+      },
+      {
+        recipient: adminUser._id,
+        title: 'Payment Failed',
+        message: 'A payment of ₹1,500 for National Marathon & Fitness Expo failed and needs attention.',
+        type: NOTIFICATION_TYPES.SYSTEM,
+        link: '/admin/payments.html',
+        isRead: false
+      }
+    ]);
+
+    // 7. Seed default system settings
+    logger.info('Creating Default System Settings...');
+    await SystemSettings.create({ key: 'platform' });
+
+    // 8. Seed admin activity audit trail
+    logger.info('Creating Admin Activity Log...');
+    await AdminActivity.create([
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'SYSTEM_SEEDED',
+        targetType: 'system',
+        targetLabel: 'EventSphere Database',
+        details: 'Initial platform seed with demo data completed.',
+        status: 'success'
+      },
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'EVENT_APPROVED',
+        targetType: 'event',
+        targetId: createdEvents[0]._id,
+        targetLabel: createdEvents[0].title,
+        details: 'Approved and published.',
+        status: 'success'
+      },
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'EVENT_REJECTED',
+        targetType: 'event',
+        targetId: createdEvents[12]._id,
+        targetLabel: createdEvents[12].title,
+        details: 'Duplicate of an already scheduled summit.',
+        status: 'success'
+      },
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'USER_SUSPENDED',
+        targetType: 'user',
+        targetId: attendee2._id,
+        targetLabel: attendee2.name,
+        details: 'Temporary suspension during spam investigation.',
+        status: 'success'
+      },
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'REVIEW_HIDDEN',
+        targetType: 'review',
+        targetLabel: 'Music Under The Stars review',
+        details: 'Hidden pending content review.',
+        status: 'success'
+      },
+      {
+        admin: adminUser._id,
+        adminName: adminUser.name,
+        action: 'SETTINGS_UPDATED',
+        targetType: 'settings',
+        targetLabel: 'System Settings',
+        details: 'Default notification preferences applied.',
+        status: 'success'
       }
     ]);
 

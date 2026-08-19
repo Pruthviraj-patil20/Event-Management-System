@@ -29,6 +29,12 @@ const reviewSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Review comment is required'],
       maxlength: [1000, 'Comment cannot exceed 1000 characters']
+    },
+    status: {
+      type: String,
+      enum: ['active', 'hidden'],
+      default: 'active',
+      index: true
     }
   },
   {

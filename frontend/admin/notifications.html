@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Venues — EventSphere Admin</title>
+  <title>Notifications — EventSphere Admin</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -33,46 +33,20 @@
 
         <div class="admin-page-header">
           <div>
-            <h1 class="admin-page-title">Venues</h1>
-            <p class="admin-page-subtitle">Manage event venues across the platform.</p>
+            <h1 class="admin-page-title">Notifications</h1>
+            <p class="admin-page-subtitle">System alerts, approvals and platform events.</p>
           </div>
           <div class="admin-page-actions">
-            <button class="admin-btn admin-btn-primary admin-btn-sm" data-add-venue>+ Add Venue</button>
+            <button class="admin-btn admin-btn-secondary admin-btn-sm" data-mark-all>Mark All Read</button>
           </div>
         </div>
 
         <div class="admin-card">
-          <div class="admin-toolbar">
-            <div class="admin-search-field">
-              <span class="sf-icon">🔍</span>
-              <input type="text" data-search placeholder="Search venues by name or address..." aria-label="Search venues">
-            </div>
-            <select class="admin-select" data-filter-city aria-label="Filter by city">
-              <option value="all">All Cities</option>
-            </select>
-            <div class="spacer"></div>
-            <span class="admin-count" data-count>Loading…</span>
+          <div class="admin-card-body flush">
+            <div id="notificationsList"></div>
           </div>
-
-          <div class="admin-table-scroll">
-            <table class="admin-table">
-              <thead>
-                <tr>
-                  <th>Venue</th>
-                  <th>City</th>
-                  <th>Capacity</th>
-                  <th>Contact</th>
-                  <th>Status</th>
-                  <th style="text-align:right;">Actions</th>
-                </tr>
-              </thead>
-              <tbody id="venuesTable"></tbody>
-            </table>
-          </div>
-
           <div class="admin-table-footer">
             <span class="admin-count" data-count></span>
-            <div class="admin-pagination" data-pagination></div>
           </div>
         </div>
 
@@ -85,6 +59,6 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/admin/admin-layout.js"></script>
-  <script src="/js/admin/venues.js"></script>
+  <script src="/js/admin/notifications.js"></script>
 </body>
 </html>
