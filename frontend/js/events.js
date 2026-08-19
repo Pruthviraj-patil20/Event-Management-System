@@ -9,6 +9,7 @@ const EventsHandler = {
     page: 1,
     limit: 9,
     category: 'All',
+    state: 'All',
     city: 'All',
     search: '',
     minPrice: '',
@@ -16,32 +17,68 @@ const EventsHandler = {
     sort: 'upcoming',
     viewMode: 'grid'
   },
+  locationSelector: null,
 
   async init() {
     // Read query params from URL
     const urlCategory = Utils.getUrlParam('category');
     const urlSearch = Utils.getUrlParam('search');
+    const urlState = Utils.getUrlParam('state');
     const urlCity = Utils.getUrlParam('city');
 
     if (urlCategory) this.state.category = urlCategory;
     if (urlSearch) this.state.search = urlSearch;
-    if (urlCity) this.state.city = urlCity;
+    if (urlState) this.state.state = urlState;
+    if (urlCity) {
+      this.state.city = urlCity;
+      if (!urlState && typeof Locations !== 'undefined') {
+        const detected = Locations.findStateForCity(urlCity);
+        if (detected) this.state.state = detected;
+      }
+    }
 
+    this.initLocationSelector();
     this.bindFilterEvents();
     this.syncFilterInputs();
     await this.fetchEvents();
   },
 
+  initLocationSelector() {
+    if (typeof Locations !== 'undefined' && Locations.setupCascadingDropdown) {
+      this.locationSelector = Locations.setupCascadingDropdown({
+        stateSelect: '#stateFilter',
+        citySelect: '#cityFilter',
+        defaultState: this.state.state,
+        defaultCity: this.state.city,
+        statePlaceholder: 'All States',
+        cityPlaceholder: 'All Cities',
+        onStateChange: (selectedState) => {
+          this.state.state = selectedState;
+          this.state.city = 'All';
+          this.state.page = 1;
+          this.fetchEvents();
+        },
+        onCityChange: (selectedCity) => {
+          this.state.city = selectedCity;
+          this.state.page = 1;
+          this.fetchEvents();
+        }
+      });
+    }
+  },
+
   syncFilterInputs() {
     const searchInput = document.getElementById('eventSearchInput');
     const categorySelect = document.getElementById('categoryFilter');
-    const citySelect = document.getElementById('cityFilter');
     const sortSelect = document.getElementById('sortSelect');
 
     if (searchInput && this.state.search) searchInput.value = this.state.search;
     if (categorySelect && this.state.category) categorySelect.value = this.state.category;
-    if (citySelect && this.state.city) citySelect.value = this.state.city;
     if (sortSelect && this.state.sort) sortSelect.value = this.state.sort;
+
+    if (this.locationSelector) {
+      this.locationSelector.setState(this.state.state, this.state.city);
+    }
   },
 
   bindFilterEvents() {
@@ -58,15 +95,6 @@ const EventsHandler = {
     if (categorySelect) {
       categorySelect.addEventListener('change', (e) => {
         this.state.category = e.target.value;
-        this.state.page = 1;
-        this.fetchEvents();
-      });
-    }
-
-    const citySelect = document.getElementById('cityFilter');
-    if (citySelect) {
-      citySelect.addEventListener('change', (e) => {
-        this.state.city = e.target.value;
         this.state.page = 1;
         this.fetchEvents();
       });
@@ -97,11 +125,15 @@ const EventsHandler = {
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
         this.state.category = 'All';
+        this.state.state = 'All';
         this.state.city = 'All';
         this.state.search = '';
         this.state.minPrice = '';
         this.state.maxPrice = '';
         this.state.page = 1;
+        if (this.locationSelector) {
+          this.locationSelector.reset();
+        }
         this.syncFilterInputs();
         if (priceMin) priceMin.value = '';
         if (priceMax) priceMax.value = '';
@@ -125,6 +157,7 @@ const EventsHandler = {
 
       if (this.state.search) params.search = this.state.search;
       if (this.state.category && this.state.category !== 'All') params.category = this.state.category;
+      if (this.state.state && this.state.state !== 'All') params.state = this.state.state;
       if (this.state.city && this.state.city !== 'All') params.city = this.state.city;
       if (this.state.minPrice) params.minPrice = this.state.minPrice;
       if (this.state.maxPrice) params.maxPrice = this.state.maxPrice;

@@ -27,14 +27,28 @@ const App = {
     const heroForm = document.getElementById('heroSearchForm');
     if (!heroForm) return;
 
+    // Initialize cascading state & city dropdowns
+    if (typeof Locations !== 'undefined' && Locations.setupCascadingDropdown) {
+      Locations.setupCascadingDropdown({
+        stateSelect: '#heroStateSelect',
+        citySelect: '#heroCitySelect',
+        defaultState: 'All',
+        defaultCity: 'All',
+        statePlaceholder: 'All States',
+        cityPlaceholder: 'All Cities'
+      });
+    }
+
     heroForm.addEventListener('submit', (e) => {
       e.preventDefault();
       const search = document.getElementById('heroSearchTerm')?.value.trim() || '';
+      const state = document.getElementById('heroStateSelect')?.value || 'All';
       const city = document.getElementById('heroCitySelect')?.value || 'All';
       const category = document.getElementById('heroCategorySelect')?.value || 'All';
 
       const params = new URLSearchParams();
       if (search) params.append('search', search);
+      if (state && state !== 'All') params.append('state', state);
       if (city && city !== 'All') params.append('city', city);
       if (category && category !== 'All') params.append('category', category);
 

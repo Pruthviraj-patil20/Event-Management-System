@@ -17,6 +17,17 @@
 
 /* 992px Breakpoint (Tablets Landscape) */
 @media (max-width: 992px) {
+  .hero-search-box {
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+  .hero-search-box .search-field-group {
+    flex: 1 1 calc(50% - var(--space-3));
+  }
+  .hero-search-box .btn {
+    width: 100%;
+    margin-top: var(--space-2);
+  }
   .events-explorer-wrap {
     grid-template-columns: 1fr;
   }

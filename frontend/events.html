@@ -73,16 +73,19 @@
             </select>
           </div>
 
-          <!-- Location -->
+          <!-- State Filter -->
           <div class="filter-group">
-            <label for="cityFilter" class="filter-group-title">Location / City</label>
-            <select id="cityFilter" class="select-control">
-              <option value="All">All Locations</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="Pune">Pune</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Hyderabad">Hyderabad</option>
-              <option value="New Delhi">New Delhi</option>
+            <label for="stateFilter" class="filter-group-title">State / UT</label>
+            <select id="stateFilter" class="select-control" aria-label="Filter by State or Union Territory">
+              <option value="All">All States</option>
+            </select>
+          </div>
+
+          <!-- City Filter -->
+          <div class="filter-group" id="cityFilterGroup">
+            <label for="cityFilter" class="filter-group-title">City</label>
+            <select id="cityFilter" class="select-control" aria-label="Filter by City">
+              <option value="All">All Cities</option>
             </select>
           </div>
 
@@ -138,6 +141,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/components.js"></script>
+  <script src="/js/locations.js"></script>
   <script src="/js/events.js"></script>
 
   <script>

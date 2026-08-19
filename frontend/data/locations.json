@@ -1,0 +1,505 @@
+{
+  "country": "India",
+  "countryCode": "IN",
+  "states": [
+    {
+      "code": "AP",
+      "name": "Andhra Pradesh",
+      "type": "State",
+      "cities": [
+        "Visakhapatnam",
+        "Vijayawada",
+        "Guntur",
+        "Nellore",
+        "Kurnool",
+        "Tirupati",
+        "Kakinada",
+        "Rajahmundry",
+        "Kadapa",
+        "Anantapur"
+      ]
+    },
+    {
+      "code": "AR",
+      "name": "Arunachal Pradesh",
+      "type": "State",
+      "cities": [
+        "Itanagar",
+        "Naharlagun",
+        "Pasighat",
+        "Tawang",
+        "Ziro",
+        "Bomdila"
+      ]
+    },
+    {
+      "code": "AS",
+      "name": "Assam",
+      "type": "State",
+      "cities": [
+        "Guwahati",
+        "Silchar",
+        "Dibrugarh",
+        "Jorhat",
+        "Nagaon",
+        "Tinsukia",
+        "Tezpur"
+      ]
+    },
+    {
+      "code": "BR",
+      "name": "Bihar",
+      "type": "State",
+      "cities": [
+        "Patna",
+        "Gaya",
+        "Bhagalpur",
+        "Muzaffarpur",
+        "Purnia",
+        "Darbhanga",
+        "Bihar Sharif",
+        "Arrah"
+      ]
+    },
+    {
+      "code": "CG",
+      "name": "Chhattisgarh",
+      "type": "State",
+      "cities": [
+        "Raipur",
+        "Bhilai",
+        "Bilaspur",
+        "Korba",
+        "Durg",
+        "Rajnandgaon",
+        "Jagdalpur"
+      ]
+    },
+    {
+      "code": "GA",
+      "name": "Goa",
+      "type": "State",
+      "cities": [
+        "Panaji",
+        "Margao",
+        "Vasco da Gama",
+        "Mapusa",
+        "Ponda",
+        "Calangute",
+        "Candolim"
+      ]
+    },
+    {
+      "code": "GJ",
+      "name": "Gujarat",
+      "type": "State",
+      "cities": [
+        "Ahmedabad",
+        "Surat",
+        "Vadodara",
+        "Rajkot",
+        "Gandhinagar",
+        "Bhavnagar",
+        "Jamnagar",
+        "Junagadh",
+        "Anand"
+      ]
+    },
+    {
+      "code": "HR",
+      "name": "Haryana",
+      "type": "State",
+      "cities": [
+        "Gurgaon",
+        "Faridabad",
+        "Panipat",
+        "Ambala",
+        "Karnal",
+        "Hisar",
+        "Rohtak",
+        "Sonipat",
+        "Panchkula"
+      ]
+    },
+    {
+      "code": "HP",
+      "name": "Himachal Pradesh",
+      "type": "State",
+      "cities": [
+        "Shimla",
+        "Dharamshala",
+        "Manali",
+        "Solan",
+        "Mandi",
+        "Kullu",
+        "Kasauli",
+        "Bilaspur"
+      ]
+    },
+    {
+      "code": "JH",
+      "name": "Jharkhand",
+      "type": "State",
+      "cities": [
+        "Ranchi",
+        "Jamshedpur",
+        "Dhanbad",
+        "Bokaro",
+        "Deoghar",
+        "Hazaribagh"
+      ]
+    },
+    {
+      "code": "KA",
+      "name": "Karnataka",
+      "type": "State",
+      "cities": [
+        "Bangalore",
+        "Mysore",
+        "Mangalore",
+        "Hubli-Dharwad",
+        "Belgaum",
+        "Manipal",
+        "Udupi",
+        "Gulbarga",
+        "Davangere",
+        "Shimoga"
+      ]
+    },
+    {
+      "code": "KL",
+      "name": "Kerala",
+      "type": "State",
+      "cities": [
+        "Kochi",
+        "Thiruvananthapuram",
+        "Kozhikode",
+        "Thrissur",
+        "Kollam",
+        "Alappuzha",
+        "Palakkad",
+        "Kottayam",
+        "Kannur"
+      ]
+    },
+    {
+      "code": "MP",
+      "name": "Madhya Pradesh",
+      "type": "State",
+      "cities": [
+        "Indore",
+        "Bhopal",
+        "Jabalpur",
+        "Gwalior",
+        "Ujjain",
+        "Sagar",
+        "Dewas",
+        "Satna"
+      ]
+    },
+    {
+      "code": "MH",
+      "name": "Maharashtra",
+      "type": "State",
+      "cities": [
+        "Mumbai",
+        "Pune",
+        "Nagpur",
+        "Nashik",
+        "Thane",
+        "Navi Mumbai",
+        "Aurangabad",
+        "Kolhapur",
+        "Solapur",
+        "Amravati",
+        "Nanded",
+        "Jalgaon",
+        "Akola"
+      ]
+    },
+    {
+      "code": "MN",
+      "name": "Manipur",
+      "type": "State",
+      "cities": [
+        "Imphal",
+        "Churachandpur",
+        "Thoubal",
+        "Kakching"
+      ]
+    },
+    {
+      "code": "ML",
+      "name": "Meghalaya",
+      "type": "State",
+      "cities": [
+        "Shillong",
+        "Tura",
+        "Cherrapunji",
+        "Jowai"
+      ]
+    },
+    {
+      "code": "MZ",
+      "name": "Mizoram",
+      "type": "State",
+      "cities": [
+        "Aizawl",
+        "Lunglei",
+        "Champhai",
+        "Serchhip"
+      ]
+    },
+    {
+      "code": "NL",
+      "name": "Nagaland",
+      "type": "State",
+      "cities": [
+        "Kohima",
+        "Dimapur",
+        "Mokokchung",
+        "Tuensang"
+      ]
+    },
+    {
+      "code": "OD",
+      "name": "Odisha",
+      "type": "State",
+      "cities": [
+        "Bhubaneswar",
+        "Cuttack",
+        "Rourkela",
+        "Puri",
+        "Sambalpur",
+        "Berhampur",
+        "Balasore"
+      ]
+    },
+    {
+      "code": "PB",
+      "name": "Punjab",
+      "type": "State",
+      "cities": [
+        "Chandigarh",
+        "Ludhiana",
+        "Amritsar",
+        "Jalandhar",
+        "Patiala",
+        "Bathinda",
+        "Mohali",
+        "Pathankot"
+      ]
+    },
+    {
+      "code": "RJ",
+      "name": "Rajasthan",
+      "type": "State",
+      "cities": [
+        "Jaipur",
+        "Udaipur",
+        "Jodhpur",
+        "Kota",
+        "Ajmer",
+        "Bikaner",
+        "Jaisalmer",
+        "Alwar",
+        "Pushkar",
+        "Mount Abu"
+      ]
+    },
+    {
+      "code": "SK",
+      "name": "Sikkim",
+      "type": "State",
+      "cities": [
+        "Gangtok",
+        "Namchi",
+        "Geyzing",
+        "Mangan",
+        "Pelling"
+      ]
+    },
+    {
+      "code": "TN",
+      "name": "Tamil Nadu",
+      "type": "State",
+      "cities": [
+        "Chennai",
+        "Coimbatore",
+        "Madurai",
+        "Tiruchirappalli",
+        "Salem",
+        "Tirunelveli",
+        "Tiruppur",
+        "Vellore",
+        "Erode",
+        "Kanchipuram"
+      ]
+    },
+    {
+      "code": "TS",
+      "name": "Telangana",
+      "type": "State",
+      "cities": [
+        "Hyderabad",
+        "Secunderabad",
+        "Warangal",
+        "Nizamabad",
+        "Karimnagar",
+        "Khammam",
+        "Ramagundam"
+      ]
+    },
+    {
+      "code": "TR",
+      "name": "Tripura",
+      "type": "State",
+      "cities": [
+        "Agartala",
+        "Udaipur",
+        "Dharmanagar",
+        "Kailashahar"
+      ]
+    },
+    {
+      "code": "UP",
+      "name": "Uttar Pradesh",
+      "type": "State",
+      "cities": [
+        "Noida",
+        "Greater Noida",
+        "Lucknow",
+        "Kanpur",
+        "Varanasi",
+        "Agra",
+        "Prayagraj",
+        "Ghaziabad",
+        "Meerut",
+        "Bareilly",
+        "Aligarh",
+        "Mathura",
+        "Ayodhya"
+      ]
+    },
+    {
+      "code": "UK",
+      "name": "Uttarakhand",
+      "type": "State",
+      "cities": [
+        "Dehradun",
+        "Haridwar",
+        "Rishikesh",
+        "Roorkee",
+        "Haldwani",
+        "Nainital",
+        "Mussoorie",
+        "Rudrapur"
+      ]
+    },
+    {
+      "code": "WB",
+      "name": "West Bengal",
+      "type": "State",
+      "cities": [
+        "Kolkata",
+        "Howrah",
+        "Durgapur",
+        "Siliguri",
+        "Asansol",
+        "Kharagpur",
+        "Darjeeling",
+        "Bardhaman"
+      ]
+    },
+    {
+      "code": "AN",
+      "name": "Andaman and Nicobar Islands",
+      "type": "Union Territory",
+      "cities": [
+        "Port Blair",
+        "Havelock Island",
+        "Neil Island"
+      ]
+    },
+    {
+      "code": "CH",
+      "name": "Chandigarh",
+      "type": "Union Territory",
+      "cities": [
+        "Chandigarh"
+      ]
+    },
+    {
+      "code": "DN",
+      "name": "Dadra and Nagar Haveli and Daman and Diu",
+      "type": "Union Territory",
+      "cities": [
+        "Daman",
+        "Diu",
+        "Silvassa"
+      ]
+    },
+    {
+      "code": "DL",
+      "name": "Delhi",
+      "type": "Union Territory",
+      "cities": [
+        "New Delhi",
+        "North Delhi",
+        "South Delhi",
+        "East Delhi",
+        "West Delhi",
+        "Central Delhi",
+        "Dwarka",
+        "Rohini",
+        "Connaught Place",
+        "Saket"
+      ]
+    },
+    {
+      "code": "JK",
+      "name": "Jammu and Kashmir",
+      "type": "Union Territory",
+      "cities": [
+        "Srinagar",
+        "Jammu",
+        "Anantnag",
+        "Baramulla",
+        "Gulmarg",
+        "Pahalgam",
+        "Udhampur"
+      ]
+    },
+    {
+      "code": "LA",
+      "name": "Ladakh",
+      "type": "Union Territory",
+      "cities": [
+        "Leh",
+        "Kargil",
+        "Nubra"
+      ]
+    },
+    {
+      "code": "LD",
+      "name": "Lakshadweep",
+      "type": "Union Territory",
+      "cities": [
+        "Kavaratti",
+        "Agatti",
+        "Minicoy"
+      ]
+    },
+    {
+      "code": "PY",
+      "name": "Puducherry",
+      "type": "Union Territory",
+      "cities": [
+        "Puducherry",
+        "Karaikal",
+        "Mahe",
+        "Yanam"
+      ]
+    }
+  ]
+}

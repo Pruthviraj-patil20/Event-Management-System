@@ -80,7 +80,8 @@ const eventSchema = new mongoose.Schema(
     venueDetails: {
       name: String,
       address: String,
-      city: String
+      city: String,
+      state: String
     },
     image: {
       type: String,
@@ -158,5 +159,6 @@ const eventSchema = new mongoose.Schema(
 eventSchema.index({ title: 'text', description: 'text', tags: 'text' });
 eventSchema.index({ category: 1, date: 1, status: 1 });
 eventSchema.index({ 'venueDetails.city': 1 });
+eventSchema.index({ 'venueDetails.state': 1 });
 
 module.exports = mongoose.model('Event', eventSchema);

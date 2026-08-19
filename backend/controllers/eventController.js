@@ -12,6 +12,7 @@ const getEvents = async (req, res, next) => {
     const {
       search,
       category,
+      state,
       city,
       startDate,
       endDate,
@@ -41,19 +42,47 @@ const getEvents = async (req, res, next) => {
       query.category = category;
     }
 
+    // State Filter
+    if (state && state !== 'All') {
+      const stateTrimmed = state.trim();
+      const venuesInState = await Venue.find({
+        $or: [
+          { state: { $regex: stateTrimmed, $options: 'i' } }
+        ]
+      }).select('_id');
+      const venueIds = venuesInState.map(v => v._id);
+
+      query.$and = query.$and || [];
+      query.$and.push({
+        $or: [
+          { 'venueDetails.state': { $regex: stateTrimmed, $options: 'i' } },
+          { venue: { $in: venueIds } }
+        ]
+      });
+    }
+
+    // City Filter
     if (city && city !== 'All') {
-      query.$or = [
-        { 'venueDetails.city': { $regex: city, $options: 'i' } }
-      ];
+      const cityTrimmed = city.trim();
+      query.$and = query.$and || [];
+      query.$and.push({
+        $or: [
+          { 'venueDetails.city': { $regex: cityTrimmed, $options: 'i' } }
+        ]
+      });
     }
 
     // Text Search
     if (search && search.trim() !== '') {
-      query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { description: { $regex: search, $options: 'i' } },
-        { tags: { $in: [new RegExp(search, 'i')] } }
-      ];
+      query.$and = query.$and || [];
+      query.$and.push({
+        $or: [
+          { title: { $regex: search, $options: 'i' } },
+          { description: { $regex: search, $options: 'i' } },
+          { tags: { $in: [new RegExp(search, 'i')] } },
+          { 'venueDetails.name': { $regex: search, $options: 'i' } }
+        ]
+      });
     }
 
     // Date range
@@ -201,6 +230,7 @@ const createEvent = async (req, res, next) => {
         name: venueName || 'Grand Convention Center',
         address: venueAddress || 'Main Avenue',
         city: venueCity || 'Bangalore',
+        state: req.body.venueState || '',
         capacity: capacity || 500,
         createdBy: req.user._id
       });
@@ -245,7 +275,8 @@ const createEvent = async (req, res, next) => {
       venueDetails: {
         name: venueDoc.name,
         address: venueDoc.address,
-        city: venueDoc.city
+        city: venueDoc.city,
+        state: venueDoc.state || ''
       },
       date: new Date(date),
       startTime: startTime || '09:00 AM',
@@ -288,7 +319,7 @@ const updateEvent = async (req, res, next) => {
       const v = await Venue.findById(req.body.venueId);
       if (v) {
         req.body.venue = v._id;
-        req.body.venueDetails = { name: v.name, address: v.address, city: v.city };
+        req.body.venueDetails = { name: v.name, address: v.address, city: v.city, state: v.state || '' };
       }
     }
 

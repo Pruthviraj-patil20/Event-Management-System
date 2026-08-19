@@ -58,14 +58,19 @@
         <div class="search-field-group">
           <span class="search-field-icon">📍</span>
           <div class="search-field-content">
-            <label for="heroCitySelect" class="search-field-label">City / Location</label>
-            <select id="heroCitySelect" class="search-field-select">
+            <label for="heroStateSelect" class="search-field-label">State / UT</label>
+            <select id="heroStateSelect" class="search-field-select" aria-label="Select State or Union Territory">
+              <option value="All">All States</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-field-group" id="heroCityGroup">
+          <span class="search-field-icon">🏙️</span>
+          <div class="search-field-content">
+            <label for="heroCitySelect" class="search-field-label">City</label>
+            <select id="heroCitySelect" class="search-field-select" aria-label="Select City">
               <option value="All">All Cities</option>
-              <option value="Bangalore">Bangalore</option>
-              <option value="Pune">Pune</option>
-              <option value="Mumbai">Mumbai</option>
-              <option value="Hyderabad">Hyderabad</option>
-              <option value="New Delhi">New Delhi</option>
             </select>
           </div>
         </div>
@@ -322,6 +327,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/components.js"></script>
+  <script src="/js/locations.js"></script>
   <script src="/js/events.js"></script>
   <script src="/js/main.js"></script>
 

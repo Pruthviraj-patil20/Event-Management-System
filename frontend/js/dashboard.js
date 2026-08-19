@@ -148,6 +148,17 @@ const Dashboard = {
       });
     }
 
+    if (typeof Locations !== 'undefined' && Locations.setupCascadingDropdown) {
+      Locations.setupCascadingDropdown({
+        stateSelect: '#venueState',
+        citySelect: '#venueCity',
+        defaultState: 'Maharashtra',
+        defaultCity: 'Mumbai',
+        statePlaceholder: 'Select State / UT',
+        cityPlaceholder: 'Select City'
+      });
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -167,7 +178,8 @@ const Dashboard = {
           endTime: document.getElementById('eventEndTime').value,
           venueName: document.getElementById('venueName').value,
           venueAddress: document.getElementById('venueAddress').value,
-          venueCity: document.getElementById('venueCity').value,
+          venueState: document.getElementById('venueState')?.value || '',
+          venueCity: document.getElementById('venueCity')?.value || '',
           capacity: parseInt(document.getElementById('eventCapacity').value, 10),
           image: document.getElementById('eventImageUrl').value || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
           ticketTypes: [
