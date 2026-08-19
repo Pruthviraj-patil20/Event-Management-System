@@ -205,9 +205,9 @@ const Components = {
         </div>
 
         <div class="footer-bottom">
-          <div>© ${new Date().getFullYear()} EventSphere Inc. All rights reserved.</div>
-          <div style="display: flex; gap: 1.5rem;">
-            <span>Designed with precision for creators & attendees.</span>
+          <div class="footer-copyright">© ${new Date().getFullYear()} EventSphere Inc. All rights reserved.</div>
+          <div class="footer-credits">
+            Designed &amp; Developed by <span class="footer-credit-author">Pruthviraj Patil</span> and <span class="footer-credit-author">Divya Gavali</span>
           </div>
         </div>
       </div>
