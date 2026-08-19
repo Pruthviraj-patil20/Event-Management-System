@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EventSphere — Plan. Discover. Experience.</title>
   <meta name="description" content="Discover world-class conferences, concerts, workshops, festivals and tech summits with EventSphere.">
+  <script>document.documentElement.classList.remove('no-js'); document.documentElement.classList.add('js');</script>
   
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,13 +46,13 @@
         Find conferences, concerts, workshops, festivals and summits happening around you. Plan your schedule, book instant QR passes, and connect with global communities.
       </p>
 
-      <!-- Integrated Hero Search Box -->
-      <form class="hero-search-box" id="heroSearchForm">
+      <!-- Integrated Hero Search Box (GET form works without JavaScript) -->
+      <form class="hero-search-box" id="heroSearchForm" method="GET" action="/events.html" role="search">
         <div class="search-field-group">
           <span class="search-field-icon">🔍</span>
           <div class="search-field-content">
             <label for="heroSearchTerm" class="search-field-label">Search Event</label>
-            <input type="text" id="heroSearchTerm" class="search-field-input" placeholder="e.g. AI Summit, Jazz Night...">
+            <input type="text" id="heroSearchTerm" name="search" class="search-field-input" placeholder="e.g. AI Summit, Jazz Night..." autocomplete="off" aria-autocomplete="list" aria-controls="heroSearchSuggestions">
           </div>
         </div>
 
@@ -59,7 +60,7 @@
           <span class="search-field-icon">📍</span>
           <div class="search-field-content">
             <label for="heroStateSelect" class="search-field-label">State / UT</label>
-            <select id="heroStateSelect" class="search-field-select" aria-label="Select State or Union Territory">
+            <select id="heroStateSelect" name="state" class="search-field-select" aria-label="Select State or Union Territory">
               <option value="All">All States</option>
             </select>
           </div>
@@ -69,7 +70,7 @@
           <span class="search-field-icon">🏙️</span>
           <div class="search-field-content">
             <label for="heroCitySelect" class="search-field-label">City</label>
-            <select id="heroCitySelect" class="search-field-select" aria-label="Select City">
+            <select id="heroCitySelect" name="city" class="search-field-select" aria-label="Select City">
               <option value="All">All Cities</option>
             </select>
           </div>
@@ -79,7 +80,7 @@
           <span class="search-field-icon">🏷️</span>
           <div class="search-field-content">
             <label for="heroCategorySelect" class="search-field-label">Category</label>
-            <select id="heroCategorySelect" class="search-field-select">
+            <select id="heroCategorySelect" name="category" class="search-field-select">
               <option value="All">All Categories</option>
               <option value="Technology">Technology</option>
               <option value="Music">Music</option>
@@ -95,7 +96,11 @@
         <button type="submit" class="btn btn-primary btn-lg" style="height: 52px;">
           Explore Now
         </button>
+        <div id="heroSearchSuggestions" class="hero-search-suggestions js-only" hidden role="listbox" aria-label="Search suggestions"></div>
       </form>
+      <noscript>
+        <p class="hero-subtitle" style="margin-top: 0;">JavaScript is optional — submit the search form above to browse events.</p>
+      </noscript>
 
       <!-- Hero Category Quick Links -->
       <div class="hero-category-pills">

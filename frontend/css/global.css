@@ -270,9 +270,113 @@
   margin-bottom: var(--space-2);
 }
 
-.empty-state-desc {
+.spinner-inline {
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
+}
+
+.api-loading-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, var(--primary-500), var(--accent-purple, #8b5cf6), var(--primary-500));
+  background-size: 200% 100%;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.api-loading-bar.active,
+html.api-loading .api-loading-bar {
+  opacity: 1;
+  transform: scaleX(1);
+  animation: shimmer 1.2s linear infinite;
+}
+
+.offline-banner {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  padding: 0.65rem 1rem;
+  background: #111827;
+  color: #f8fafc;
+  font-size: 0.875rem;
+  position: sticky;
+  top: 0;
+  z-index: 9998;
+}
+
+.offline-banner.visible,
+.offline-banner:not([hidden]) {
+  display: flex;
+}
+
+.offline-banner[hidden] {
+  display: none !important;
+}
+
+.virtual-list-viewport {
+  position: relative;
+  overflow-y: auto;
+  max-height: min(2200px, calc(100vh - 180px));
+  display: block;
+}
+
+.virtual-list-spacer {
+  width: 100%;
+  pointer-events: none;
+}
+
+.virtual-list-window {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+}
+
+.virtual-list-hint {
+  text-align: center;
   color: var(--text-muted);
-  max-width: 420px;
-  margin: 0 auto var(--space-6) auto;
-  font-size: var(--font-size-sm);
+  font-size: 0.8125rem;
+  margin-top: 1rem;
+}
+
+.virtual-table-scroll {
+  overflow-y: auto;
+}
+
+.lazy-img {
+  filter: blur(8px);
+  transform: scale(1.04);
+  transition: filter 0.35s ease, transform 0.35s ease;
+}
+
+.lazy-img.is-loaded {
+  filter: none;
+  transform: none;
+}
+
+.no-js .js-only {
+  display: none !important;
+}
+
+.js .no-js-only {
+  display: none !important;
+}
+
+.is-loading {
+  position: relative;
+}
+
+html.no-js .hero-search-suggestions {
+  display: none;
 }

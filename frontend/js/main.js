@@ -41,19 +41,61 @@ const App = {
 
     heroForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      const search = document.getElementById('heroSearchTerm')?.value.trim() || '';
-      const state = document.getElementById('heroStateSelect')?.value || 'All';
-      const city = document.getElementById('heroCitySelect')?.value || 'All';
-      const category = document.getElementById('heroCategorySelect')?.value || 'All';
-
-      const params = new URLSearchParams();
-      if (search) params.append('search', search);
-      if (state && state !== 'All') params.append('state', state);
-      if (city && city !== 'All') params.append('city', city);
-      if (category && category !== 'All') params.append('category', category);
-
-      window.location.href = `/events.html?${params.toString()}`;
+      this.navigateHeroSearch();
     });
+
+    const heroTerm = document.getElementById('heroSearchTerm');
+    Utils.bindDebouncedSearch(heroTerm, () => this.previewHeroSearch(), 400);
+  },
+
+  navigateHeroSearch() {
+    const search = document.getElementById('heroSearchTerm')?.value.trim() || '';
+    const state = document.getElementById('heroStateSelect')?.value || 'All';
+    const city = document.getElementById('heroCitySelect')?.value || 'All';
+    const category = document.getElementById('heroCategorySelect')?.value || 'All';
+
+    const params = new URLSearchParams();
+    if (search) params.append('search', search);
+    if (state && state !== 'All') params.append('state', state);
+    if (city && city !== 'All') params.append('city', city);
+    if (category && category !== 'All') params.append('category', category);
+
+    window.location.href = `/events.html?${params.toString()}`;
+  },
+
+  async previewHeroSearch() {
+    const term = document.getElementById('heroSearchTerm')?.value.trim() || '';
+    const box = document.getElementById('heroSearchSuggestions');
+    if (!box) return;
+
+    if (term.length < 2) {
+      box.hidden = true;
+      box.innerHTML = '';
+      return;
+    }
+
+    box.hidden = false;
+    box.innerHTML = `<div class="hero-suggestion-status"><span class="spinner spinner-primary spinner-inline"></span> Searching…</div>`;
+    box.setAttribute('aria-busy', 'true');
+
+    try {
+      const data = await API.get('/events', { search: term, limit: 5, page: 1 }, { silent: true });
+      const events = data.events || [];
+      if (!events.length) {
+        box.innerHTML = `<div class="hero-suggestion-status">No matches for “${Utils.escapeHtml(term)}”</div>`;
+        return;
+      }
+      box.innerHTML = events.map((e) => `
+        <a class="hero-suggestion-item" href="/event-details.html?id=${e._id}">
+          <strong>${Utils.escapeHtml(e.title)}</strong>
+          <span>${Utils.escapeHtml(e.category || '')} · ${Utils.escapeHtml(e.venueDetails?.city || '')}</span>
+        </a>
+      `).join('') + `<a class="hero-suggestion-item hero-suggestion-all" href="/events.html?search=${encodeURIComponent(term)}">See all results for “${Utils.escapeHtml(term)}”</a>`;
+    } catch (err) {
+      box.innerHTML = `<div class="hero-suggestion-status">Search unavailable. ${Utils.escapeHtml(err.message)}</div>`;
+    } finally {
+      box.setAttribute('aria-busy', 'false');
+    }
   },
 
   async loadFeaturedEvents() {
@@ -78,6 +120,7 @@ const App = {
         .slice(0, 4)
         .map(e => Components.renderEventCard(e, userFavorites.includes(e._id)))
         .join('');
+      Utils.enhanceLazyImages(container);
     } catch (err) {
       container.innerHTML = Components.renderEmptyState('Failed to load events', err.message);
     }

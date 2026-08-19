@@ -14,6 +14,12 @@ const EventDetails = {
       return;
     }
 
+    const container = document.getElementById('detailsContainer');
+    if (container) {
+      container.setAttribute('aria-busy', 'true');
+      container.classList.add('is-loading');
+    }
+
     try {
       const data = await API.get(`/events/${eventId}`);
       this.event = data.event;
@@ -32,6 +38,11 @@ const EventDetails = {
           '<a href="/events.html" class="btn btn-primary btn-sm" style="margin-top: 1rem;">Back to Events</a>'
         );
       }
+    } finally {
+      if (container) {
+        container.setAttribute('aria-busy', 'false');
+        container.classList.remove('is-loading');
+      }
     }
   },
 
@@ -46,7 +57,11 @@ const EventDetails = {
     const heroTime = document.getElementById('eventTimeText');
     const heroVenue = document.getElementById('eventVenueText');
 
-    if (heroImg) heroImg.src = event.image;
+    if (heroImg) {
+      heroImg.loading = 'eager';
+      heroImg.decoding = 'async';
+      heroImg.src = event.image;
+    }
     if (heroTitle) heroTitle.textContent = event.title;
     if (heroCategory) heroCategory.textContent = event.category;
     if (heroDate) heroDate.textContent = Utils.formatDate(event.date);
@@ -176,6 +191,8 @@ const EventDetails = {
 
         const rating = reviewForm.querySelector('input[name="rating"]:checked')?.value || 5;
         const comment = document.getElementById('reviewCommentInput')?.value;
+        const submitBtn = reviewForm.querySelector('button[type="submit"]');
+        Utils.setButtonLoading(submitBtn, true, 'Posting review...');
 
         try {
           await API.post(`/events/${this.event._id}/reviews`, {
@@ -187,6 +204,7 @@ const EventDetails = {
           setTimeout(() => window.location.reload(), 800);
         } catch (err) {
           Components.showToast(err.message, 'error');
+          Utils.setButtonLoading(submitBtn, false);
         }
       });
     }
@@ -226,13 +244,37 @@ const EventDetails = {
 
     const checkoutForm = document.getElementById('checkoutForm');
     if (checkoutForm) {
-      checkoutForm.onsubmit = async (e) => {
+        checkoutForm.onsubmit = async (e) => {
         e.preventDefault();
         const submitBtn = checkoutForm.querySelector('button[type="submit"]');
-        if (submitBtn) {
-          submitBtn.disabled = true;
-          submitBtn.innerHTML = '<span class="spinner"></span> Processing Secure Payment...';
-        }
+        const statusEl = document.getElementById('checkoutStatus');
+        const confirmPanel = document.getElementById('checkoutOptimistic');
+        const prevQty = this.selectedTier ? this.selectedTier.availableQuantity : null;
+
+        const applyOptimistic = () => {
+          Utils.setButtonLoading(submitBtn, true, 'Confirming booking...');
+          checkoutForm.classList.add('is-submitting');
+          if (statusEl) {
+            statusEl.hidden = false;
+            statusEl.textContent = 'Passes reserved — confirming payment…';
+          }
+          if (confirmPanel) {
+            confirmPanel.hidden = false;
+            confirmPanel.textContent = `${this.quantity}× ${this.selectedTier?.name || 'Event'} pass added to your wallet.`;
+          }
+          if (this.selectedTier) {
+            this.selectedTier.availableQuantity = Math.max(0, (prevQty || 0) - this.quantity);
+          }
+        };
+
+        const rollbackOptimistic = () => {
+          if (this.selectedTier && prevQty != null) {
+            this.selectedTier.availableQuantity = prevQty;
+          }
+          checkoutForm.classList.remove('is-submitting');
+          Utils.setButtonLoading(submitBtn, false);
+          if (confirmPanel) confirmPanel.hidden = true;
+        };
 
         try {
           const payload = {
@@ -251,7 +293,12 @@ const EventDetails = {
             paymentMethod: document.getElementById('checkoutPaymentMethod')?.value || 'Credit Card'
           };
 
-          const result = await API.post('/tickets/purchase', payload);
+          await Utils.optimistic(
+            applyOptimistic,
+            () => API.post('/tickets/purchase', payload),
+            rollbackOptimistic
+          );
+
           modal.classList.remove('active');
           Components.showToast('Tickets Booked Successfully! 🎉 Redirecting to wallet...', 'success');
 
@@ -260,9 +307,9 @@ const EventDetails = {
           }, 1000);
         } catch (err) {
           Components.showToast(err.message, 'error');
-          if (submitBtn) {
-            submitBtn.disabled = false;
-            submitBtn.innerHTML = 'Confirm & Pay';
+          if (statusEl) {
+            statusEl.hidden = false;
+            statusEl.textContent = err.message;
           }
         }
       };
@@ -300,6 +347,7 @@ const EventDetails = {
     if (!container || events.length === 0) return;
 
     container.innerHTML = events.map(e => Components.renderEventCard(e)).join('');
+    Utils.enhanceLazyImages(container);
   }
 };
 

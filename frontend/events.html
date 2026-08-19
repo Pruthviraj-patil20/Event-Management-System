@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light">
+<html lang="en" data-theme="light" class="no-js">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Explore Events — EventSphere</title>
   <meta name="description" content="Search, filter, and discover upcoming conferences, music concerts, and workshops.">
+  <script>document.documentElement.classList.remove('no-js'); document.documentElement.classList.add('js');</script>
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -46,21 +47,22 @@
       <div class="events-explorer-wrap">
         <!-- Left Filter Sidebar -->
         <aside class="filter-sidebar">
+          <form id="eventFiltersForm" method="GET" action="/events.html">
           <div class="filter-header">
             <h2 class="filter-title">Filter By</h2>
-            <button id="resetFiltersBtn" class="btn btn-ghost btn-sm" style="font-size: 0.75rem;">Reset All</button>
+            <button type="button" id="resetFiltersBtn" class="btn btn-ghost btn-sm js-only" style="font-size: 0.75rem;">Reset All</button>
           </div>
 
           <!-- Keyword Search -->
           <div class="filter-group">
             <label for="eventSearchInput" class="filter-group-title">Search Keywords</label>
-            <input type="text" id="eventSearchInput" class="input-control" placeholder="Search by title or topic...">
+            <input type="text" id="eventSearchInput" name="search" class="input-control" placeholder="Search by title or topic...">
           </div>
 
           <!-- Category -->
           <div class="filter-group">
             <label for="categoryFilter" class="filter-group-title">Category</label>
-            <select id="categoryFilter" class="select-control">
+            <select id="categoryFilter" name="category" class="select-control">
               <option value="All">All Categories</option>
               <option value="Technology">Technology</option>
               <option value="Music">Music</option>
@@ -76,7 +78,7 @@
           <!-- State Filter -->
           <div class="filter-group">
             <label for="stateFilter" class="filter-group-title">State / UT</label>
-            <select id="stateFilter" class="select-control" aria-label="Filter by State or Union Territory">
+            <select id="stateFilter" name="state" class="select-control" aria-label="Filter by State or Union Territory">
               <option value="All">All States</option>
             </select>
           </div>
@@ -84,7 +86,7 @@
           <!-- City Filter -->
           <div class="filter-group" id="cityFilterGroup">
             <label for="cityFilter" class="filter-group-title">City</label>
-            <select id="cityFilter" class="select-control" aria-label="Filter by City">
+            <select id="cityFilter" name="city" class="select-control" aria-label="Filter by City">
               <option value="All">All Cities</option>
             </select>
           </div>
@@ -93,11 +95,13 @@
           <div class="filter-group">
             <div class="filter-group-title">Price Range (₹)</div>
             <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-              <input type="number" id="priceMinInput" class="input-control" placeholder="Min" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
-              <input type="number" id="priceMaxInput" class="input-control" placeholder="Max" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
+              <input type="number" id="priceMinInput" name="minPrice" class="input-control" placeholder="Min" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
+              <input type="number" id="priceMaxInput" name="maxPrice" class="input-control" placeholder="Max" style="font-size: 0.8125rem; padding: 0.4rem 0.6rem;">
             </div>
-            <button id="applyPriceFilter" class="btn btn-secondary btn-sm btn-full">Apply Price</button>
+            <button type="button" id="applyPriceFilter" class="btn btn-secondary btn-sm btn-full js-only">Apply Price</button>
+            <button type="submit" class="btn btn-primary btn-sm btn-full no-js-only">Apply Filters</button>
           </div>
+          </form>
         </aside>
 
         <!-- Right Event Grid Area -->
@@ -110,7 +114,7 @@
 
             <div class="toolbar-controls">
               <label for="sortSelect" style="font-size: 0.8125rem; color: var(--text-muted);">Sort by:</label>
-              <select id="sortSelect" class="select-control" style="width: auto; padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
+              <select id="sortSelect" name="sort" class="select-control" style="width: auto; padding: 0.4rem 0.75rem; font-size: 0.8125rem;">
                 <option value="upcoming">Upcoming First</option>
                 <option value="newest">Newly Added</option>
                 <option value="price-asc">Price: Low to High</option>
@@ -121,8 +125,10 @@
           </div>
 
           <!-- Events Grid Container -->
-          <div class="grid-3" id="eventsGrid">
-            <!-- Injected via EventsHandler -->
+          <div class="grid-3" id="eventsGrid" aria-live="polite" aria-busy="true">
+            <noscript>
+              <p class="empty-state-desc" style="grid-column: 1 / -1; padding: 2rem;">Enable JavaScript for live filtering, or use the Apply Filters button in the sidebar.</p>
+            </noscript>
           </div>
 
           <!-- Pagination -->

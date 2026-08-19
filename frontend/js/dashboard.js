@@ -263,14 +263,36 @@ const Dashboard = {
   },
 
   async checkInTicket(ticketId, btn) {
+    if (!btn || btn.disabled) return;
+    const row = btn.closest('tr');
+    const badge = row ? row.querySelector('.badge') : null;
+    const prevHtml = btn.innerHTML;
+    const prevDisabled = btn.disabled;
+    const prevBadge = badge ? badge.outerHTML : '';
+
     try {
-      const result = await API.post(`/tickets/${ticketId}/checkin`, {});
-      Components.showToast(result.message, 'success');
-      if (btn) {
-        btn.textContent = '✓ In';
-        btn.disabled = true;
-      }
-      this.initAttendees();
+      await Utils.optimistic(
+        () => {
+          Utils.setButtonLoading(btn, true, 'Checking in...');
+          if (badge) {
+            badge.className = 'badge badge-success';
+            badge.textContent = 'Checked In';
+          }
+        },
+        () => API.post(`/tickets/${ticketId}/checkin`, {}),
+        () => {
+          btn.innerHTML = prevHtml;
+          btn.disabled = prevDisabled;
+          btn.removeAttribute('aria-busy');
+          delete btn.dataset.idleHtml;
+          if (badge && prevBadge) badge.outerHTML = prevBadge;
+        }
+      );
+      btn.disabled = true;
+      delete btn.dataset.idleHtml;
+      btn.removeAttribute('aria-busy');
+      btn.textContent = '✓ In';
+      Components.showToast('Attendee checked in', 'success');
     } catch (err) {
       Components.showToast(err.message, 'error');
     }
