@@ -7,3 +7,6 @@ yarn-error.log*
 uploads/temp/
 .gemini/
 database/.dev-db-uri
+node-v20.11.1-win-x64/
+node.zip
+
