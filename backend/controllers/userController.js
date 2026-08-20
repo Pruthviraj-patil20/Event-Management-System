@@ -14,13 +14,52 @@ const updateProfile = async (req, res, next) => {
     if (phone !== undefined) user.phone = phone;
     if (bio !== undefined) user.bio = bio;
     if (organizationName !== undefined) user.organizationName = organizationName;
-    if (profileImage) user.profileImage = profileImage;
+    if (profileImage !== undefined) user.profileImage = profileImage;
 
     await user.save();
 
     res.json({
       success: true,
       message: 'Profile updated successfully.',
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        profileImage: user.profileImage,
+        organizationName: user.organizationName,
+        bio: user.bio,
+        favorites: user.favorites
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+// @desc    Upload user avatar photo
+// @route   POST /api/users/avatar
+// @access  Private
+const uploadAvatar = async (req, res, next) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, message: 'Please upload a valid image file (JPG, PNG, WEBP)' });
+    }
+
+    const avatarUrl = `/uploads/temp/${req.file.filename}`;
+    const user = await User.findById(req.user._id);
+    if (!user) {
+      return res.status(404).json({ success: false, message: 'User not found' });
+    }
+
+    user.profileImage = avatarUrl;
+    await user.save();
+
+    res.json({
+      success: true,
+      message: 'Avatar uploaded and profile updated successfully.',
+      avatarUrl,
       user: {
         id: user._id,
         name: user.name,
@@ -161,6 +200,7 @@ const deleteUser = async (req, res, next) => {
 
 module.exports = {
   updateProfile,
+  uploadAvatar,
   toggleFavorite,
   getAllUsers,
   updateUserRole,

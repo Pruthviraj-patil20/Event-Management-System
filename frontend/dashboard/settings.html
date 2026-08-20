@@ -16,6 +16,8 @@
   <link rel="stylesheet" href="/css/global.css">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/modal.css">
+  <link rel="stylesheet" href="/css/avatar-modal.css">
   <link rel="stylesheet" href="/css/notifications.css">
   <link rel="stylesheet" href="/css/themes.css">
   <link rel="stylesheet" href="/css/animations.css">
@@ -61,10 +63,39 @@
 
       <main class="dashboard-body">
         <div style="max-width: 680px;">
+
+          <!-- Interactive Profile Picture Card -->
+          <div class="profile-picture-card">
+            <div class="profile-avatar-clickable" id="profileAvatarTrigger" title="Click to choose emoji avatar or upload photo">
+              <img id="settingsAvatarPreviewImg" src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80" alt="Profile Picture">
+              <div class="profile-avatar-badge">
+                <span style="font-size: 1.25rem;">📷</span>
+                <span>Change</span>
+              </div>
+            </div>
+            <div class="profile-picture-meta">
+              <div class="profile-picture-name" id="settingsDisplayUserName">User Profile</div>
+              <div style="color: var(--text-muted); font-size: var(--font-size-sm); margin-bottom: 0.25rem;">
+                Click your profile picture to choose from emoji avatars or upload a custom photo.
+              </div>
+              <div class="profile-picture-actions">
+                <button type="button" class="btn btn-primary btn-sm" id="openAvatarModalBtn">
+                  ✨ Change Avatar / Photo
+                </button>
+                <button type="button" class="btn btn-secondary btn-sm" id="resetAvatarBtn" title="Reset to default EventSphere avatar">
+                  🔄 Reset Default
+                </button>
+              </div>
+            </div>
+          </div>
+
           <form id="profileSettingsForm">
             <div class="form-section-card">
-              <h2 class="form-section-title">Personal Profile</h2>
-              <p class="form-section-desc">Manage your personal contact info and public avatar.</p>
+              <h2 class="form-section-title">Personal Details</h2>
+              <p class="form-section-desc">Manage your personal contact info and organization profile.</p>
+
+              <!-- Hidden avatar field synced with AvatarModal -->
+              <input type="hidden" id="settingsAvatar">
 
               <div class="form-group">
                 <label for="settingsName" class="form-label form-label-required">Full Name</label>
@@ -79,11 +110,6 @@
               <div class="form-group">
                 <label for="settingsPhone" class="form-label">Phone Number</label>
                 <input type="tel" id="settingsPhone" class="input-control">
-              </div>
-
-              <div class="form-group">
-                <label for="settingsAvatar" class="form-label">Avatar Image URL</label>
-                <input type="url" id="settingsAvatar" class="input-control">
               </div>
 
               <div class="form-group">
@@ -109,6 +135,7 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/components.js"></script>
+  <script src="/js/avatar-modal.js"></script>
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
@@ -118,10 +145,45 @@
         document.getElementById('settingsName').value = user.name || '';
         document.getElementById('settingsEmail').value = user.email || '';
         document.getElementById('settingsPhone').value = user.phone || '';
-        document.getElementById('settingsAvatar').value = user.profileImage || '';
+        document.getElementById('settingsAvatar').value = user.profileImage || AvatarModal.DEFAULT_AVATAR;
         document.getElementById('settingsOrgName').value = user.organizationName || '';
         document.getElementById('settingsBio').value = user.bio || '';
+        document.getElementById('settingsDisplayUserName').textContent = user.name || 'User Profile';
+        
+        const previewImg = document.getElementById('settingsAvatarPreviewImg');
+        if (previewImg) {
+          previewImg.src = user.profileImage || AvatarModal.DEFAULT_AVATAR;
+        }
       }
+
+      // Bind Avatar Modal triggers
+      const openModal = () => {
+        const currentAvatar = document.getElementById('settingsAvatar').value || AvatarModal.DEFAULT_AVATAR;
+        AvatarModal.open({
+          currentAvatar,
+          onSave: (newAvatarUrl) => {
+            document.getElementById('settingsAvatar').value = newAvatarUrl;
+            document.getElementById('settingsAvatarPreviewImg').src = newAvatarUrl;
+          }
+        });
+      };
+
+      document.getElementById('profileAvatarTrigger')?.addEventListener('click', openModal);
+      document.getElementById('openAvatarModalBtn')?.addEventListener('click', openModal);
+
+      document.getElementById('resetAvatarBtn')?.addEventListener('click', async () => {
+        try {
+          const defaultAvatar = AvatarModal.DEFAULT_AVATAR;
+          const data = await API.put('/users/profile', { profileImage: defaultAvatar });
+          API.setCurrentUser(data.user);
+          document.getElementById('settingsAvatar').value = defaultAvatar;
+          document.getElementById('settingsAvatarPreviewImg').src = defaultAvatar;
+          AvatarModal.broadcastAvatarUpdate(defaultAvatar);
+          Components.showToast('Profile picture reset to default.', 'info');
+        } catch (err) {
+          Components.showToast(err.message, 'error');
+        }
+      });
 
       const form = document.getElementById('profileSettingsForm');
       form.addEventListener('submit', async (e) => {
@@ -136,6 +198,7 @@
           };
           const data = await API.put('/users/profile', payload);
           API.setCurrentUser(data.user);
+          document.getElementById('settingsDisplayUserName').textContent = data.user.name;
           Components.showToast('Profile updated successfully!', 'success');
         } catch (err) {
           Components.showToast(err.message, 'error');

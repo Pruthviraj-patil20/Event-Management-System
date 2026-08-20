@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="/css/admin/admin-tables.css">
   <link rel="stylesheet" href="/css/admin/admin-forms.css">
   <link rel="stylesheet" href="/css/admin/admin-modal.css">
+  <link rel="stylesheet" href="/css/avatar-modal.css">
   <link rel="stylesheet" href="/css/admin/admin-responsive.css">
 </head>
 <body class="admin-body">
@@ -42,10 +43,19 @@
           <div class="admin-card">
             <div class="admin-card-body">
               <div style="display:flex;align-items:center;gap:var(--space-5);margin-bottom:var(--space-5);">
-                <img class="admin-avatar admin-avatar-xl" src="" alt="Profile" data-preview>
+                <div class="profile-avatar-clickable" id="adminAvatarClickable" style="width: 80px; height: 80px; min-width: 80px;" title="Click to choose avatar or upload photo">
+                  <img class="admin-avatar admin-avatar-xl" src="" alt="Profile" data-preview style="width: 100%; height: 100%;">
+                  <div class="profile-avatar-badge">
+                    <span style="font-size: 1rem;">📷</span>
+                    <span>Edit</span>
+                  </div>
+                </div>
                 <div>
                   <div class="admin-card-title" data-name>—</div>
-                  <div style="color:var(--text-secondary);font-size:var(--font-size-sm);">Administrator</div>
+                  <div style="color:var(--text-secondary);font-size:var(--font-size-sm);margin-bottom: 0.5rem;">Administrator</div>
+                  <button type="button" class="admin-btn admin-btn-secondary admin-btn-sm" id="adminChangeAvatarBtn" style="font-size: 0.75rem; padding: 0.25rem 0.6rem;">
+                    ✨ Change Picture
+                  </button>
                 </div>
               </div>
               <div class="admin-form">
@@ -66,10 +76,7 @@
                     <label class="admin-form-label">Organization</label>
                     <input class="admin-input" data-p="organizationName">
                   </div>
-                  <div class="admin-form-group" style="grid-column:1/-1;">
-                    <label class="admin-form-label">Profile Image URL</label>
-                    <input class="admin-input" data-p="profileImage" placeholder="https://…">
-                  </div>
+                  <input type="hidden" data-p="profileImage">
                   <div class="admin-form-group" style="grid-column:1/-1;">
                     <label class="admin-form-label">Bio</label>
                     <textarea class="admin-input" rows="3" data-p="bio"></textarea>
@@ -114,6 +121,8 @@
   <script src="/js/theme.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
+  <script src="/js/components.js"></script>
+  <script src="/js/avatar-modal.js"></script>
   <script src="/js/admin/admin-layout.js"></script>
   <script src="/js/admin/profile.js"></script>
 </body>

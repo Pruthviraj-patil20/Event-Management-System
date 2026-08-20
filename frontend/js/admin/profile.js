@@ -11,12 +11,21 @@ const AdminProfile = {
     document.querySelector('[data-save-profile]').addEventListener('click', () => this.saveProfile());
     document.querySelector('[data-change-password]').addEventListener('click', () => this.changePassword());
 
-    const avatar = document.querySelector('[data-preview]');
-    if (avatar) {
-      document.querySelector('[data-p="profileImage"]').addEventListener('input', (e) => {
-        if (e.target.value) avatar.src = e.target.value;
+    const openModal = () => {
+      const currentAvatar = this.user?.profileImage || AvatarModal.DEFAULT_AVATAR;
+      AvatarModal.open({
+        currentAvatar,
+        onSave: (newAvatarUrl) => {
+          if (this.user) this.user.profileImage = newAvatarUrl;
+          document.querySelector('[data-p="profileImage"]').value = newAvatarUrl;
+          const avatar = document.querySelector('[data-preview]');
+          if (avatar) avatar.src = newAvatarUrl;
+        }
       });
-    }
+    };
+
+    document.getElementById('adminAvatarClickable')?.addEventListener('click', openModal);
+    document.getElementById('adminChangeAvatarBtn')?.addEventListener('click', openModal);
 
     this.load();
   },

@@ -41,6 +41,7 @@ const Components = {
             ${isOrganizer ? '<a href="/dashboard/create-event.html" class="dropdown-item">➕ Create Event</a>' : ''}
             <a href="/dashboard/notifications.html" class="dropdown-item">🔔 Notifications</a>
             <a href="/dashboard/settings.html" class="dropdown-item">⚙️ Profile Settings</a>
+            <a href="javascript:void(0)" onclick="if (typeof AvatarModal !== 'undefined') { AvatarModal.open(); } else { window.location.href='/dashboard/settings.html'; }" class="dropdown-item">✨ Change Avatar</a>
             <div class="dropdown-divider"></div>
             <a href="javascript:void(0)" onclick="Auth.logout()" class="dropdown-item" style="color: var(--color-error);">🚪 Sign Out</a>
           </div>
