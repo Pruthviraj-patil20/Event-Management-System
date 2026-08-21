@@ -12,6 +12,7 @@ const Tickets = {
     if (!container) return;
 
     try {
+      container.innerHTML = Components.renderEventSkeletons(4);
       const data = await API.get('/tickets/my');
       this.tickets = data.tickets || [];
       this.renderTicketsList();

@@ -151,9 +151,35 @@ const AdminTickets = {
   },
 
   async checkin(id, isChecked) {
+    const btn = document.querySelector(`[data-checkin="${id}"]`);
+    const prevTitle = btn ? btn.title : '';
+    const prevChecked = btn ? btn.dataset.checked : '';
+    const prevHtml = btn ? btn.innerHTML : '';
     try {
-      const data = await API.post(`/admin/tickets/${id}/checkin`, {});
-      AdminLayout.toast(data.message, 'success');
+      await Utils.optimistic(
+        () => {
+          if (btn) {
+            btn.dataset.checked = isChecked ? '0' : '1';
+            btn.classList.toggle('amber', !isChecked);
+            btn.classList.toggle('success', isChecked);
+            btn.title = isChecked ? 'Mark check-in' : 'Revert check-in';
+            btn.setAttribute('aria-busy', 'true');
+            btn.innerHTML = AdminLayout.spinnerHtml(14);
+          }
+        },
+        () => API.post(`/admin/tickets/${id}/checkin`, {}),
+        () => {
+          if (btn) {
+            btn.dataset.checked = prevChecked;
+            btn.classList.toggle('amber', isChecked);
+            btn.classList.toggle('success', !isChecked);
+            btn.title = prevTitle;
+            btn.removeAttribute('aria-busy');
+            btn.innerHTML = prevHtml;
+          }
+        }
+      );
+      AdminLayout.toast(isChecked ? 'Check-in reverted' : 'Checked in', 'success');
       this.load();
     } catch (err) {
       AdminLayout.handleApiError(err);

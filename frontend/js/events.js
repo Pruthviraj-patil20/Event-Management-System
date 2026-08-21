@@ -15,12 +15,14 @@ const EventsHandler = {
     minPrice: '',
     maxPrice: '',
     sort: 'upcoming',
-    viewMode: 'grid'
+    viewMode: 'grid',
+    loading: false
   },
   locationSelector: null,
+  _fetchController: null,
+  _virtualHandle: null,
 
   async init() {
-    // Read query params from URL
     const urlCategory = Utils.getUrlParam('category');
     const urlSearch = Utils.getUrlParam('search');
     const urlState = Utils.getUrlParam('state');
@@ -83,13 +85,11 @@ const EventsHandler = {
 
   bindFilterEvents() {
     const searchInput = document.getElementById('eventSearchInput');
-    if (searchInput) {
-      searchInput.addEventListener('input', Utils.debounce((e) => {
-        this.state.search = e.target.value.trim();
-        this.state.page = 1;
-        this.fetchEvents();
-      }, 400));
-    }
+    Utils.bindDebouncedSearch(searchInput, (e) => {
+      this.state.search = e.target.value.trim();
+      this.state.page = 1;
+      this.fetchEvents();
+    }, 400);
 
     const categorySelect = document.getElementById('categoryFilter');
     if (categorySelect) {
@@ -121,6 +121,17 @@ const EventsHandler = {
       });
     }
 
+    const filtersForm = document.getElementById('eventFiltersForm');
+    if (filtersForm) {
+      filtersForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        this.state.search = searchInput ? searchInput.value.trim() : this.state.search;
+        this.state.category = categorySelect ? categorySelect.value : this.state.category;
+        this.state.page = 1;
+        this.fetchEvents();
+      });
+    }
+
     const resetBtn = document.getElementById('resetFiltersBtn');
     if (resetBtn) {
       resetBtn.addEventListener('click', () => {
@@ -142,10 +153,33 @@ const EventsHandler = {
     }
   },
 
+  setListLoading(isLoading) {
+    this.state.loading = isLoading;
+    const container = document.getElementById('eventsGrid');
+    const explorer = document.querySelector('.events-explorer-wrap');
+    const countEl = document.getElementById('resultsCount');
+    const sidebar = document.querySelector('.filter-sidebar');
+
+    if (container) container.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+    if (explorer) explorer.classList.toggle('is-loading', isLoading);
+    if (sidebar) sidebar.classList.toggle('filters-disabled', isLoading);
+
+    if (countEl) {
+      if (isLoading) {
+        countEl.innerHTML = `<span class="spinner spinner-primary spinner-inline"></span> Updating results…`;
+      }
+    }
+  },
+
   async fetchEvents() {
     const container = document.getElementById('eventsGrid');
     if (!container) return;
 
+    if (this._fetchController) this._fetchController.abort();
+    this._fetchController = typeof AbortController !== 'undefined' ? new AbortController() : null;
+    const requestId = (this._fetchId = (this._fetchId || 0) + 1);
+
+    this.setListLoading(true);
     container.innerHTML = Components.renderEventSkeletons(this.state.limit);
 
     try {
@@ -162,23 +196,54 @@ const EventsHandler = {
       if (this.state.minPrice) params.minPrice = this.state.minPrice;
       if (this.state.maxPrice) params.maxPrice = this.state.maxPrice;
 
-      const data = await API.get('/events', params);
+      const data = await API.get('/events', params, {
+        signal: this._fetchController ? this._fetchController.signal : undefined
+      });
+
       this.state.events = data.events || [];
       this.state.total = data.total || 0;
+
+      if (this.state.total > VirtualList.THRESHOLD && this.state.events.length <= VirtualList.THRESHOLD) {
+        const full = await API.get('/events', { ...params, page: 1, limit: Math.min(this.state.total, 200) }, {
+          signal: this._fetchController ? this._fetchController.signal : undefined
+        });
+        this.state.events = full.events || this.state.events;
+        this.state.total = full.total || this.state.total;
+      }
 
       this.renderEventsList();
       this.renderPagination(data.totalPages, data.currentPage);
       this.updateResultsCount();
     } catch (err) {
-      container.innerHTML = Components.renderEmptyState('Failed to load events', err.message);
+      if (err.name === 'AbortError') return;
+      container.innerHTML = Components.renderEmptyState(
+        'Failed to load events',
+        err.message,
+        '<button type="button" class="btn btn-secondary btn-sm" style="margin-top: 1rem;" onclick="EventsHandler.fetchEvents()">Retry</button>'
+      );
+    } finally {
+      if (this._fetchId === requestId) this.setListLoading(false);
     }
+  },
+
+  gridColumnCount() {
+    if (typeof window === 'undefined') return 3;
+    if (window.innerWidth < 768) return 1;
+    if (window.innerWidth < 1100) return 2;
+    return 3;
   },
 
   renderEventsList() {
     const container = document.getElementById('eventsGrid');
     if (!container) return;
 
+    if (this._virtualHandle) {
+      this._virtualHandle.destroy();
+      this._virtualHandle = null;
+    }
+
     if (this.state.events.length === 0) {
+      container.classList.remove('virtual-list-viewport');
       container.innerHTML = Components.renderEmptyState(
         'No Events Matching Your Filters',
         'Try clearing your search filters or exploring another category.',
@@ -189,18 +254,36 @@ const EventsHandler = {
 
     const currentUser = API.getCurrentUser();
     const userFavorites = currentUser?.favorites || [];
+    const renderCard = (event) => Components.renderEventCard(event, userFavorites.includes(event._id));
 
-    container.innerHTML = this.state.events
-      .map(event => Components.renderEventCard(event, userFavorites.includes(event._id)))
-      .join('');
+    if (VirtualList.shouldVirtualize(this.state.events.length)) {
+      this._virtualHandle = VirtualList.mount({
+        viewport: container,
+        items: this.state.events,
+        itemHeight: 420,
+        columns: this.gridColumnCount(),
+        renderItems: (windowEl, slice) => {
+          windowEl.className = 'virtual-list-window grid-3';
+          windowEl.innerHTML = slice.map(renderCard).join('');
+          Utils.enhanceLazyImages(windowEl);
+        }
+      });
+      return;
+    }
+
+    container.classList.remove('virtual-list-viewport');
+    container.innerHTML = this.state.events.map(renderCard).join('');
+    Utils.enhanceLazyImages(container);
   },
 
   renderPagination(totalPages = 1, currentPage = 1) {
     const paginationEl = document.getElementById('eventsPagination');
     if (!paginationEl) return;
 
-    if (totalPages <= 1) {
-      paginationEl.innerHTML = '';
+    if (VirtualList.shouldVirtualize(this.state.events.length) || totalPages <= 1) {
+      paginationEl.innerHTML = VirtualList.shouldVirtualize(this.state.events.length)
+        ? `<p class="virtual-list-hint">Showing ${this.state.events.length} events with virtual scrolling</p>`
+        : '';
       return;
     }
 
@@ -248,16 +331,33 @@ const EventsHandler = {
       return;
     }
 
+    const wasActive = btnEl ? btnEl.classList.contains('active') : false;
+    const prevFavorites = Array.isArray(user.favorites) ? [...user.favorites] : [];
+
     try {
-      const data = await API.post(`/users/favorites/${eventId}`, {});
-      if (btnEl) {
-        btnEl.classList.toggle('active', data.isFavorite);
+      const data = await Utils.optimistic(
+        () => {
+          if (btnEl) btnEl.classList.toggle('active', !wasActive);
+          user.favorites = wasActive
+            ? prevFavorites.filter((id) => id !== eventId)
+            : [...prevFavorites, eventId];
+          API.setCurrentUser(user);
+        },
+        () => API.post(`/users/favorites/${eventId}`, {}),
+        () => {
+          if (btnEl) btnEl.classList.toggle('active', wasActive);
+          user.favorites = prevFavorites;
+          API.setCurrentUser(user);
+        }
+      );
+
+      if (data && Array.isArray(data.favorites)) {
+        const latest = API.getCurrentUser() || user;
+        latest.favorites = data.favorites;
+        API.setCurrentUser(latest);
+        if (btnEl) btnEl.classList.toggle('active', data.isFavorite);
       }
-      Components.showToast(data.message, 'success');
-      
-      // Update local storage user
-      user.favorites = data.favorites;
-      API.setCurrentUser(user);
+      Components.showToast(wasActive ? 'Removed from favorites' : 'Saved to favorites', 'success');
     } catch (err) {
       Components.showToast(err.message, 'error');
     }

@@ -7,7 +7,7 @@ const AdminEvents = {
 
   state: {
     page: 1,
-    limit: 15,
+    limit: 100,
     search: '',
     category: 'all',
     status: 'all',
@@ -86,22 +86,12 @@ const AdminEvents = {
     }
   },
 
-  render() {
-    const tbody = document.getElementById('eventsTable');
-    const counts = document.querySelectorAll('[data-count]');
-
-    if (!this.state.events.length) {
-      tbody.innerHTML = `<tr><td colspan="8">${AdminLayout.emptyState({ icon: '📅', title: 'No events found', desc: 'No events match your search or filters.', action: '<button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="AdminEvents.resetFilters()">Clear Filters</button>' })}</td></tr>`;
-      counts.forEach((c) => (c.textContent = '0 events'));
-      document.querySelector('[data-pagination]').innerHTML = '';
-      return;
-    }
-
-    tbody.innerHTML = this.state.events.map((e) => `
+  rowHtml(e) {
+    return `
       <tr>
         <td>
           <div class="admin-user-cell">
-            <img class="admin-event-thumb" src="${e.image || ''}" alt="">
+            <img class="admin-event-thumb lazy-img" src="${Utils.PLACEHOLDER_IMG}" data-src="${e.image || ''}" alt="" loading="lazy" decoding="async">
             <div class="meta">
               <strong>${Utils.escapeHtml(e.title)} ${e.featured ? '<span class="admin-star-badge">⭐ Featured</span>' : ''}</strong>
               <span>${Utils.escapeHtml(e.venue?.name || e.venueDetails?.name || '')} · ${Utils.escapeHtml(e.venue?.city || e.venueDetails?.city || '')}</span>
@@ -127,9 +117,41 @@ const AdminEvents = {
           </div>
         </td>
       </tr>
-    `).join('');
+    `;
+  },
 
-    counts.forEach((c) => (c.textContent = `${this.state.total} event${this.state.total === 1 ? '' : 's'} · Page ${this.state.page} of ${this.state.totalPages || 1}`));
+  bindRowActions(tbody) {
+    tbody.querySelectorAll('[data-feature]').forEach((b) => b.addEventListener('click', () => this.toggleFeatured(b.dataset.feature, b.dataset.featured === '1')));
+    tbody.querySelectorAll('[data-review]').forEach((b) => b.addEventListener('click', () => this.openReview(b.dataset.review)));
+    tbody.querySelectorAll('[data-approve]').forEach((b) => b.addEventListener('click', () => this.approve(b.dataset.approve)));
+    tbody.querySelectorAll('[data-reject]').forEach((b) => b.addEventListener('click', () => this.openReject(b.dataset.reject)));
+    tbody.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => this.del(b.dataset.delete)));
+    Utils.enhanceLazyImages(tbody);
+  },
+
+  render() {
+    const tbody = document.getElementById('eventsTable');
+    const counts = document.querySelectorAll('[data-count]');
+
+    if (!this.state.events.length) {
+      tbody.innerHTML = `<tr><td colspan="8">${AdminLayout.emptyState({ icon: '📅', title: 'No events found', desc: 'No events match your search or filters.', action: '<button class="admin-btn admin-btn-secondary admin-btn-sm" onclick="AdminEvents.resetFilters()">Clear Filters</button>' })}</td></tr>`;
+      counts.forEach((c) => (c.textContent = '0 events'));
+      document.querySelector('[data-pagination]').innerHTML = '';
+      return;
+    }
+
+    if (this._virtualHandle) this._virtualHandle.destroy();
+    this._virtualHandle = VirtualList.renderTableRows({
+      tbody,
+      items: this.state.events,
+      itemHeight: 72,
+      colSpan: 8,
+      renderRow: (e) => this.rowHtml(e),
+      onPaint: (el) => this.bindRowActions(el)
+    });
+
+    const virtualNote = VirtualList.shouldVirtualize(this.state.events.length) ? ' · virtual scroll' : '';
+    counts.forEach((c) => (c.textContent = `${this.state.total} event${this.state.total === 1 ? '' : 's'} · Page ${this.state.page} of ${this.state.totalPages || 1}${virtualNote}`));
 
     const pag = document.querySelector('[data-pagination]');
     pag.innerHTML = AdminLayout.paginationHtml(this.state.totalPages, this.state.page, (p) => {
@@ -137,12 +159,6 @@ const AdminEvents = {
       this.load();
     });
     AdminLayout.bindPagination(pag);
-
-    tbody.querySelectorAll('[data-feature]').forEach((b) => b.addEventListener('click', () => this.toggleFeatured(b.dataset.feature, b.dataset.featured === '1')));
-    tbody.querySelectorAll('[data-review]').forEach((b) => b.addEventListener('click', () => this.openReview(b.dataset.review)));
-    tbody.querySelectorAll('[data-approve]').forEach((b) => b.addEventListener('click', () => this.approve(b.dataset.approve)));
-    tbody.querySelectorAll('[data-reject]').forEach((b) => b.addEventListener('click', () => this.openReject(b.dataset.reject)));
-    tbody.querySelectorAll('[data-delete]').forEach((b) => b.addEventListener('click', () => this.del(b.dataset.delete)));
   },
 
   resetFilters() {

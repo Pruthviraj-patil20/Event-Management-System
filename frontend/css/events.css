@@ -344,3 +344,23 @@
   border-color: var(--primary-600);
   color: #FFFFFF;
 }
+
+.events-explorer-wrap.is-loading .events-grid-loading,
+.events-explorer-wrap.is-loading #eventsGrid {
+  opacity: 0.72;
+  pointer-events: none;
+}
+
+.filter-sidebar.filters-disabled {
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.checkout-status {
+  margin-top: 0.75rem;
+  font-size: 0.8125rem;
+  color: var(--primary-600);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}

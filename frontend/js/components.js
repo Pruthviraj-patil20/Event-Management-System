@@ -228,10 +228,12 @@ const Components = {
     return `
       <div class="event-card animate-fade-in-up" data-event-id="${event._id}">
         <div class="event-card-media">
-          <img src="${event.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'}" 
-               alt="${Utils.escapeHtml(event.title)}" 
-               class="event-card-img" 
-               loading="lazy">
+          <img src="${Utils.PLACEHOLDER_IMG}"
+               data-src="${event.image || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=800&q=80'}"
+               alt="${Utils.escapeHtml(event.title)}"
+               class="event-card-img lazy-img"
+               loading="lazy"
+               decoding="async">
           <span class="badge badge-primary event-card-badge">${Utils.escapeHtml(event.category)}</span>
           <button class="event-card-fav-btn ${isFavorite ? 'active' : ''}" 
                   onclick="EventsHandler.toggleFavorite('${event._id}', this, event)" 
