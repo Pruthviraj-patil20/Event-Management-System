@@ -2039,6 +2039,64 @@ h1, h2, h3, h4, h5, h6 {
   color: #f87171;
 }
 
+/* Dedicated Live Event Action Buttons */
+.btn-live {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.12);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  font-weight: 700;
+  font-size: 0.9375rem;
+  padding: 10px 20px;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-bounce);
+  box-shadow: 0 0 16px rgba(239, 68, 68, 0.18);
+  position: relative;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-live:hover {
+  background: #ef4444;
+  color: #ffffff;
+  border-color: #ef4444;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(239, 68, 68, 0.38);
+}
+
+.btn-live:active {
+  transform: translateY(0);
+}
+
+.btn-live.btn-lg {
+  padding: 14px 26px;
+  font-size: 1rem;
+}
+
+.btn-live.btn-sm {
+  padding: 6px 14px;
+  font-size: 0.8125rem;
+}
+
+.live-count-pill {
+  background: rgba(239, 68, 68, 0.25);
+  color: #ef4444;
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  transition: all var(--transition-fast);
+}
+
+.btn-live:hover .live-count-pill {
+  background: rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+}
+
 .badge-upcoming {
   display: inline-flex;
   align-items: center;

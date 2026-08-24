@@ -40,7 +40,7 @@
       <!-- Center: Navigation Menu -->
       <nav class="nav-menu" aria-label="Primary Navigation">
         <a href="index.html" class="nav-link active">Home</a>
-        <a href="#liveSection" class="nav-link">
+        <a href="#liveSection" class="nav-link" onclick="if(window.homeFilterEngine){ window.homeFilterEngine.filters.tab='live'; window.homeFilterEngine.applyFilters(); }">
           <span class="live-pulse-dot" style="width: 6px; height: 6px;"></span> Live Now
         </a>
         <a href="explore.html" class="nav-link">Explore All</a>
@@ -51,6 +51,13 @@
 
       <!-- Right: Action Controls -->
       <div class="nav-actions">
+        <!-- Dedicated Live Events Button -->
+        <a href="#liveSection" class="btn-live btn-sm" id="navLiveEventsBtn" onclick="if(window.homeFilterEngine){ window.homeFilterEngine.filters.tab='live'; window.homeFilterEngine.applyFilters(); }">
+          <span class="live-pulse-dot" style="width: 6px; height: 6px;"></span>
+          <span>Live Events</span>
+          <span class="live-count-pill" id="navLiveCount">4</span>
+        </a>
+
         <!-- Quick Search Link -->
         <a href="explore.html" class="btn-icon" aria-label="Search Events" title="Search Events">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -132,7 +139,7 @@
   <!-- Mobile Drawer -->
   <div class="mobile-nav-drawer">
     <a href="index.html" class="nav-link active">Home</a>
-    <a href="#liveSection" class="nav-link">🔴 Live & Upcoming</a>
+    <a href="#liveSection" class="nav-link" onclick="if(window.homeFilterEngine){ window.homeFilterEngine.filters.tab='live'; window.homeFilterEngine.applyFilters(); }">🔴 Live Events Now</a>
     <a href="explore.html" class="nav-link">Explore Events</a>
     <a href="#categoriesSection" class="nav-link">Categories</a>
     <a href="about.html" class="nav-link">About Us</a>
@@ -186,10 +193,13 @@
     </div>
 
     <div class="container hero-content">
-      <div class="hero-badge shimmer-badge">
-        <span class="hero-badge-spark">✦</span>
-        <span>The Next Generation Event Experience</span>
-      </div>
+      <!-- Interactive Clickable Live Banner -->
+      <a href="#liveSection" class="hero-badge shimmer-badge" style="text-decoration: none; cursor: pointer;" onclick="if(window.homeFilterEngine){ window.homeFilterEngine.filters.tab='live'; window.homeFilterEngine.applyFilters(); }">
+        <span class="live-pulse-dot" style="width: 8px; height: 8px;"></span>
+        <span style="font-weight: 800; color: #ef4444;">LIVE NOW:</span>
+        <span id="heroLiveHeadline">Discover Experiences Happening Right Now Across India</span>
+        <span style="opacity: 0.8; margin-left: 4px; font-weight: 700;">→</span>
+      </a>
 
       <h1 class="hero-title">
         Discover experiences <br/>
@@ -200,9 +210,15 @@
         Find conferences, concerts, workshops, festivals and summits happening around you. Plan your schedule, discover new communities, and book unforgettable experiences.
       </p>
 
+      <!-- Hero Action Buttons with Dedicated Live Events Button -->
       <div class="hero-cta-group">
-        <a href="#liveSection" class="btn btn-primary btn-lg">
-          <span>Explore Live & Upcoming</span>
+        <a href="#liveSection" class="btn btn-live btn-lg" id="heroLiveEventsBtn" onclick="if(window.homeFilterEngine){ window.homeFilterEngine.filters.tab='live'; window.homeFilterEngine.applyFilters(); }">
+          <span class="live-pulse-dot"></span>
+          <span>Live Events</span>
+          <span class="live-count-pill" id="heroLiveCountPill">4 LIVE</span>
+        </a>
+        <a href="explore.html" class="btn btn-primary btn-lg">
+          <span>Explore All</span>
           <span>→</span>
         </a>
         <a href="contact.html?type=host" class="btn btn-secondary btn-lg">
@@ -558,10 +574,10 @@
   <script src="js/main.js"></script>
   <script>
     // Initialize Homepage Specific Components
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       // 1. Populate Category Cards
       const catContainer = document.getElementById('categoriesContainer');
-      if (catContainer) {
+      if (catContainer && typeof ALL_CATEGORIES !== 'undefined') {
         catContainer.innerHTML = ALL_CATEGORIES.slice(1, 10).map(cat => `
           <a href="explore.html?category=${encodeURIComponent(cat.name)}" class="category-card">
             <div class="category-icon-box">${cat.icon}</div>
@@ -580,6 +596,25 @@
         featuredContainer: featuredGrid,
         countElement: countText
       });
+
+      // 3. Dynamically update Live Badges and Counters on Hero Screen
+      try {
+        const events = await (typeof getEvents === 'function' ? getEvents() : (window.MOCK_EVENTS || []));
+        const liveCount = events.filter(e => (typeof isEventLive === 'function' ? isEventLive(e) : false)).length;
+        
+        const heroPill = document.getElementById('heroLiveCountPill');
+        if (heroPill) heroPill.textContent = `${liveCount} LIVE`;
+
+        const navPill = document.getElementById('navLiveCount');
+        if (navPill) navPill.textContent = liveCount;
+
+        const heroHeadline = document.getElementById('heroLiveHeadline');
+        if (heroHeadline && liveCount > 0) {
+          heroHeadline.textContent = `${liveCount} Events Happening Right Now Across India`;
+        }
+      } catch (e) {
+        console.log('Live counter update:', e);
+      }
     });
   </script>
 </body>
