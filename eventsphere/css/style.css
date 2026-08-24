@@ -180,6 +180,7 @@ h1, h2, h3, h4, h5, h6 {
 .gradient-text {
   background: var(--gradient-accent);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   display: inline-block;
 }
@@ -187,6 +188,7 @@ h1, h2, h3, h4, h5, h6 {
 .gradient-text-subtle {
   background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-indigo) 100%);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
@@ -1138,6 +1140,7 @@ h1, h2, h3, h4, h5, h6 {
   line-height: 1.35;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 2.7em;
@@ -1159,6 +1162,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 18px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
   height: 2.45em;
