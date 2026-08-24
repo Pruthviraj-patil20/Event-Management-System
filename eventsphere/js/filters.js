@@ -1,85 +1,139 @@
 /**
- * EVENTSPHERE — MULTI-CRITERIA FILTERING & SEARCH ENGINE
+ * EVENTSPHERE — LIVE & UPCOMING MULTI-CRITERIA FILTERING ENGINE
  * Pure Vanilla JavaScript ES6+
+ * Supports Real-Time Statuses, India-Wide Cities, Date Ranges, and Async Data Layer
  */
 
 class EventFilterEngine {
-  constructor(events, options = {}) {
-    this.events = events;
+  constructor(options = {}) {
     this.container = options.container || null;
+    this.featuredContainer = options.featuredContainer || null;
     this.countElement = options.countElement || null;
-    this.emptyElement = options.emptyElement || null;
-    
+    this.events = [];
+    this.isLoading = false;
+    this.debounceTimer = null;
+
     // Active Filter State
     this.filters = {
-      search: '',
+      tab: 'all', // 'all', 'live', 'upcoming'
+      city: 'All India',
       state: 'all',
-      city: 'all',
       category: 'all',
-      dateRange: 'all',
+      search: '',
+      dateRange: 'all', // 'all', 'today', 'tomorrow', 'this-week', 'this-weekend', 'next-week', 'this-month'
       priceType: 'all', // 'all', 'free', 'paid'
       maxPrice: 5000,
       onlyBookmarked: false,
-      sortBy: 'date-asc'
+      sortBy: 'recommended' // 'recommended', 'happening-now', 'starting-soon', 'nearest-date', 'most-popular', 'price-low', 'price-high'
     };
 
     this.init();
   }
 
-  init() {
+  async init() {
     this.readURLParams();
     this.bindDOMInputs();
-    this.applyFilters();
+    await this.loadEvents();
   }
 
   readURLParams() {
     const params = new URLSearchParams(window.location.search);
+    if (params.has('tab')) this.filters.tab = params.get('tab');
     if (params.has('search')) this.filters.search = params.get('search');
     if (params.has('category')) this.filters.category = params.get('category');
-    if (params.has('state')) this.filters.state = params.get('state');
     if (params.has('city')) this.filters.city = params.get('city');
+    if (params.has('state')) this.filters.state = params.get('state');
+    if (params.has('date')) this.filters.dateRange = params.get('date');
     if (params.has('bookmarked')) this.filters.onlyBookmarked = params.get('bookmarked') === 'true';
   }
 
+  async loadEvents() {
+    this.isLoading = true;
+    this.renderSkeletons();
+
+    try {
+      // Fetch via async data access layer (getEvents)
+      this.events = await getEvents();
+      this.isLoading = false;
+      this.applyFilters();
+    } catch (err) {
+      console.error("Failed to load events:", err);
+      this.isLoading = false;
+      this.renderError();
+    }
+  }
+
   bindDOMInputs() {
-    // Search inputs
+    // 1. Dual Mode Tabs (LIVE NOW vs UPCOMING vs ALL)
+    const tabBtns = document.querySelectorAll('[data-filter="tab"]');
+    tabBtns.forEach(btn => {
+      if (btn.dataset.tab === this.filters.tab) {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+      }
+      btn.addEventListener('click', (e) => {
+        tabBtns.forEach(b => b.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        this.filters.tab = e.currentTarget.dataset.tab;
+        this.applyFilters();
+      });
+    });
+
+    // 2. City Chips & Selectors
+    const cityChips = document.querySelectorAll('[data-filter="city-chip"]');
+    cityChips.forEach(chip => {
+      chip.addEventListener('click', (e) => {
+        cityChips.forEach(c => c.classList.remove('active'));
+        e.currentTarget.classList.add('active');
+        this.filters.city = e.currentTarget.dataset.city;
+        this.applyFilters();
+      });
+    });
+
+    // "Use My Location" Trigger (UI placeholder)
+    const geoBtns = document.querySelectorAll('[data-action="use-my-location"]');
+    geoBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // UI-safe simulation: default to Pune / Mumbai
+        this.filters.city = 'Pune';
+        cityChips.forEach(c => c.classList.toggle('active', c.dataset.city === 'Pune'));
+        if (typeof UI !== 'undefined') {
+          UI.showToast('📍 Located near Pune, Maharashtra (Simulated)', 'info');
+        }
+        this.applyFilters();
+      });
+    });
+
+    // City Select dropdowns
+    const citySelects = document.querySelectorAll('[data-filter="city"]');
+    citySelects.forEach(select => {
+      this.populateCityDropdown(select);
+      if (this.filters.city) select.value = this.filters.city;
+      select.addEventListener('change', (e) => {
+        this.filters.city = e.target.value;
+        cityChips.forEach(c => c.classList.toggle('active', c.dataset.city === e.target.value));
+        this.applyFilters();
+      });
+    });
+
+    // 3. Debounced Keyword Search
     const searchInputs = document.querySelectorAll('[data-filter="search"]');
     searchInputs.forEach(input => {
       if (this.filters.search) input.value = this.filters.search;
       input.addEventListener('input', (e) => {
-        this.filters.search = e.target.value.trim().toLowerCase();
-        this.applyFilters();
+        clearTimeout(this.debounceTimer);
+        this.debounceTimer = setTimeout(() => {
+          this.filters.search = e.target.value.trim().toLowerCase();
+          this.applyFilters();
+        }, 250);
       });
     });
 
-    // State select inputs (with cascading city logic)
-    const stateSelects = document.querySelectorAll('[data-filter="state"]');
-    stateSelects.forEach(select => {
-      this.populateStates(select);
-      if (this.filters.state && this.filters.state !== 'all') {
-        select.value = this.filters.state;
-      }
-      select.addEventListener('change', (e) => {
-        this.filters.state = e.target.value;
-        this.filters.city = 'all';
-        this.updateCitySelects(e.target.value);
-        this.applyFilters();
-      });
-    });
-
-    // City select inputs
-    const citySelects = document.querySelectorAll('[data-filter="city"]');
-    citySelects.forEach(select => {
-      select.addEventListener('change', (e) => {
-        this.filters.city = e.target.value;
-        this.applyFilters();
-      });
-    });
-
-    // Category Buttons / Select
+    // 4. Category Filters
     const categoryEls = document.querySelectorAll('[data-filter="category"]');
     categoryEls.forEach(el => {
       if (el.tagName === 'SELECT') {
+        this.populateCategoryDropdown(el);
         if (this.filters.category) el.value = this.filters.category;
         el.addEventListener('change', (e) => {
           this.filters.category = e.target.value;
@@ -90,8 +144,6 @@ class EventFilterEngine {
           const btn = e.currentTarget;
           const category = btn.dataset.category || 'all';
           this.filters.category = category;
-          
-          // Update active styling
           categoryEls.forEach(b => b.classList.remove('active'));
           btn.classList.add('active');
           this.applyFilters();
@@ -99,7 +151,17 @@ class EventFilterEngine {
       }
     });
 
-    // Price Slider
+    // 5. Date Filters
+    const dateSelects = document.querySelectorAll('[data-filter="date"]');
+    dateSelects.forEach(select => {
+      if (this.filters.dateRange) select.value = this.filters.dateRange;
+      select.addEventListener('change', (e) => {
+        this.filters.dateRange = e.target.value;
+        this.applyFilters();
+      });
+    });
+
+    // 6. Price Slider
     const priceSlider = document.querySelector('[data-filter="price-range"]');
     const priceDisplay = document.querySelector('[data-display="price-value"]');
     if (priceSlider) {
@@ -110,7 +172,7 @@ class EventFilterEngine {
       });
     }
 
-    // Price Type Radio / Checkboxes (Free vs Paid)
+    // 7. Price Type Radio
     const priceTypeRadios = document.querySelectorAll('input[name="price-type"]');
     priceTypeRadios.forEach(radio => {
       radio.addEventListener('change', (e) => {
@@ -119,163 +181,303 @@ class EventFilterEngine {
       });
     });
 
-    // Sort Dropdown
-    const sortSelect = document.querySelector('[data-filter="sort"]');
-    if (sortSelect) {
-      sortSelect.addEventListener('change', (e) => {
+    // 8. Sort Select
+    const sortSelects = document.querySelectorAll('[data-filter="sort"]');
+    sortSelects.forEach(select => {
+      if (this.filters.sortBy) select.value = this.filters.sortBy;
+      select.addEventListener('change', (e) => {
         this.filters.sortBy = e.target.value;
         this.applyFilters();
       });
-    }
+    });
 
-    // Reset Filters Buttons
-    const resetBtns = document.querySelectorAll('[data-action="reset-filters"]');
+    // 9. Reset / Clear Filter Actions
+    const resetBtns = document.querySelectorAll('[data-action="reset-filters"], [data-action="clear-filters"]');
     resetBtns.forEach(btn => {
       btn.addEventListener('click', () => this.resetFilters());
     });
+
+    // 10. Mobile Filter Bottom Sheet
+    this.initMobileFilterSheet();
   }
 
-  populateStates(selectElement) {
-    if (!selectElement) return;
-    selectElement.innerHTML = '<option value="all">All States / UTs</option>';
-    Object.keys(LOCATIONS_MAP).forEach(state => {
+  populateCityDropdown(select) {
+    if (!select) return;
+    select.innerHTML = '<option value="All India">All India</option>';
+    INDIA_CITIES.filter(c => c !== 'All India').forEach(city => {
       const opt = document.createElement('option');
-      opt.value = state;
-      opt.textContent = state;
-      selectElement.appendChild(opt);
+      opt.value = city;
+      opt.textContent = city;
+      select.appendChild(opt);
     });
   }
 
-  updateCitySelects(stateName) {
-    const citySelects = document.querySelectorAll('[data-filter="city"]');
-    citySelects.forEach(select => {
-      select.innerHTML = '<option value="all">All Cities</option>';
-      if (stateName !== 'all' && LOCATIONS_MAP[stateName]) {
-        LOCATIONS_MAP[stateName].forEach(city => {
-          const opt = document.createElement('option');
-          opt.value = city;
-          opt.textContent = city;
-          select.appendChild(opt);
-        });
+  populateCategoryDropdown(select) {
+    if (!select) return;
+    select.innerHTML = '<option value="all">All Categories</option>';
+    ALL_CATEGORIES.filter(c => c.id !== 'all').forEach(cat => {
+      const opt = document.createElement('option');
+      opt.value = cat.name;
+      opt.textContent = `${cat.icon} ${cat.name}`;
+      select.appendChild(opt);
+    });
+  }
+
+  initMobileFilterSheet() {
+    const trigger = document.querySelector('[data-action="open-mobile-filters"]');
+    const sheet = document.querySelector('.mobile-filter-sheet');
+    if (!trigger || !sheet) return;
+
+    trigger.addEventListener('click', () => {
+      sheet.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    });
+
+    const closeBtns = sheet.querySelectorAll('[data-action="close-mobile-filters"]');
+    closeBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        sheet.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    sheet.addEventListener('click', (e) => {
+      if (e.target === sheet) {
+        sheet.classList.remove('open');
+        document.body.style.overflow = '';
       }
     });
+
+    const applyBtn = sheet.querySelector('[data-action="apply-mobile-filters"]');
+    if (applyBtn) {
+      applyBtn.addEventListener('click', () => {
+        sheet.classList.remove('open');
+        document.body.style.overflow = '';
+        this.applyFilters();
+      });
+    }
   }
 
   resetFilters() {
     this.filters = {
-      search: '',
+      tab: 'all',
+      city: 'All India',
       state: 'all',
-      city: 'all',
       category: 'all',
+      search: '',
       dateRange: 'all',
       priceType: 'all',
       maxPrice: 5000,
       onlyBookmarked: false,
-      sortBy: 'date-asc'
+      sortBy: 'recommended'
     };
 
-    // Reset inputs
+    // Reset UI Elements
     document.querySelectorAll('[data-filter="search"]').forEach(i => i.value = '');
-    document.querySelectorAll('[data-filter="state"]').forEach(s => s.value = 'all');
-    document.querySelectorAll('[data-filter="city"]').forEach(c => {
-      c.innerHTML = '<option value="all">All Cities</option>';
-      c.value = 'all';
+    document.querySelectorAll('[data-filter="city"]').forEach(s => s.value = 'All India');
+    document.querySelectorAll('[data-filter="city-chip"]').forEach(c => {
+      c.classList.toggle('active', c.dataset.city === 'All India');
+    });
+    document.querySelectorAll('[data-filter="tab"]').forEach(t => {
+      t.classList.toggle('active', t.dataset.tab === 'all');
     });
     document.querySelectorAll('[data-filter="category"]').forEach(c => {
       if (c.tagName === 'SELECT') c.value = 'all';
       else c.classList.toggle('active', c.dataset.category === 'all');
     });
+    document.querySelectorAll('[data-filter="date"]').forEach(d => d.value = 'all');
+    document.querySelectorAll('input[name="price-type"]').forEach(r => r.checked = r.value === 'all');
+    document.querySelectorAll('[data-filter="sort"]').forEach(s => s.value = 'recommended');
+
+    const priceSlider = document.querySelector('[data-filter="price-range"]');
+    if (priceSlider) priceSlider.value = 5000;
+    const priceDisplay = document.querySelector('[data-display="price-value"]');
+    if (priceDisplay) priceDisplay.textContent = '₹5,000';
 
     this.applyFilters();
+    if (typeof UI !== 'undefined') UI.showToast('Filters reset to default', 'info');
   }
 
   applyFilters() {
     const bookmarkedIds = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
+    const now = new Date();
 
     let results = this.events.filter(event => {
-      // Keyword search (title, description, location, city)
-      if (this.filters.search) {
-        const q = this.filters.search;
-        const matchesTitle = event.title.toLowerCase().includes(q);
-        const matchesDesc = event.description.toLowerCase().includes(q);
-        const matchesCity = event.city.toLowerCase().includes(q);
-        const matchesLoc = event.location.toLowerCase().includes(q);
-        const matchesCat = event.category.toLowerCase().includes(q);
-        if (!matchesTitle && !matchesDesc && !matchesCity && !matchesLoc && !matchesCat) {
+      const status = getEventStatus(event);
+      const start = new Date(event.startDateTime);
+
+      // 1. Live vs Upcoming Tab
+      if (this.filters.tab === 'live' && status !== 'LIVE') return false;
+      if (this.filters.tab === 'upcoming' && status === 'ENDED') return false;
+
+      // 2. City Filter
+      if (this.filters.city && this.filters.city !== 'All India' && this.filters.city !== 'all') {
+        if (event.city.toLowerCase() !== this.filters.city.toLowerCase()) {
           return false;
         }
       }
 
-      // Category
-      if (this.filters.category !== 'all' && event.category.toLowerCase() !== this.filters.category.toLowerCase()) {
-        return false;
+      // 3. Category Filter
+      if (this.filters.category && this.filters.category !== 'all') {
+        if (event.category.toLowerCase() !== this.filters.category.toLowerCase()) {
+          return false;
+        }
       }
 
-      // State
-      if (this.filters.state !== 'all' && event.state.toLowerCase() !== this.filters.state.toLowerCase()) {
-        return false;
+      // 4. Keyword Search (title, city, venue, category, organizer, description)
+      if (this.filters.search) {
+        const q = this.filters.search;
+        const matchesTitle = event.title.toLowerCase().includes(q);
+        const matchesCity = event.city.toLowerCase().includes(q);
+        const matchesVenue = (event.venue || event.location || '').toLowerCase().includes(q);
+        const matchesCat = event.category.toLowerCase().includes(q);
+        const matchesDesc = event.description.toLowerCase().includes(q);
+        const matchesOrg = (event.organizer?.name || '').toLowerCase().includes(q);
+
+        if (!matchesTitle && !matchesCity && !matchesVenue && !matchesCat && !matchesDesc && !matchesOrg) {
+          return false;
+        }
       }
 
-      // City
-      if (this.filters.city !== 'all' && event.city.toLowerCase() !== this.filters.city.toLowerCase()) {
-        return false;
+      // 5. Date Filter
+      if (this.filters.dateRange !== 'all') {
+        const diffDays = Math.floor((start - now) / (1000 * 60 * 60 * 24));
+        const eventDay = start.getDate();
+        const nowDay = now.getDate();
+        const isSameDay = start.toDateString() === now.toDateString();
+
+        if (this.filters.dateRange === 'today' && !isSameDay) return false;
+        if (this.filters.dateRange === 'tomorrow') {
+          const tomorrow = new Date();
+          tomorrow.setDate(now.getDate() + 1);
+          if (start.toDateString() !== tomorrow.toDateString()) return false;
+        }
+        if (this.filters.dateRange === 'this-week' && (diffDays < 0 || diffDays > 7)) return false;
+        if (this.filters.dateRange === 'this-weekend') {
+          const day = start.getDay(); // 0 is Sunday, 6 is Saturday
+          if (day !== 0 && day !== 6) return false;
+        }
+        if (this.filters.dateRange === 'this-month' && (start.getMonth() !== now.getMonth() || start.getFullYear() !== now.getFullYear())) {
+          return false;
+        }
       }
 
-      // Price Type
+      // 6. Price Type
       if (this.filters.priceType === 'free' && !event.isFree) return false;
       if (this.filters.priceType === 'paid' && event.isFree) return false;
 
-      // Price Range
+      // 7. Max Price
       if (!event.isFree && event.price > this.filters.maxPrice) return false;
 
-      // Bookmarked Only
-      if (this.filters.onlyBookmarked && !bookmarkedIds.includes(event.id)) {
-        return false;
-      }
+      // 8. Bookmarks Only
+      if (this.filters.onlyBookmarked && !bookmarkedIds.includes(event.id)) return false;
 
       return true;
     });
 
-    // Sorting
+    // Sort Results
     results = this.sortResults(results);
 
-    // Render results
+    // Render Grid & Featured Spotlight
     this.render(results, bookmarkedIds);
   }
 
   sortResults(items) {
+    const now = new Date();
+
     switch (this.filters.sortBy) {
+      case 'happening-now':
+        return items.sort((a, b) => (getEventStatus(b) === 'LIVE' ? 1 : 0) - (getEventStatus(a) === 'LIVE' ? 1 : 0));
+      case 'starting-soon':
+      case 'nearest-date':
+        return items.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
+      case 'most-popular':
+        return items.sort((a, b) => (b.popularity || 0) - (a.popularity || 0));
       case 'price-low':
-        return items.sort((a, b) => a.price - b.price);
+        return items.sort((a, b) => (a.isFree ? 0 : a.price) - (b.isFree ? 0 : b.price));
       case 'price-high':
-        return items.sort((a, b) => b.price - a.price);
-      case 'date-desc':
-        return items.sort((a, b) => new Date(b.date) - new Date(a.date));
-      case 'date-asc':
+        return items.sort((a, b) => (b.isFree ? 0 : b.price) - (a.isFree ? 0 : a.price));
+      case 'recommended':
       default:
-        return items.sort((a, b) => new Date(a.date) - new Date(b.date));
+        // Prioritize Live first, then Featured, then upcoming date
+        return items.sort((a, b) => {
+          const aLive = getEventStatus(a) === 'LIVE' ? 2 : 0;
+          const bLive = getEventStatus(b) === 'LIVE' ? 2 : 0;
+          const aFeat = a.featured ? 1 : 0;
+          const bFeat = b.featured ? 1 : 0;
+          if (bLive + bFeat !== aLive + aFeat) {
+            return (bLive + bFeat) - (aLive + aFeat);
+          }
+          return new Date(a.startDateTime) - new Date(b.startDateTime);
+        });
+    }
+  }
+
+  renderSkeletons() {
+    if (this.container) {
+      this.container.innerHTML = Array(6).fill(0).map(() => `
+        <div class="skeleton-card">
+          <div class="skeleton skeleton-img"></div>
+          <div class="skeleton-content">
+            <div class="skeleton skeleton-line short"></div>
+            <div class="skeleton skeleton-line title"></div>
+            <div class="skeleton skeleton-line"></div>
+            <div class="skeleton skeleton-line short" style="margin-top: 10px;"></div>
+          </div>
+        </div>
+      `).join('');
+    }
+  }
+
+  renderError() {
+    if (this.container) {
+      this.container.innerHTML = `
+        <div class="error-state">
+          <div class="error-state-icon">⚠️</div>
+          <h3 class="error-state-title">We couldn't load events right now</h3>
+          <p class="error-state-text">There was an unexpected error fetching the discovery catalog. Please try again.</p>
+          <button class="btn btn-primary" onclick="window.filterEngine?.loadEvents()">Try Again ⟳</button>
+        </div>
+      `;
     }
   }
 
   render(items, bookmarkedIds) {
-    if (!this.container) return;
-
+    // 1. Update Results Count Text
     if (this.countElement) {
-      this.countElement.textContent = `Showing ${items.length} ${items.length === 1 ? 'event' : 'events'}`;
+      const cityLabel = this.filters.city && this.filters.city !== 'All India' ? ` in ${this.filters.city}` : ' across India';
+      this.countElement.textContent = `Showing ${items.length} ${items.length === 1 ? 'event' : 'events'}${cityLabel}`;
     }
+
+    // 2. Render Featured Spotlight (if container provided)
+    if (this.featuredContainer) {
+      const liveEvents = items.filter(e => getEventStatus(e) === 'LIVE');
+      const spotlightEvents = liveEvents.length > 0 ? liveEvents.slice(0, 2) : items.slice(0, 2);
+
+      if (spotlightEvents.length > 0) {
+        this.featuredContainer.innerHTML = spotlightEvents
+          .map(e => createFeaturedLiveCardHTML(e, bookmarkedIds.includes(e.id)))
+          .join('');
+        this.featuredContainer.style.display = 'grid';
+      } else {
+        this.featuredContainer.style.display = 'none';
+      }
+    }
+
+    // 3. Render Main Grid / Empty State
+    if (!this.container) return;
 
     if (items.length === 0) {
       this.container.innerHTML = `
         <div class="empty-state">
           <div class="empty-state-icon">🔍</div>
-          <h3 class="empty-state-title">No matching experiences found</h3>
-          <p class="empty-state-text">We couldn't find any events matching your current filters. Try relaxing your search terms or resetting filters.</p>
-          <button class="btn btn-primary" data-action="reset-filters">Reset All Filters</button>
+          <h3 class="empty-state-title">No events found</h3>
+          <p class="empty-state-text">Try changing your location, date, category, or search query to explore more experiences.</p>
+          <button class="btn btn-primary" data-action="clear-filters">Clear All Filters</button>
         </div>
       `;
-      // re-bind reset button
-      const resetBtn = this.container.querySelector('[data-action="reset-filters"]');
-      if (resetBtn) resetBtn.addEventListener('click', () => this.resetFilters());
+      const clearBtn = this.container.querySelector('[data-action="clear-filters"]');
+      if (clearBtn) clearBtn.addEventListener('click', () => this.resetFilters());
       return;
     }
 

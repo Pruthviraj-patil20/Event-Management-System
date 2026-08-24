@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Explore Experiences — EventSphere</title>
-  <meta name="description" content="Search and filter thousands of curated conferences, concerts, workshops, and summits across India.">
+  <title>Explore Live & Upcoming Events — EventSphere</title>
+  <meta name="description" content="Discover what's happening live now and upcoming across Pune, Mumbai, Delhi, Bengaluru, Hyderabad, and all Indian cities.">
 
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,7 +26,7 @@
           <img src="assets/logos/logo.svg" alt="EventSphere Logo" width="38" height="38">
         </div>
         <span>EventSphere</span>
-        <span class="brand-badge">PRO</span>
+        <span class="brand-badge">LIVE</span>
       </a>
 
       <nav class="nav-menu" aria-label="Primary Navigation">
@@ -100,21 +100,70 @@
     <a href="explore.html?bookmarked=true" class="nav-link">Saved Events ❤️</a>
   </div>
 
-  <!-- Page Header -->
+  <!-- Page Header Banner -->
   <div style="background: var(--gradient-hero-glow); padding: 48px 0 24px; border-bottom: 1px solid var(--border-subtle);">
     <div class="container">
-      <span class="section-badge">Discover & Book</span>
-      <h1 style="font-size: 2.75rem; font-weight: 800; margin-top: 8px;">Explore All Experiences</h1>
-      <p style="color: var(--text-secondary); font-size: 1.125rem; margin-top: 6px;">Find conferences, concerts, workshops, festivals, and summits across top Indian cities.</p>
+      <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+        <div>
+          <span class="badge-live-now large" style="margin-bottom: 8px;">
+            <span class="live-pulse-dot"></span> LIVE DISCOVERY HUB
+          </span>
+          <h1 style="font-size: 2.75rem; font-weight: 800; margin-top: 6px;">Live & Upcoming Experiences</h1>
+          <p style="color: var(--text-secondary); font-size: 1.05rem; margin-top: 6px;">
+            Discover what's happening near you and across India in real time.
+          </p>
+        </div>
+
+        <!-- Dual Mode Tabs -->
+        <div class="live-upcoming-tabs" style="margin-bottom: 0;">
+          <button class="tab-pill-btn active" data-filter="tab" data-tab="all">
+            <span>✨</span> All Events
+          </button>
+          <button class="tab-pill-btn tab-live" data-filter="tab" data-tab="live">
+            <span class="live-pulse-dot"></span> LIVE NOW
+          </button>
+          <button class="tab-pill-btn" data-filter="tab" data-tab="upcoming">
+            <span>📅</span> UPCOMING
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
   <!-- Main Explore Section -->
-  <section class="section" style="padding-top: 36px;">
+  <section class="section" style="padding-top: 32px;">
     <div class="container">
+      
+      <!-- India-Wide City Rail -->
+      <div class="city-chips-wrapper">
+        <div class="city-chips-bar" id="exploreCityRail">
+          <button class="city-chip geo-btn" data-action="use-my-location" title="Detect City">
+            <span>📍</span> Use My Location
+          </button>
+          <button class="city-chip active" data-filter="city-chip" data-city="All India">
+            🇮🇳 All India
+          </button>
+          <button class="city-chip" data-filter="city-chip" data-city="Pune">Pune</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Mumbai">Mumbai</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Delhi">Delhi</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Bengaluru">Bengaluru</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Hyderabad">Hyderabad</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Chennai">Chennai</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Kolkata">Kolkata</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Ahmedabad">Ahmedabad</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Jaipur">Jaipur</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Goa">Goa</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Lucknow">Lucknow</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Chandigarh">Chandigarh</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Indore">Indore</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Nagpur">Nagpur</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Surat">Surat</button>
+        </div>
+      </div>
+
       <div class="explore-layout">
         
-        <!-- Left: Filters Sidebar -->
+        <!-- Left: Filters Sidebar (Desktop) -->
         <aside class="filter-sidebar">
           <div class="filter-sidebar-header">
             <div class="filter-sidebar-title">
@@ -129,7 +178,7 @@
                 <line x1="9" y1="8" x2="15" y2="8"></line>
                 <line x1="17" y1="16" x2="23" y2="16"></line>
               </svg>
-              <span>Filters</span>
+              <span>Filter Catalog</span>
             </div>
             <button class="btn btn-ghost btn-sm" data-action="reset-filters" style="font-size: 0.75rem; padding: 4px 8px;">
               Reset All
@@ -139,7 +188,7 @@
           <!-- Keyword Search -->
           <div class="filter-group">
             <label class="filter-group-title">Search Keywords</label>
-            <input type="text" class="filter-input" data-filter="search" placeholder="Event title, topic, venue..." />
+            <input type="text" class="filter-input" data-filter="search" placeholder="Search events, cities, venues..." />
           </div>
 
           <!-- Category -->
@@ -147,37 +196,33 @@
             <label class="filter-group-title">Category</label>
             <select class="filter-select" data-filter="category">
               <option value="all">All Categories</option>
-              <option value="Technology">Technology</option>
-              <option value="Music & Concerts">Music & Concerts</option>
-              <option value="Startups & Business">Startups & Business</option>
-              <option value="AI Workshops">AI Workshops</option>
-              <option value="Design">Design</option>
-              <option value="Sports">Sports</option>
-              <option value="Food & Lifestyle">Food & Lifestyle</option>
-              <option value="Festivals">Festivals</option>
-              <option value="Networking">Networking</option>
-            </select>
-          </div>
-
-          <!-- State / UT -->
-          <div class="filter-group">
-            <label class="filter-group-title">State / UT</label>
-            <select class="filter-select" data-filter="state">
-              <option value="all">All States</option>
             </select>
           </div>
 
           <!-- City -->
           <div class="filter-group">
-            <label class="filter-group-title">City</label>
+            <label class="filter-group-title">Location / City</label>
             <select class="filter-select" data-filter="city">
-              <option value="all">All Cities</option>
+              <option value="All India">All India</option>
+            </select>
+          </div>
+
+          <!-- Date Filters -->
+          <div class="filter-group">
+            <label class="filter-group-title">Date Timeframe</label>
+            <select class="filter-select" data-filter="date">
+              <option value="all">Any Date</option>
+              <option value="today">Happening Today</option>
+              <option value="tomorrow">Tomorrow</option>
+              <option value="this-week">This Week</option>
+              <option value="this-weekend">This Weekend</option>
+              <option value="this-month">This Month</option>
             </select>
           </div>
 
           <!-- Pricing Filter -->
           <div class="filter-group">
-            <label class="filter-group-title">Ticket Type</label>
+            <label class="filter-group-title">Ticket Pricing</label>
             <div class="checkbox-list">
               <label class="checkbox-label">
                 <input type="radio" name="price-type" value="all" checked />
@@ -216,17 +261,27 @@
         <main>
           <div class="explore-toolbar">
             <div class="explore-results-count" id="resultsCountText">
-              Showing 12 events
+              Loading live catalog...
             </div>
 
-            <div class="explore-sort-wrapper">
-              <label for="sortDropdown" style="font-size: 0.8125rem; font-weight: 700; color: var(--text-tertiary);">Sort By:</label>
-              <select id="sortDropdown" class="filter-select" data-filter="sort" style="width: auto; padding: 6px 14px;">
-                <option value="date-asc">Date: Upcoming First</option>
-                <option value="date-desc">Date: Furthest Out</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-              </select>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <!-- Mobile Filters Button (Visible on Small Screens) -->
+              <button class="btn btn-secondary btn-sm" data-action="open-mobile-filters" style="display: inline-flex;">
+                <span>⚙️</span> Filters
+              </button>
+
+              <div class="explore-sort-wrapper">
+                <label for="sortDropdown" style="font-size: 0.8125rem; font-weight: 700; color: var(--text-tertiary);">Sort:</label>
+                <select id="sortDropdown" class="filter-select" data-filter="sort" style="width: auto; padding: 6px 14px;">
+                  <option value="recommended">Recommended</option>
+                  <option value="happening-now">🔴 Happening Now</option>
+                  <option value="starting-soon">⏰ Starting Soon</option>
+                  <option value="nearest-date">Nearest Date</option>
+                  <option value="most-popular">Most Popular</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                </select>
+              </div>
             </div>
           </div>
 
@@ -239,6 +294,51 @@
     </div>
   </section>
 
+  <!-- Mobile Filter Bottom Sheet Modal -->
+  <div class="mobile-filter-sheet">
+    <div class="mobile-filter-panel">
+      <div class="mobile-filter-header">
+        <h3 style="font-size: 1.25rem; font-weight: 800;">Filters & Search</h3>
+        <button class="btn-icon" data-action="close-mobile-filters" aria-label="Close filters">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Search Keyword</label>
+        <input type="text" class="form-input" data-filter="search" placeholder="Search events..." />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select class="form-select" data-filter="category">
+          <option value="all">All Categories</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Location / City</label>
+        <select class="form-select" data-filter="city">
+          <option value="All India">All India</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Date Filter</label>
+        <select class="form-select" data-filter="date">
+          <option value="all">Any Date</option>
+          <option value="today">Happening Today</option>
+          <option value="tomorrow">Tomorrow</option>
+          <option value="this-weekend">This Weekend</option>
+          <option value="this-month">This Month</option>
+        </select>
+      </div>
+
+      <div style="display: flex; gap: 10px; margin-top: 24px;">
+        <button class="btn btn-secondary" data-action="reset-filters" style="flex: 1;">Reset</button>
+        <button class="btn btn-primary" data-action="apply-mobile-filters" style="flex: 2;">Apply Filters</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Footer -->
   <footer class="site-footer">
     <div class="container">
@@ -250,7 +350,7 @@
             </div>
             <span>EventSphere</span>
           </a>
-          <p>The next-generation event discovery and ticketing platform.</p>
+          <p>The next-generation real-time event discovery and digital ticketing platform.</p>
         </div>
         <div>
           <h4 class="footer-column-title">Platform</h4>
@@ -276,7 +376,7 @@
         </div>
         <div>
           <h4 class="footer-column-title">Stay Connected</h4>
-          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Subscribe for VIP event drops.</p>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Subscribe for live event drops.</p>
           <form onsubmit="event.preventDefault(); UI.showToast('Subscribed! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
             <input type="email" placeholder="Your email" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
             <button type="submit" class="btn btn-primary btn-sm">Join</button>
@@ -299,7 +399,7 @@
       const grid = document.getElementById('exploreEventsGrid');
       const countText = document.getElementById('resultsCountText');
       
-      const filterEngine = new EventFilterEngine(EVENT_DATASET, {
+      window.exploreFilterEngine = new EventFilterEngine({
         container: grid,
         countElement: countText
       });
@@ -309,8 +409,8 @@
       const wishlistText = document.getElementById('wishlistBtnText');
       if (wishlistBtn) {
         wishlistBtn.addEventListener('click', () => {
-          filterEngine.filters.onlyBookmarked = !filterEngine.filters.onlyBookmarked;
-          if (filterEngine.filters.onlyBookmarked) {
+          exploreFilterEngine.filters.onlyBookmarked = !exploreFilterEngine.filters.onlyBookmarked;
+          if (exploreFilterEngine.filters.onlyBookmarked) {
             wishlistBtn.classList.add('btn-primary');
             wishlistBtn.classList.remove('btn-secondary');
             wishlistText.textContent = 'Showing Saved (Click to view all)';
@@ -319,10 +419,10 @@
             wishlistBtn.classList.add('btn-secondary');
             wishlistText.textContent = 'View Saved Wishlist';
           }
-          filterEngine.applyFilters();
+          exploreFilterEngine.applyFilters();
         });
 
-        if (filterEngine.filters.onlyBookmarked) {
+        if (exploreFilterEngine.filters.onlyBookmarked) {
           wishlistBtn.classList.add('btn-primary');
           wishlistBtn.classList.remove('btn-secondary');
           wishlistText.textContent = 'Showing Saved (Click to view all)';

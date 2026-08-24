@@ -166,11 +166,25 @@
     document.addEventListener('DOMContentLoaded', () => {
       const params = new URLSearchParams(window.location.search);
       const eventId = Number(params.get('id')) || 1;
-      const event = EVENT_DATASET.find(e => e.id === eventId) || EVENT_DATASET[0];
+      const allEvents = (typeof EVENT_DATASET !== 'undefined' ? EVENT_DATASET : MOCK_EVENTS);
+      const event = allEvents.find(e => e.id === eventId) || allEvents[0];
 
       // Update Page Title and Breadcrumb
       document.title = `${event.title} — EventSphere`;
       document.getElementById('breadcrumbTitle').textContent = event.title;
+
+      const status = typeof getEventStatus === 'function' ? getEventStatus(event) : 'UPCOMING';
+      const timeInfo = typeof formatEventTimeRange === 'function' 
+        ? formatEventTimeRange(event.startDateTime, event.endDateTime)
+        : { date: event.formattedDate || 'Upcoming', timeRange: event.time || '' };
+      const countdown = typeof getTimeRemainingString === 'function' ? getTimeRemainingString(event) : '';
+
+      let statusBadge = '';
+      if (status === 'LIVE') {
+        statusBadge = `<span class="badge-live-now large"><span class="live-pulse-dot"></span> LIVE NOW</span>`;
+      } else {
+        statusBadge = `<span class="badge-upcoming soon">⏰ ${countdown}</span>`;
+      }
 
       const bookmarks = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
       const isBookmarked = bookmarks.includes(event.id);
@@ -183,22 +197,23 @@
           <img src="${event.image}" alt="${event.title}" class="event-hero-img" />
           <div class="event-hero-overlay">
             <div class="event-hero-badges">
+              ${statusBadge}
               <span class="event-category-pill" style="font-size: 0.8125rem; padding: 6px 14px;">${event.category}</span>
-              <span class="event-category-pill" style="background: rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">✓ Verified Event</span>
+              <span class="event-category-pill" style="background: rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">✓ Verified Host</span>
             </div>
             <h1 class="event-hero-title">${event.title}</h1>
             <div class="event-hero-meta-bar">
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span>📅</span>
-                <strong>${event.formattedDate}</strong> (${event.time})
+                <strong>${timeInfo.date}</strong> (${timeInfo.timeRange})
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span>📍</span>
-                <span>${event.location}, ${event.city}</span>
+                <span><strong>${event.city}</strong>, ${event.state} • ${event.venue || event.location}</span>
               </div>
               <div style="display: flex; align-items: center; gap: 8px;">
                 <span>🏢</span>
-                <span>Organized by <strong>${event.organizer.name}</strong></span>
+                <span>Organized by <strong>${event.organizer?.name || 'EventSphere Host'}</strong></span>
               </div>
             </div>
           </div>

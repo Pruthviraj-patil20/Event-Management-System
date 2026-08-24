@@ -4,11 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>EventSphere — Discover Experiences Worth Remembering</title>
-  <meta name="description" content="Asia's next-generation event discovery platform. Find conferences, concerts, workshops, festivals and tech summits with instant QR passes.">
+  <meta name="description" content="India's premier real-time event discovery platform. Find live summits, concerts, workshops, and festivals happening right now in Pune, Mumbai, Bengaluru, Delhi, and across India.">
   
   <!-- Open Graph Meta -->
-  <meta property="og:title" content="EventSphere — Premium Event Discovery">
-  <meta property="og:description" content="Discover world-class experiences, tech summits, concerts, and festivals.">
+  <meta property="og:title" content="EventSphere — Live & Upcoming Event Discovery">
+  <meta property="og:description" content="Discover what's happening right now and upcoming near you across India.">
   <meta property="og:type" content="website">
 
   <!-- Google Fonts (Plus Jakarta Sans & Inter) -->
@@ -34,13 +34,16 @@
           <img src="assets/logos/logo.svg" alt="EventSphere Spark Logo" width="38" height="38">
         </div>
         <span>EventSphere</span>
-        <span class="brand-badge">PRO</span>
+        <span class="brand-badge">LIVE</span>
       </a>
 
       <!-- Center: Navigation Menu -->
       <nav class="nav-menu" aria-label="Primary Navigation">
         <a href="index.html" class="nav-link active">Home</a>
-        <a href="explore.html" class="nav-link">Explore Events</a>
+        <a href="#liveSection" class="nav-link">
+          <span class="live-pulse-dot" style="width: 6px; height: 6px;"></span> Live Now
+        </a>
+        <a href="explore.html" class="nav-link">Explore All</a>
         <a href="#categoriesSection" class="nav-link">Categories</a>
         <a href="about.html" class="nav-link">About</a>
         <a href="contact.html" class="nav-link">Contact</a>
@@ -129,6 +132,7 @@
   <!-- Mobile Drawer -->
   <div class="mobile-nav-drawer">
     <a href="index.html" class="nav-link active">Home</a>
+    <a href="#liveSection" class="nav-link">🔴 Live & Upcoming</a>
     <a href="explore.html" class="nav-link">Explore Events</a>
     <a href="#categoriesSection" class="nav-link">Categories</a>
     <a href="about.html" class="nav-link">About Us</a>
@@ -151,32 +155,32 @@
     <!-- Floating Live Preview Event Cards (Desktop) -->
     <div class="hero-floating-elements">
       <!-- Card 1: Music Festival (Left Top) -->
-      <div class="floating-card float-left-top" onclick="UI.openQuickView(2)">
-        <img class="floating-card-img" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80" alt="Sunburn Arena" />
+      <div class="floating-card float-left-top" onclick="UI.openQuickView(1)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=120&q=80" alt="Pune Startup Night" />
         <div class="floating-card-info">
-          <div class="floating-card-title">Sunburn Arena</div>
-          <div class="floating-card-meta"><span class="live-pulse"></span> Goa • Oct 18</div>
-          <span class="floating-card-badge">Music Fest</span>
+          <div class="floating-card-title">Pune Startup Night</div>
+          <div class="floating-card-meta"><span class="live-pulse-dot" style="width: 6px; height: 6px;"></span> Pune • LIVE NOW</div>
+          <span class="badge-live-now" style="font-size: 0.6rem; padding: 2px 6px;">🔴 LIVE</span>
         </div>
       </div>
 
       <!-- Card 2: AI Summit (Right Top) -->
-      <div class="floating-card float-right-top" onclick="UI.openQuickView(1)">
-        <img class="floating-card-img" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=120&q=80" alt="AI Future Summit" />
+      <div class="floating-card float-right-top" onclick="UI.openQuickView(3)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=120&q=80" alt="Bengaluru AI Demo" />
         <div class="floating-card-info">
-          <div class="floating-card-title">AI Future Summit</div>
-          <div class="floating-card-meta">Mumbai • Sep 15</div>
-          <span class="floating-card-badge" style="color: var(--accent-indigo); background: rgba(99,102,241,0.12);">Technology</span>
+          <div class="floating-card-title">Bengaluru AI Demo</div>
+          <div class="floating-card-meta"><span class="live-pulse-dot" style="width: 6px; height: 6px;"></span> Bengaluru • LIVE NOW</div>
+          <span class="floating-card-badge" style="color: var(--accent-indigo); background: rgba(99,102,241,0.12);">AI & Tech</span>
         </div>
       </div>
 
-      <!-- Card 3: Startup Meetup (Right Bottom) -->
-      <div class="floating-card float-right-bottom" onclick="UI.openQuickView(3)">
-        <img class="floating-card-img" src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=120&q=80" alt="Founders Unplugged" />
+      <!-- Card 3: Jazz Lounge (Right Bottom) -->
+      <div class="floating-card float-right-bottom" onclick="UI.openQuickView(2)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=crop&w=120&q=80" alt="Mumbai Jazz Lounge" />
         <div class="floating-card-info">
-          <div class="floating-card-title">Founders Unplugged</div>
-          <div class="floating-card-meta">Bengaluru • Sep 28</div>
-          <span class="floating-card-badge" style="color: var(--accent-emerald); background: rgba(16,185,129,0.12);">Free Entry</span>
+          <div class="floating-card-title">Mumbai Jazz Lounge</div>
+          <div class="floating-card-meta">Mumbai • LIVE NOW</div>
+          <span class="floating-card-badge" style="color: var(--accent-pink); background: rgba(236,72,153,0.12);">Live Music</span>
         </div>
       </div>
     </div>
@@ -197,8 +201,8 @@
       </p>
 
       <div class="hero-cta-group">
-        <a href="explore.html" class="btn btn-primary btn-lg">
-          <span>Explore Events</span>
+        <a href="#liveSection" class="btn btn-primary btn-lg">
+          <span>Explore Live & Upcoming</span>
           <span>→</span>
         </a>
         <a href="contact.html?type=host" class="btn btn-secondary btn-lg">
@@ -222,13 +226,13 @@
           </div>
           <div class="search-field-body">
             <label for="heroSearch" class="search-field-label">Search Event</label>
-            <input type="text" id="heroSearch" name="search" class="search-field-input" placeholder="e.g. AI Summit, Concert..." />
+            <input type="text" id="heroSearch" name="search" class="search-field-input" placeholder="Search events, cities, venues, categories..." />
           </div>
         </div>
 
         <div class="search-field-divider"></div>
 
-        <!-- 2. State / UT -->
+        <!-- 2. City Selector -->
         <div class="search-field">
           <div class="search-field-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -237,35 +241,16 @@
             </svg>
           </div>
           <div class="search-field-body">
-            <label for="heroState" class="search-field-label">State / UT</label>
-            <select id="heroState" name="state" class="search-field-select" data-filter="state">
-              <option value="all">All States</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="search-field-divider"></div>
-
-        <!-- 3. City (Cascading) -->
-        <div class="search-field">
-          <div class="search-field-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M3 21h18"></path>
-              <path d="M5 21V7l8-4v18"></path>
-              <path d="M19 21V11l-6-4"></path>
-            </svg>
-          </div>
-          <div class="search-field-body">
-            <label for="heroCity" class="search-field-label">City</label>
+            <label for="heroCity" class="search-field-label">City / Region</label>
             <select id="heroCity" name="city" class="search-field-select" data-filter="city">
-              <option value="all">All Cities</option>
+              <option value="All India">All India</option>
             </select>
           </div>
         </div>
 
         <div class="search-field-divider"></div>
 
-        <!-- 4. Date Picker -->
+        <!-- 3. Date Picker -->
         <div class="search-field">
           <div class="search-field-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -276,18 +261,20 @@
             </svg>
           </div>
           <div class="search-field-body">
-            <label for="heroDate" class="search-field-label">Date</label>
+            <label for="heroDate" class="search-field-label">Date Filter</label>
             <select id="heroDate" name="date" class="search-field-select">
               <option value="all">Any Date</option>
-              <option value="weekend">This Weekend</option>
-              <option value="month">This Month</option>
+              <option value="today">Today</option>
+              <option value="tomorrow">Tomorrow</option>
+              <option value="this-weekend">This Weekend</option>
+              <option value="this-month">This Month</option>
             </select>
           </div>
         </div>
 
         <div class="search-field-divider"></div>
 
-        <!-- 5. Category -->
+        <!-- 4. Category -->
         <div class="search-field">
           <div class="search-field-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -299,15 +286,6 @@
             <label for="heroCategory" class="search-field-label">Category</label>
             <select id="heroCategory" name="category" class="search-field-select" data-filter="category">
               <option value="all">All Categories</option>
-              <option value="Technology">Technology</option>
-              <option value="Music & Concerts">Music & Concerts</option>
-              <option value="Startups & Business">Startups & Business</option>
-              <option value="AI Workshops">AI Workshops</option>
-              <option value="Design">Design</option>
-              <option value="Sports">Sports</option>
-              <option value="Food & Lifestyle">Food & Lifestyle</option>
-              <option value="Festivals">Festivals</option>
-              <option value="Networking">Networking</option>
             </select>
           </div>
         </div>
@@ -327,38 +305,101 @@
   <!-- ==========================================================================
        CATEGORY NAVIGATION SECTION
        ========================================================================== -->
-  <section class="section" id="categoriesSection" style="padding-top: 40px; padding-bottom: 40px;">
+  <section class="section" id="categoriesSection" style="padding-top: 36px; padding-bottom: 24px;">
     <div class="container">
-      <div class="section-header" style="margin-bottom: 32px;">
+      <div class="section-header" style="margin-bottom: 28px;">
         <span class="section-badge">Explore Verticals</span>
         <h2 class="section-title">Browse by Category</h2>
         <p class="section-subtitle">Find high-energy concerts, cutting-edge AI summits, and intimate developer roundtables.</p>
       </div>
 
       <div class="categories-grid" id="categoriesContainer">
-        <!-- Rendered dynamically from CATEGORIES_LIST in JS -->
+        <!-- Rendered dynamically from ALL_CATEGORIES in JS -->
       </div>
     </div>
   </section>
 
   <!-- ==========================================================================
-       FEATURED EXPERIENCES SECTION
+       LIVE & UPCOMING EVENTS DISCOVERY SECTION
        ========================================================================== -->
-  <section class="section" id="featuredSection">
+  <section class="section" id="liveSection" style="background: var(--bg-secondary); padding: 60px 0;">
     <div class="container">
-      <div class="section-header">
-        <span class="section-badge">Curated Selection</span>
-        <h2 class="section-title">Featured Events</h2>
-        <p class="section-subtitle">Handpicked experiences worth your time, crafted by world-class hosts.</p>
+      <div class="section-header" style="margin-bottom: 32px;">
+        <span class="badge-live-now large" style="margin-bottom: 12px;">
+          <span class="live-pulse-dot"></span> LIVE & UPCOMING
+        </span>
+        <h2 class="section-title">Live & Upcoming Events</h2>
+        <p class="section-subtitle">Discover what's happening near you and across India.</p>
       </div>
 
-      <div class="events-grid" id="featuredEventsGrid">
-        <!-- Injected via JS -->
+      <!-- Main Dual Tabs (LIVE NOW vs UPCOMING vs ALL) -->
+      <div style="display: flex; justify-content: center;">
+        <div class="live-upcoming-tabs">
+          <button class="tab-pill-btn tab-live active" data-filter="tab" data-tab="live">
+            <span class="live-pulse-dot"></span> LIVE NOW
+          </button>
+          <button class="tab-pill-btn" data-filter="tab" data-tab="upcoming">
+            <span>📅</span> UPCOMING
+          </button>
+          <button class="tab-pill-btn" data-filter="tab" data-tab="all">
+            <span>✨</span> All Events
+          </button>
+        </div>
+      </div>
+
+      <!-- India-Wide City Selector Rail -->
+      <div class="city-chips-wrapper">
+        <div class="city-chips-bar" id="cityChipsRail">
+          <button class="city-chip geo-btn" data-action="use-my-location" title="Detect City">
+            <span>📍</span> Use My Location
+          </button>
+          <button class="city-chip active" data-filter="city-chip" data-city="All India">
+            🇮🇳 All India
+          </button>
+          <button class="city-chip" data-filter="city-chip" data-city="Pune">Pune</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Mumbai">Mumbai</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Delhi">Delhi</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Bengaluru">Bengaluru</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Hyderabad">Hyderabad</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Chennai">Chennai</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Kolkata">Kolkata</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Ahmedabad">Ahmedabad</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Jaipur">Jaipur</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Goa">Goa</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Lucknow">Lucknow</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Chandigarh">Chandigarh</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Indore">Indore</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Nagpur">Nagpur</button>
+          <button class="city-chip" data-filter="city-chip" data-city="Surat">Surat</button>
+        </div>
+      </div>
+
+      <!-- Featured Spotlight: Happening Right Now -->
+      <div style="margin-bottom: 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px;">
+          <h3 style="font-size: 1.35rem; font-weight: 800; display: flex; align-items: center; gap: 8px;">
+            <span>⚡</span> Happening Right Now
+          </h3>
+          <span style="font-size: 0.875rem; color: var(--text-tertiary);" id="homeLiveResultsCount">Loading live experiences...</span>
+        </div>
+        <div class="featured-live-grid" id="homeFeaturedLiveGrid">
+          <!-- Populated dynamically via EventFilterEngine -->
+        </div>
+      </div>
+
+      <!-- Main Live & Upcoming Events Grid -->
+      <div style="margin-top: 36px;">
+        <h3 style="font-size: 1.35rem; font-weight: 800; margin-bottom: 20px; display: flex; align-items: center; gap: 8px;">
+          <span>🎯</span> Curated Catalog
+        </h3>
+        <div class="events-grid" id="homeEventsGrid">
+          <!-- Populated dynamically via EventFilterEngine -->
+        </div>
       </div>
 
       <div style="text-align: center; margin-top: 48px;">
         <a href="explore.html" class="btn btn-secondary btn-lg">
-          View All 12+ Experiences →
+          Open Full Discovery Filter Hub →
         </a>
       </div>
     </div>
@@ -367,7 +408,7 @@
   <!-- ==========================================================================
        LIVE ANIMATED STATS BANNER
        ========================================================================== -->
-  <section class="section" style="padding: 20px 0 60px;">
+  <section class="section" style="padding: 40px 0 60px;">
     <div class="container">
       <div class="stats-banner reveal-on-scroll">
         <div class="stats-grid">
@@ -424,7 +465,7 @@
           <div class="category-icon-box" style="margin-bottom: 20px; font-size: 1.6rem;">🌐</div>
           <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Deep Geographic Curation</h3>
           <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
-            Granular state and city filtering across India's top innovation hubs from Mumbai & Bangalore to Pune & Delhi.
+            Granular city filtering across India's top innovation hubs from Pune, Mumbai & Bangalore to Delhi, Hyderabad & Goa.
           </p>
         </div>
       </div>
@@ -458,7 +499,8 @@
         <div>
           <h4 class="footer-column-title">Platform</h4>
           <div class="footer-links">
-            <a href="explore.html" class="footer-link">Explore Events</a>
+            <a href="#liveSection" class="footer-link">Live Events</a>
+            <a href="explore.html" class="footer-link">Explore Catalog</a>
             <a href="contact.html?type=host" class="footer-link">Create Event</a>
             <a href="#categoriesSection" class="footer-link">Categories</a>
             <a href="explore.html?bookmarked=true" class="footer-link">Saved Wishlist</a>
@@ -490,7 +532,7 @@
         <!-- Column 4: Newsletter -->
         <div>
           <h4 class="footer-column-title">Stay in the Loop</h4>
-          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Get weekly handpicked event drops in your inbox.</p>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Get weekly handpicked live event drops in your inbox.</p>
           <form onsubmit="event.preventDefault(); UI.showToast('Subscribed to EventSphere Drops! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
             <input type="email" placeholder="Your email address" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
             <button type="submit" class="btn btn-primary btn-sm">Join</button>
@@ -520,46 +562,24 @@
       // 1. Populate Category Cards
       const catContainer = document.getElementById('categoriesContainer');
       if (catContainer) {
-        catContainer.innerHTML = CATEGORIES_LIST.map(cat => `
-          <a href="explore.html?category=${encodeURIComponent(cat.id === 'all' ? '' : cat.name)}" class="category-card">
+        catContainer.innerHTML = ALL_CATEGORIES.slice(1, 10).map(cat => `
+          <a href="explore.html?category=${encodeURIComponent(cat.name)}" class="category-card">
             <div class="category-icon-box">${cat.icon}</div>
             <div class="category-name">${cat.name}</div>
           </a>
         `).join('');
       }
 
-      // 2. Render Featured Events
-      const featuredGrid = document.getElementById('featuredEventsGrid');
-      if (featuredGrid) {
-        const bookmarks = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
-        const featured = EVENT_DATASET.filter(e => e.featured).slice(0, 4);
-        featuredGrid.innerHTML = featured.map(e => createEventCardHTML(e, bookmarks.includes(e.id))).join('');
-      }
+      // 2. Initialize Live & Upcoming Discovery Filter Engine on Homepage
+      const homeGrid = document.getElementById('homeEventsGrid');
+      const featuredGrid = document.getElementById('homeFeaturedLiveGrid');
+      const countText = document.getElementById('homeLiveResultsCount');
 
-      // 3. Populate State & City dropdowns in Search Bar
-      const stateSelect = document.getElementById('heroState');
-      const citySelect = document.getElementById('heroCity');
-      if (stateSelect) {
-        Object.keys(LOCATIONS_MAP).forEach(st => {
-          const opt = document.createElement('option');
-          opt.value = st;
-          opt.textContent = st;
-          stateSelect.appendChild(opt);
-        });
-
-        stateSelect.addEventListener('change', (e) => {
-          const st = e.target.value;
-          citySelect.innerHTML = '<option value="all">All Cities</option>';
-          if (st !== 'all' && LOCATIONS_MAP[st]) {
-            LOCATIONS_MAP[st].forEach(city => {
-              const opt = document.createElement('option');
-              opt.value = city;
-              opt.textContent = city;
-              citySelect.appendChild(opt);
-            });
-          }
-        });
-      }
+      window.homeFilterEngine = new EventFilterEngine({
+        container: homeGrid,
+        featuredContainer: featuredGrid,
+        countElement: countText
+      });
     });
   </script>
 </body>

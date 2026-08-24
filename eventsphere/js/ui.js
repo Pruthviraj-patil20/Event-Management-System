@@ -47,7 +47,7 @@ const UI = {
    * Quick View Event Modal
    */
   openQuickView(eventId) {
-    const event = EVENT_DATASET.find(e => e.id === Number(eventId));
+    const event = (typeof EVENT_DATASET !== 'undefined' ? EVENT_DATASET : MOCK_EVENTS).find(e => e.id === Number(eventId));
     if (!event) return;
 
     let backdrop = document.getElementById('quickViewModal');
@@ -58,36 +58,56 @@ const UI = {
       document.body.appendChild(backdrop);
     }
 
-    const priceText = event.isFree ? 'FREE' : `₹${event.price.toLocaleString('en-IN')}`;
+    const status = typeof getEventStatus === 'function' ? getEventStatus(event) : 'UPCOMING';
+    const timeInfo = typeof formatEventTimeRange === 'function' 
+      ? formatEventTimeRange(event.startDateTime, event.endDateTime) 
+      : { date: event.formattedDate || 'Upcoming', timeRange: event.time || '' };
+    const countdown = typeof getTimeRemainingString === 'function' ? getTimeRemainingString(event) : '';
+    const priceText = event.isFree ? 'FREE ENTRY' : `₹${event.price.toLocaleString('en-IN')}`;
+
+    let statusBadgeHTML = '';
+    if (status === 'LIVE') {
+      statusBadgeHTML = `<span class="badge-live-now"><span class="live-pulse-dot"></span> LIVE NOW</span>`;
+    } else {
+      statusBadgeHTML = `<span class="badge-upcoming">${countdown}</span>`;
+    }
 
     backdrop.innerHTML = `
       <div class="modal-container" role="dialog" aria-modal="true">
         <button class="modal-close-btn" aria-label="Close modal">✕</button>
         <div style="position: relative; height: 240px; overflow: hidden; border-radius: var(--radius-xl) var(--radius-xl) 0 0;">
           <img src="${event.image}" alt="${event.title}" style="width: 100%; height: 100%; object-fit: cover;" />
-          <div style="position: absolute; top: 16px; left: 16px; background: rgba(10,13,20,0.7); backdrop-filter: blur(10px); padding: 4px 12px; border-radius: var(--radius-pill); color: #fff; font-size: 0.75rem; font-weight: 700;">
-            ${event.category}
+          <div style="position: absolute; top: 16px; left: 16px; display: flex; gap: 8px; z-index: 2;">
+            ${statusBadgeHTML}
+            <span class="event-category-pill">${event.category}</span>
           </div>
         </div>
         <div style="padding: 28px;">
           <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px;">
-            <span style="font-size: 0.8125rem; font-weight: 700; color: var(--accent-indigo);">📅 ${event.formattedDate} • ${event.time}</span>
+            <span style="font-size: 0.8125rem; font-weight: 700; color: ${status === 'LIVE' ? '#ef4444' : 'var(--accent-indigo)'};">
+              📅 ${timeInfo.date} • ⏰ ${timeInfo.timeRange}
+            </span>
             <span style="font-family: var(--font-heading); font-size: 1.35rem; font-weight: 800; color: ${event.isFree ? 'var(--accent-emerald)' : 'var(--text-primary)'};">${priceText}</span>
           </div>
-          <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 12px; line-height: 1.25;">${event.title}</h2>
-          <p style="font-size: 0.875rem; color: var(--text-tertiary); margin-bottom: 16px; display: flex; align-items: center; gap: 6px;">
-            📍 <span>${event.location}, ${event.city}</span>
+          <h2 style="font-size: 1.5rem; font-weight: 800; margin-bottom: 10px; line-height: 1.25;">${event.title}</h2>
+          <p style="font-size: 0.875rem; color: var(--text-tertiary); margin-bottom: 14px; display: flex; align-items: center; gap: 6px;">
+            📍 <span><strong>${event.city}</strong>, ${event.state} • ${event.venue || event.location}</span>
           </p>
-          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 24px;">
+          <p style="font-size: 0.9375rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 20px;">
             ${event.description}
           </p>
-          <div style="display: flex; gap: 12px; justify-content: flex-end; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
-            <a href="event-details.html?id=${event.id}" class="btn btn-secondary">
-              View Full Details
+          <div style="display: flex; gap: 10px; justify-content: space-between; align-items: center; padding-top: 16px; border-top: 1px solid var(--border-subtle); flex-wrap: wrap;">
+            <a href="https://maps.google.com/?q=${encodeURIComponent((event.venue || event.location) + ' ' + event.city)}" target="_blank" rel="noopener noreferrer" class="btn btn-ghost btn-sm" style="color: var(--accent-blue);">
+              🗺️ Get Directions ↗
             </a>
-            <button class="btn btn-primary" onclick="UI.openBookingModal(${event.id})">
-              Get Tickets →
-            </button>
+            <div style="display: flex; gap: 10px;">
+              <a href="event-details.html?id=${event.id}" class="btn btn-secondary">
+                View Full Details
+              </a>
+              <button class="btn btn-primary" onclick="UI.openBookingModal(${event.id})">
+                Get Tickets →
+              </button>
+            </div>
           </div>
         </div>
       </div>

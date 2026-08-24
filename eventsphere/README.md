@@ -1,4 +1,4 @@
-# ✦ EventSphere — Premium Event Discovery & Ticketing Platform
+# ✦ EventSphere — Premium Live & Upcoming Event Discovery Platform
 
 > **The Next Generation Event Experience.** Built with Apple-level cleanliness, Linear-style SaaS UI polish, and Stripe-grade typography & spacing.
 
@@ -10,13 +10,44 @@
 
 ---
 
+## 🔴 Live & Upcoming Events Discovery System
+
+EventSphere features a real-time event discovery engine across India (Pune, Mumbai, Delhi, Bengaluru, Hyderabad, Chennai, Kolkata, Ahmedabad, Jaipur, Goa, and more):
+
+1. **Dynamic Real-Time Status Computation**:
+   - `🔴 LIVE NOW`: Computed dynamically using `isEventLive(event)` based on `startDateTime` and `endDateTime`. Features an animated pulsing red dot.
+   - `⏰ STARTING SOON`: Automatically generates time-remaining countdowns ("Starts in 25 mins", "Starts in 2 hours", "Starts tomorrow", "Starts in 3 days").
+   - `ENDED`: Computed when current time passes event end time.
+
+2. **India-Wide Location Filtering**:
+   - Location selector with **All India**, **Pune**, **Mumbai**, **Delhi**, **Bengaluru**, **Hyderabad**, **Chennai**, **Kolkata**, **Ahmedabad**, **Jaipur**, **Goa**, **Lucknow**, **Chandigarh**, **Indore**, **Nagpur**, **Surat**, and **Use My Location**.
+
+3. **18 Event Categories**:
+   - Technology, AI, Startups, Business, Music, Concerts, Festivals, Sports, Education, Workshops, Conferences, Networking, Design, Comedy, Food, Art & Culture, Movies, Entertainment.
+
+4. **Future-Proof API Architecture**:
+   - Clean data access layer via `async function getEvents()` with toggleable `API_CONFIG`:
+   ```javascript
+   const API_CONFIG = {
+     enabled: false,
+     baseURL: "https://api.eventsphere.io/v1",
+     eventsEndpoint: "/events"
+   };
+   ```
+   - When `enabled: false`, serves 28+ rich mock events. When `enabled: true`, seamlessly switches to real backend endpoints without modifying the UI.
+
+5. **Mobile Bottom Sheet Filter Experience**:
+   - Dedicated sliding filter bottom-sheet on mobile devices with search, category, location, date, and price filters.
+
+---
+
 ## 📂 Project Architecture
 
 ```
 eventsphere/
 │
-├── index.html               # Elevates homepage with hero, floating preview cards, search & categories
-├── explore.html             # Full-featured event discovery catalog with live multi-criteria sidebar & sorting
+├── index.html               # Elevated homepage with Live Now spotlight, floating cards, search & categories
+├── explore.html             # Multi-filter event discovery catalog with live tabs, city chips & mobile drawer
 ├── event-details.html       # Rich event detail page with dynamic ID loading, schedule timeline & ticket booking
 ├── about.html               # Mission, origin story, interactive value pillars & animated stat counters
 ├── contact.html             # Support channels, inquiry form with real-time validation & interactive FAQ
@@ -27,8 +58,8 @@ eventsphere/
 │   └── animations.css       # Micro-interactions, ambient mesh floaters, skeleton loaders & keyframe animations
 │
 ├── js/
-│   ├── events.js            # 12+ realistic curated Indian/Global tech, music, startup events dataset + card builder
-│   ├── filters.js           # Real-time multi-criteria filtering (search, state/city cascade, category, price, wishlist)
+│   ├── events.js            # 28+ realistic curated Indian/Global events dataset, API layer, & status calculators
+│   ├── filters.js           # Real-time multi-criteria filtering (search, city chips, category, date, price, wishlist)
 │   ├── ui.js                # Modals, quick-view popup, booking checkout flow with instant QR ticket simulation, toasts
 │   └── main.js              # Global initialization, sticky frosted glass navbar, dark/light mode toggle, bookmarks
 │
@@ -52,71 +83,15 @@ eventsphere/
 
 ---
 
-## 🚀 Key Functional Features
-
-1. **Sticky Glass Navbar**:
-   - Transparent at page top, smoothly transitions to blurred frosted glass on scroll.
-   - Light/Dark mode switcher persisted in `localStorage`.
-   - Live bookmark counter badge.
-   - User profile dropdown and slide-in mobile hamburger drawer.
-
-2. **Advanced Hero & Floating Cards**:
-   - Radiant ambient gradient glow.
-   - 3 floating live preview event cards (Music Festival, AI Summit, Startup Meetup) with subtle keyframe physics.
-   - Advanced floating glass search bar with Keyword input, Indian State/UT dropdown, cascading City selector, Date picker, and Category selector.
-
-3. **Multi-Criteria Filter Engine (`filters.js`)**:
-   - Instant real-time filtering without page reloads.
-   - Keyword search across titles, descriptions, and venues.
-   - Cascading Indian States to Cities (Mumbai, Pune, Bengaluru, New Delhi, Hyderabad, Goa, Chennai, Jaipur, etc.).
-   - Price range slider with live currency formatting (`₹0 – ₹5,000`).
-   - Free vs. Paid pass toggles.
-   - Saved wishlist filter mode.
-   - Multi-way sorting (Upcoming date, Price low-to-high, Price high-to-low).
-
-4. **Interactive Modals & Digital Ticketing (`ui.js`)**:
-   - **Quick View Modal**: Instant snapshot of any event without leaving the current catalog.
-   - **Interactive Booking Flow**: Select pass tiers (General, VIP Lounge, All-Access), choose quantities with real-time price calculation, and instantly generate a cryptographically styled digital QR pass with print options.
-   - Accessible dismissal via Close button, Backdrop click, or <kbd>ESC</kbd> key.
-
-5. **Saved Events Wishlist**:
-   - 1-click heart bookmarking on any event card with pop micro-animation.
-   - Saved items persist across sessions via `localStorage`.
-
-6. **Animated Statistics**:
-   - IntersectionObserver animated count-up numbers on the About page (`10,000+ Events`, `500,000+ Attendees`, `120+ Cities`, `98% Satisfaction`).
-
-7. **Validated Contact Form**:
-   - Real-time client-side validation with email regex checks and error hints.
-   - Toast notification alerts for user actions.
-
----
-
 ## 🛠️ How to Run Locally
 
 Because EventSphere is built with pure standard web technologies, you can open and run it using any static server or directly in modern web browsers:
 
-### Option 1: Using Python Built-in Server
 ```bash
 cd eventsphere
-python3 -m http.server 3000
+python3 -m http.server 4321
 ```
-Then visit: `http://localhost:3000`
-
-### Option 2: Using Node.js `serve` / `npx`
-```bash
-npx serve eventsphere
-```
-
----
-
-## 📱 Responsive Testing
-
-Tested and verified across all standard viewports:
-- 🖥️ **Desktop**: `1440px` and `1200px` (4-column event grid, floating hero cards, single-line horizontal search bar)
-- 💻 **Laptop / Small Desktop**: `1024px` (2-column search layout, 3-column event grid)
-- 📱 **Tablet**: `768px` (2-column event grid, stacked search filters, mobile navigation drawer)
-- 📱 **Mobile**: `480px` and `375px` (1-column fluid grid, optimized typography, zero horizontal scrolling)
+Then visit: `http://localhost:4321`
 
 ---
 
