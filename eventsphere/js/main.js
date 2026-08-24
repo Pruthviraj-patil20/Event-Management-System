@@ -3,10 +3,6 @@
  * Pure Vanilla JavaScript ES6+
  */
 
-document.addEventListener('DOMContentLoaded', () => {
-  App.init();
-});
-
 const App = {
   init() {
     this.initTheme();
@@ -29,20 +25,21 @@ const App = {
    * Theme Manager (Dark / Light mode persisted in localStorage)
    */
   initTheme() {
-    const savedTheme = localStorage.getItem('eventsphere_theme') || 'dark'; // Defaulting to sleek dark for modern SaaS vibe
+    const savedTheme = localStorage.getItem('eventsphere_theme') || 'dark'; // Defaulting to sleek dark
     document.documentElement.setAttribute('data-theme', savedTheme);
 
     const toggleBtns = document.querySelectorAll('[data-action="toggle-theme"]');
     toggleBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
+      // Remove any previously attached duplicate listeners by cloning or direct binding
+      btn.onclick = () => {
         const currentTheme = document.documentElement.getAttribute('data-theme');
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         document.documentElement.setAttribute('data-theme', newTheme);
         localStorage.setItem('eventsphere_theme', newTheme);
-        if (typeof UI !== 'undefined') {
+        if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') {
           UI.showToast(`Switched to ${newTheme === 'dark' ? 'Dark 🌙' : 'Light ☀️'} mode`, 'info', 1800);
         }
-      });
+      };
     });
   },
 
@@ -70,11 +67,11 @@ const App = {
     const drawer = document.querySelector('.mobile-nav-drawer');
     if (!hamburgerBtn || !drawer) return;
 
-    hamburgerBtn.addEventListener('click', () => {
+    hamburgerBtn.onclick = () => {
       const isOpen = drawer.classList.toggle('open');
       hamburgerBtn.classList.toggle('active', isOpen);
       document.body.style.overflow = isOpen ? 'hidden' : '';
-    });
+    };
 
     // Close on navigation link click
     drawer.querySelectorAll('a').forEach(link => {
@@ -94,10 +91,10 @@ const App = {
     const dropdown = document.querySelector('.user-dropdown');
     if (!userBtn || !dropdown) return;
 
-    userBtn.addEventListener('click', (e) => {
+    userBtn.onclick = (e) => {
       e.stopPropagation();
       dropdown.classList.toggle('show');
-    });
+    };
 
     document.addEventListener('click', () => {
       dropdown.classList.remove('show');
@@ -123,15 +120,21 @@ const App = {
       if (bookmarks.includes(eventId)) {
         bookmarks = bookmarks.filter(id => id !== eventId);
         bookmarkBtn.classList.remove('bookmarked');
-        bookmarkBtn.querySelector('svg').setAttribute('fill', 'none');
-        if (typeof UI !== 'undefined') UI.showToast('Event removed from saved list', 'info');
+        const svg = bookmarkBtn.querySelector('svg');
+        if (svg) svg.setAttribute('fill', 'none');
+        if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') {
+          UI.showToast('Event removed from saved list', 'info');
+        }
       } else {
         bookmarks.push(eventId);
         bookmarkBtn.classList.add('bookmarked');
-        bookmarkBtn.querySelector('svg').setAttribute('fill', 'currentColor');
+        const svg = bookmarkBtn.querySelector('svg');
+        if (svg) svg.setAttribute('fill', 'currentColor');
         bookmarkBtn.classList.add('heart-pop');
         setTimeout(() => bookmarkBtn.classList.remove('heart-pop'), 400);
-        if (typeof UI !== 'undefined') UI.showToast('Event saved to your wishlist! ❤️', 'success');
+        if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') {
+          UI.showToast('Event saved to your wishlist! ❤️', 'success');
+        }
       }
 
       localStorage.setItem('eventsphere_bookmarks', JSON.stringify(bookmarks));
@@ -154,7 +157,7 @@ const App = {
   initQuickViewListeners() {
     document.addEventListener('click', (e) => {
       const quickViewBtn = e.target.closest('[data-action="quick-view"]');
-      if (quickViewBtn && typeof UI !== 'undefined') {
+      if (quickViewBtn && typeof UI !== 'undefined' && typeof UI.openQuickView === 'function') {
         const eventId = quickViewBtn.dataset.id;
         UI.openQuickView(eventId);
       }
@@ -168,16 +171,20 @@ const App = {
     const revealEls = document.querySelectorAll('.reveal-on-scroll');
     if (revealEls.length === 0) return;
 
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('revealed');
-          observer.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.15 });
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('revealed');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
 
-    revealEls.forEach(el => observer.observe(el));
+      revealEls.forEach(el => observer.observe(el));
+    } else {
+      revealEls.forEach(el => el.classList.add('revealed'));
+    }
   },
 
   /**
@@ -196,3 +203,15 @@ const App = {
     });
   }
 };
+
+// Defensive Initialization (Works whether DOM is already loaded or loading)
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => App.init());
+} else {
+  App.init();
+}
+
+// Expose globally on window
+if (typeof window !== 'undefined') {
+  window.App = App;
+}

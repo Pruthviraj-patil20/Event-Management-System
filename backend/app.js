@@ -63,6 +63,7 @@ app.use('/api', apiLimiter);
 
 // Serve Static Frontend Assets
 app.use(express.static(path.join(__dirname, '../frontend')));
+app.use('/eventsphere', express.static(path.join(__dirname, '../eventsphere')));
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Health Check API

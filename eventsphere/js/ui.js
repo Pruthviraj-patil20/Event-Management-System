@@ -24,6 +24,7 @@ const UI = {
   showToast(message, type = 'success', duration = 3200) {
     this.initToasts();
     const container = document.querySelector('.toast-container');
+    if (!container) return;
     const toast = document.createElement('div');
     toast.className = `toast toast-${type}`;
     
@@ -47,7 +48,8 @@ const UI = {
    * Quick View Event Modal
    */
   openQuickView(eventId) {
-    const event = (typeof EVENT_DATASET !== 'undefined' ? EVENT_DATASET : MOCK_EVENTS).find(e => e.id === Number(eventId));
+    const allEvents = window.EVENT_DATASET || window.MOCK_EVENTS || (typeof EVENT_DATASET !== 'undefined' ? EVENT_DATASET : (typeof MOCK_EVENTS !== 'undefined' ? MOCK_EVENTS : []));
+    const event = allEvents.find(e => e.id === Number(eventId));
     if (!event) return;
 
     let backdrop = document.getElementById('quickViewModal');
@@ -58,11 +60,13 @@ const UI = {
       document.body.appendChild(backdrop);
     }
 
-    const status = typeof getEventStatus === 'function' ? getEventStatus(event) : 'UPCOMING';
+    const status = typeof getEventStatus === 'function' ? getEventStatus(event) : (typeof window.getEventStatus === 'function' ? window.getEventStatus(event) : 'UPCOMING');
     const timeInfo = typeof formatEventTimeRange === 'function' 
       ? formatEventTimeRange(event.startDateTime, event.endDateTime) 
-      : { date: event.formattedDate || 'Upcoming', timeRange: event.time || '' };
-    const countdown = typeof getTimeRemainingString === 'function' ? getTimeRemainingString(event) : '';
+      : (typeof window.formatEventTimeRange === 'function' ? window.formatEventTimeRange(event.startDateTime, event.endDateTime) : { date: event.formattedDate || 'Upcoming', timeRange: event.time || '' });
+    const countdown = typeof getTimeRemainingString === 'function' 
+      ? getTimeRemainingString(event) 
+      : (typeof window.getTimeRemainingString === 'function' ? window.getTimeRemainingString(event) : '');
     const priceText = event.isFree ? 'FREE ENTRY' : `₹${event.price.toLocaleString('en-IN')}`;
 
     let statusBadgeHTML = '';
@@ -128,7 +132,8 @@ const UI = {
    * Ticket Booking Checkout & QR Generator Modal
    */
   openBookingModal(eventId, selectedTier = 'General') {
-    const event = EVENT_DATASET.find(e => e.id === Number(eventId));
+    const allEvents = window.EVENT_DATASET || window.MOCK_EVENTS || (typeof EVENT_DATASET !== 'undefined' ? EVENT_DATASET : (typeof MOCK_EVENTS !== 'undefined' ? MOCK_EVENTS : []));
+    const event = allEvents.find(e => e.id === Number(eventId));
     if (!event) return;
 
     // Close any previous open modal
@@ -366,3 +371,8 @@ document.addEventListener('keydown', (e) => {
     document.querySelectorAll('.modal-backdrop.open').forEach(m => UI.closeModal(m));
   }
 });
+
+// Expose globally on window
+if (typeof window !== 'undefined') {
+  window.UI = UI;
+}

@@ -32,7 +32,7 @@ const MOCK_EVENTS = [
     state: "Maharashtra",
     venue: "Viman Nagar Tech Hub, Phoenix Marketcity Area",
     startDateTime: createRelativeDate(-1.5), // Started 1.5 hours ago
-    endDateTime: createRelativeDate(1.5),    // Ends in 1.5 hours
+    endDateTime: createRelativeDate(2),    // Ends in 2 hours
     price: 0,
     isFree: true,
     featured: true,
@@ -61,7 +61,7 @@ const MOCK_EVENTS = [
     state: "Maharashtra",
     venue: "The St. Regis Penthouse Lounge, Lower Parel",
     startDateTime: createRelativeDate(-2), // Started 2 hours ago
-    endDateTime: createRelativeDate(2),    // Ends in 2 hours
+    endDateTime: createRelativeDate(2.5),    // Ends in 2.5 hours
     price: 1499,
     isFree: false,
     featured: true,
@@ -90,7 +90,7 @@ const MOCK_EVENTS = [
     state: "Karnataka",
     venue: "Koramangala 80ft Road Innovation Labs",
     startDateTime: createRelativeDate(-3), // Started 3 hours ago
-    endDateTime: createRelativeDate(2.5),  // Ends in 2.5 hours
+    endDateTime: createRelativeDate(3),  // Ends in 3 hours
     price: 0,
     isFree: true,
     featured: true,
@@ -119,7 +119,7 @@ const MOCK_EVENTS = [
     state: "Delhi",
     venue: "The Comedy Club, Hauz Khas Village",
     startDateTime: createRelativeDate(-1),
-    endDateTime: createRelativeDate(1.5),
+    endDateTime: createRelativeDate(2),
     price: 399,
     isFree: false,
     featured: false,
@@ -625,7 +625,7 @@ const ALL_CATEGORIES = [
   { id: "Entertainment", name: "Entertainment", icon: "🍿" }
 ];
 
-// Backward-compatible alias for existing components
+// Backward-compatible alias
 const CATEGORIES_LIST = ALL_CATEGORIES;
 const LOCATIONS_MAP = {
   "Maharashtra": ["Mumbai", "Pune", "Nagpur", "Nashik"],
@@ -661,7 +661,7 @@ async function getEvents() {
   }
 
   // Simulated micro latency for realistic async feel
-  await new Promise(resolve => setTimeout(resolve, 80));
+  await new Promise(resolve => setTimeout(resolve, 60));
   return MOCK_EVENTS;
 }
 
@@ -674,6 +674,7 @@ const EVENT_DATASET = MOCK_EVENTS;
  * @returns {boolean}
  */
 function isEventLive(event) {
+  if (!event || !event.startDateTime || !event.endDateTime) return false;
   const now = new Date();
   const start = new Date(event.startDateTime);
   const end = new Date(event.endDateTime);
@@ -686,6 +687,7 @@ function isEventLive(event) {
  * @returns {'LIVE' | 'UPCOMING' | 'ENDED'}
  */
 function getEventStatus(event) {
+  if (!event || !event.startDateTime || !event.endDateTime) return 'UPCOMING';
   const now = new Date();
   const start = new Date(event.startDateTime);
   const end = new Date(event.endDateTime);
@@ -701,6 +703,7 @@ function getEventStatus(event) {
  * @returns {string}
  */
 function getTimeRemainingString(event) {
+  if (!event || !event.startDateTime) return "Upcoming";
   const now = new Date();
   const start = new Date(event.startDateTime);
   const diffMs = start - now;
@@ -728,8 +731,8 @@ function getTimeRemainingString(event) {
  * Formats start and end times into clean range: "6:00 PM – 9:00 PM"
  */
 function formatEventTimeRange(startISO, endISO) {
-  const start = new Date(startISO);
-  const end = new Date(endISO);
+  const start = startISO ? new Date(startISO) : new Date();
+  const end = endISO ? new Date(endISO) : new Date();
 
   const formatTime = (d) => d.toLocaleTimeString('en-US', {
     hour: 'numeric',
@@ -817,7 +820,7 @@ function createEventCardHTML(event, isBookmarked = false) {
             <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
             <circle cx="12" cy="10" r="3"></circle>
           </svg>
-          <span><strong>${event.city}</strong> • ${event.venue}</span>
+          <span><strong>${event.city}</strong> • ${event.venue || event.location}</span>
         </div>
         <p class="event-card-desc">${event.description}</p>
         <div class="event-card-footer">
@@ -863,7 +866,7 @@ function createFeaturedLiveCardHTML(event, isBookmarked = false) {
         <h3 class="featured-live-title">${event.title}</h3>
         <p class="featured-live-desc">${event.description}</p>
         <div class="featured-live-location">
-          <span>📍 <strong>${event.city}</strong>, ${event.state} • ${event.venue}</span>
+          <span>📍 <strong>${event.city}</strong>, ${event.state} • ${event.venue || event.location}</span>
         </div>
         <div class="featured-live-footer">
           <div class="featured-live-price">${priceDisplay}</div>
@@ -879,4 +882,22 @@ function createFeaturedLiveCardHTML(event, isBookmarked = false) {
       </div>
     </div>
   `;
+}
+
+// Attach all functions & datasets to window for global access
+if (typeof window !== 'undefined') {
+  window.API_CONFIG = API_CONFIG;
+  window.MOCK_EVENTS = MOCK_EVENTS;
+  window.EVENT_DATASET = MOCK_EVENTS;
+  window.ALL_CATEGORIES = ALL_CATEGORIES;
+  window.CATEGORIES_LIST = ALL_CATEGORIES;
+  window.INDIA_CITIES = INDIA_CITIES;
+  window.LOCATIONS_MAP = LOCATIONS_MAP;
+  window.isEventLive = isEventLive;
+  window.getEventStatus = getEventStatus;
+  window.getTimeRemainingString = getTimeRemainingString;
+  window.formatEventTimeRange = formatEventTimeRange;
+  window.createEventCardHTML = createEventCardHTML;
+  window.createFeaturedLiveCardHTML = createFeaturedLiveCardHTML;
+  window.getEvents = getEvents;
 }

@@ -45,6 +45,22 @@ class EventFilterEngine {
     if (params.has('state')) this.filters.state = params.get('state');
     if (params.has('date')) this.filters.dateRange = params.get('date');
     if (params.has('bookmarked')) this.filters.onlyBookmarked = params.get('bookmarked') === 'true';
+
+    // If no tab in URL, check if a tab is marked active in DOM
+    if (!params.has('tab')) {
+      const activeTabEl = document.querySelector('[data-filter="tab"].active');
+      if (activeTabEl && activeTabEl.dataset.tab) {
+        this.filters.tab = activeTabEl.dataset.tab;
+      }
+    }
+
+    // If no city in URL, check if city chip is marked active in DOM
+    if (!params.has('city')) {
+      const activeCityEl = document.querySelector('[data-filter="city-chip"].active');
+      if (activeCityEl && activeCityEl.dataset.city) {
+        this.filters.city = activeCityEl.dataset.city;
+      }
+    }
   }
 
   async loadEvents() {
@@ -53,7 +69,12 @@ class EventFilterEngine {
 
     try {
       // Fetch via async data access layer (getEvents)
-      this.events = await getEvents();
+      const fetchFn = typeof getEvents === 'function' ? getEvents : (typeof window.getEvents === 'function' ? window.getEvents : null);
+      if (fetchFn) {
+        this.events = await fetchFn();
+      } else {
+        this.events = window.MOCK_EVENTS || window.EVENT_DATASET || [];
+      }
       this.isLoading = false;
       this.applyFilters();
     } catch (err) {
@@ -82,6 +103,10 @@ class EventFilterEngine {
     // 2. City Chips & Selectors
     const cityChips = document.querySelectorAll('[data-filter="city-chip"]');
     cityChips.forEach(chip => {
+      if (chip.dataset.city === this.filters.city) {
+        cityChips.forEach(c => c.classList.remove('active'));
+        chip.classList.add('active');
+      }
       chip.addEventListener('click', (e) => {
         cityChips.forEach(c => c.classList.remove('active'));
         e.currentTarget.classList.add('active');
@@ -97,7 +122,7 @@ class EventFilterEngine {
         // UI-safe simulation: default to Pune / Mumbai
         this.filters.city = 'Pune';
         cityChips.forEach(c => c.classList.toggle('active', c.dataset.city === 'Pune'));
-        if (typeof UI !== 'undefined') {
+        if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') {
           UI.showToast('📍 Located near Pune, Maharashtra (Simulated)', 'info');
         }
         this.applyFilters();
@@ -125,7 +150,7 @@ class EventFilterEngine {
         this.debounceTimer = setTimeout(() => {
           this.filters.search = e.target.value.trim().toLowerCase();
           this.applyFilters();
-        }, 250);
+        }, 200);
       });
     });
 
@@ -203,8 +228,9 @@ class EventFilterEngine {
 
   populateCityDropdown(select) {
     if (!select) return;
+    const cities = window.INDIA_CITIES || INDIA_CITIES || [];
     select.innerHTML = '<option value="All India">All India</option>';
-    INDIA_CITIES.filter(c => c !== 'All India').forEach(city => {
+    cities.filter(c => c !== 'All India').forEach(city => {
       const opt = document.createElement('option');
       opt.value = city;
       opt.textContent = city;
@@ -214,8 +240,9 @@ class EventFilterEngine {
 
   populateCategoryDropdown(select) {
     if (!select) return;
+    const categories = window.ALL_CATEGORIES || ALL_CATEGORIES || [];
     select.innerHTML = '<option value="all">All Categories</option>';
-    ALL_CATEGORIES.filter(c => c.id !== 'all').forEach(cat => {
+    categories.filter(c => c.id !== 'all').forEach(cat => {
       const opt = document.createElement('option');
       opt.value = cat.name;
       opt.textContent = `${cat.icon} ${cat.name}`;
@@ -295,15 +322,19 @@ class EventFilterEngine {
     if (priceDisplay) priceDisplay.textContent = '₹5,000';
 
     this.applyFilters();
-    if (typeof UI !== 'undefined') UI.showToast('Filters reset to default', 'info');
+    if (typeof UI !== 'undefined' && typeof UI.showToast === 'function') {
+      UI.showToast('Filters reset to default', 'info');
+    }
   }
 
   applyFilters() {
     const bookmarkedIds = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
     const now = new Date();
 
-    let results = this.events.filter(event => {
-      const status = getEventStatus(event);
+    const statusFn = typeof getEventStatus === 'function' ? getEventStatus : (typeof window.getEventStatus === 'function' ? window.getEventStatus : () => 'UPCOMING');
+
+    let results = (this.events || []).filter(event => {
+      const status = statusFn(event);
       const start = new Date(event.startDateTime);
 
       // 1. Live vs Upcoming Tab
@@ -327,11 +358,11 @@ class EventFilterEngine {
       // 4. Keyword Search (title, city, venue, category, organizer, description)
       if (this.filters.search) {
         const q = this.filters.search;
-        const matchesTitle = event.title.toLowerCase().includes(q);
-        const matchesCity = event.city.toLowerCase().includes(q);
+        const matchesTitle = (event.title || '').toLowerCase().includes(q);
+        const matchesCity = (event.city || '').toLowerCase().includes(q);
         const matchesVenue = (event.venue || event.location || '').toLowerCase().includes(q);
-        const matchesCat = event.category.toLowerCase().includes(q);
-        const matchesDesc = event.description.toLowerCase().includes(q);
+        const matchesCat = (event.category || '').toLowerCase().includes(q);
+        const matchesDesc = (event.description || '').toLowerCase().includes(q);
         const matchesOrg = (event.organizer?.name || '').toLowerCase().includes(q);
 
         if (!matchesTitle && !matchesCity && !matchesVenue && !matchesCat && !matchesDesc && !matchesOrg) {
@@ -342,8 +373,6 @@ class EventFilterEngine {
       // 5. Date Filter
       if (this.filters.dateRange !== 'all') {
         const diffDays = Math.floor((start - now) / (1000 * 60 * 60 * 24));
-        const eventDay = start.getDate();
-        const nowDay = now.getDate();
         const isSameDay = start.toDateString() === now.toDateString();
 
         if (this.filters.dateRange === 'today' && !isSameDay) return false;
@@ -383,11 +412,11 @@ class EventFilterEngine {
   }
 
   sortResults(items) {
-    const now = new Date();
+    const statusFn = typeof getEventStatus === 'function' ? getEventStatus : (typeof window.getEventStatus === 'function' ? window.getEventStatus : () => 'UPCOMING');
 
     switch (this.filters.sortBy) {
       case 'happening-now':
-        return items.sort((a, b) => (getEventStatus(b) === 'LIVE' ? 1 : 0) - (getEventStatus(a) === 'LIVE' ? 1 : 0));
+        return items.sort((a, b) => (statusFn(b) === 'LIVE' ? 1 : 0) - (statusFn(a) === 'LIVE' ? 1 : 0));
       case 'starting-soon':
       case 'nearest-date':
         return items.sort((a, b) => new Date(a.startDateTime) - new Date(b.startDateTime));
@@ -401,8 +430,8 @@ class EventFilterEngine {
       default:
         // Prioritize Live first, then Featured, then upcoming date
         return items.sort((a, b) => {
-          const aLive = getEventStatus(a) === 'LIVE' ? 2 : 0;
-          const bLive = getEventStatus(b) === 'LIVE' ? 2 : 0;
+          const aLive = statusFn(a) === 'LIVE' ? 2 : 0;
+          const bLive = statusFn(b) === 'LIVE' ? 2 : 0;
           const aFeat = a.featured ? 1 : 0;
           const bFeat = b.featured ? 1 : 0;
           if (bLive + bFeat !== aLive + aFeat) {
@@ -436,13 +465,17 @@ class EventFilterEngine {
           <div class="error-state-icon">⚠️</div>
           <h3 class="error-state-title">We couldn't load events right now</h3>
           <p class="error-state-text">There was an unexpected error fetching the discovery catalog. Please try again.</p>
-          <button class="btn btn-primary" onclick="window.filterEngine?.loadEvents()">Try Again ⟳</button>
+          <button class="btn btn-primary" onclick="window.homeFilterEngine?.loadEvents(); window.exploreFilterEngine?.loadEvents();">Try Again ⟳</button>
         </div>
       `;
     }
   }
 
   render(items, bookmarkedIds) {
+    const statusFn = typeof getEventStatus === 'function' ? getEventStatus : (typeof window.getEventStatus === 'function' ? window.getEventStatus : () => 'UPCOMING');
+    const cardFn = typeof createEventCardHTML === 'function' ? createEventCardHTML : (typeof window.createEventCardHTML === 'function' ? window.createEventCardHTML : null);
+    const liveCardFn = typeof createFeaturedLiveCardHTML === 'function' ? createFeaturedLiveCardHTML : (typeof window.createFeaturedLiveCardHTML === 'function' ? window.createFeaturedLiveCardHTML : null);
+
     // 1. Update Results Count Text
     if (this.countElement) {
       const cityLabel = this.filters.city && this.filters.city !== 'All India' ? ` in ${this.filters.city}` : ' across India';
@@ -450,13 +483,13 @@ class EventFilterEngine {
     }
 
     // 2. Render Featured Spotlight (if container provided)
-    if (this.featuredContainer) {
-      const liveEvents = items.filter(e => getEventStatus(e) === 'LIVE');
+    if (this.featuredContainer && liveCardFn) {
+      const liveEvents = items.filter(e => statusFn(e) === 'LIVE');
       const spotlightEvents = liveEvents.length > 0 ? liveEvents.slice(0, 2) : items.slice(0, 2);
 
       if (spotlightEvents.length > 0) {
         this.featuredContainer.innerHTML = spotlightEvents
-          .map(e => createFeaturedLiveCardHTML(e, bookmarkedIds.includes(e.id)))
+          .map(e => liveCardFn(e, bookmarkedIds.includes(e.id)))
           .join('');
         this.featuredContainer.style.display = 'grid';
       } else {
@@ -465,7 +498,7 @@ class EventFilterEngine {
     }
 
     // 3. Render Main Grid / Empty State
-    if (!this.container) return;
+    if (!this.container || !cardFn) return;
 
     if (items.length === 0) {
       this.container.innerHTML = `
@@ -482,7 +515,12 @@ class EventFilterEngine {
     }
 
     this.container.innerHTML = items
-      .map(event => createEventCardHTML(event, bookmarkedIds.includes(event.id)))
+      .map(event => cardFn(event, bookmarkedIds.includes(event.id)))
       .join('');
   }
+}
+
+// Expose globally on window
+if (typeof window !== 'undefined') {
+  window.EventFilterEngine = EventFilterEngine;
 }
