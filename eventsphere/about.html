@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us — EventSphere</title>
+  <meta name="description" content="EventSphere is on a mission to connect communities through world-class events, tech conferences, concerts, and summits.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="brand-logo">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logos/logo.svg" alt="EventSphere" width="38" height="38">
+        </div>
+        <span>EventSphere</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="explore.html" class="nav-link">Explore Events</a>
+        <a href="index.html#categoriesSection" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link active">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="btn-icon theme-toggle-btn" data-action="toggle-theme">
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+          </svg>
+        </button>
+
+        <a href="contact.html?type=host" class="btn btn-primary">Create Event</a>
+
+        <button class="hamburger-btn" aria-label="Menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="explore.html" class="nav-link">Explore Events</a>
+    <a href="about.html" class="nav-link active">About Us</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+
+  <!-- About Hero -->
+  <section class="section" style="background: var(--gradient-hero-glow); padding: 80px 0 60px; text-align: center;">
+    <div class="container" style="max-width: 800px;">
+      <span class="section-badge">Our Mission</span>
+      <h1 class="hero-title" style="font-size: 3.25rem;">
+        Empowering communities to discover <br/>
+        <span class="gradient-text">meaningful connections.</span>
+      </h1>
+      <p class="hero-subtitle">
+        EventSphere was founded with a singular conviction: human presence transforms ideas into movements. We build the digital infrastructure that makes gathering effortless, transparent, and unforgettable.
+      </p>
+    </div>
+  </section>
+
+  <!-- Live Animated Statistics -->
+  <section class="section" style="padding-top: 0;">
+    <div class="container">
+      <div class="stats-banner reveal-on-scroll">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="10000" data-suffix="+">0</div>
+            <div class="stat-label">Events Hosted</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="500000" data-suffix="+">0</div>
+            <div class="stat-label">Happy Attendees</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="120" data-suffix="+">0</div>
+            <div class="stat-label">Cities Covered</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="98" data-suffix="%">0</div>
+            <div class="stat-label">Satisfaction Rate</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story & Vision -->
+  <section class="section" id="story" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center;">
+        <div>
+          <span class="section-badge">The Origin</span>
+          <h2 style="font-size: 2.25rem; font-weight: 800; margin-bottom: 16px;">Reinventing How the World Meets</h2>
+          <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 16px;">
+            Traditional ticketing platforms are cluttered, slow, and full of hidden checkout fees. We engineered EventSphere to be lightning-fast, visually stunning, and delightfully clean.
+          </p>
+          <p style="color: var(--text-secondary); font-size: 1rem; line-height: 1.7; margin-bottom: 24px;">
+            Whether you're organizing an intimate 50-person developer workshop in Pune or a 20,000-attendee global music festival in Goa, our platform provides instant QR pass issuing, real-time analytics, and verified attendee verification.
+          </p>
+          <div style="display: flex; gap: 16px;">
+            <a href="explore.html" class="btn btn-primary">Explore Upcoming Events →</a>
+            <a href="contact.html" class="btn btn-secondary">Get in Touch</a>
+          </div>
+        </div>
+
+        <div style="position: relative;">
+          <img src="https://images.unsplash.com/photo-1511578314322-379afb476865?auto=format&fit=crop&w=1000&q=80" alt="Audience Gathering" style="border-radius: var(--radius-xl); box-shadow: var(--shadow-xl);" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Core Values -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Pillars of Excellence</span>
+        <h2 class="section-title">Built on Trust, Speed, & Design</h2>
+        <p class="section-subtitle">The four guiding principles behind every interface and feature we ship.</p>
+      </div>
+
+      <div class="value-cards-grid">
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 18px;">💎</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Uncompromising Polish</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            We believe design is not just how it looks, but how it works. Every transition, border, and interaction is fine-tuned.
+          </p>
+        </div>
+
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 18px;">⚡</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Sub-Second Latency</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Fast page loads, instant multi-criteria filtering, and zero checkout delays with native browser optimizations.
+          </p>
+        </div>
+
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 18px;">🛡️</div>
+          <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 10px;">Verified Communities</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Strict verification standards ensure authentic hosts, guaranteed seat reservation, and fair pricing without scalp bots.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon-wrapper">
+              <img src="assets/logos/logo.svg" alt="EventSphere" width="34" height="34">
+            </div>
+            <span>EventSphere</span>
+          </a>
+          <p>The next-generation event discovery and ticketing platform.</p>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Platform</h4>
+          <div class="footer-links">
+            <a href="explore.html" class="footer-link">Explore Events</a>
+            <a href="contact.html?type=host" class="footer-link">Create Event</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Company</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Legal</h4>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Newsletter</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Curated event drops weekly.</p>
+          <form onsubmit="event.preventDefault(); UI.showToast('Subscribed! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
+            <input type="email" placeholder="Your email" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 EventSphere Technologies Inc. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/events.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

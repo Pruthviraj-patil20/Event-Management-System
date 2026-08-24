@@ -1,0 +1,259 @@
+/* ==========================================================================
+   EVENTSPHERE — RESPONSIVE DESIGN SYSTEM
+   Fluid Breakpoints: 1440px, 1200px, 1024px, 768px, 480px, 375px
+   ========================================================================== */
+
+/* 1200px - Large Desktop & Laptops */
+@media (max-width: 1200px) {
+  .hero-title {
+    font-size: 3.5rem;
+  }
+
+  .events-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr 1fr 1.2fr;
+    gap: 30px;
+  }
+
+  .floating-card.float-left-top {
+    left: 1%;
+    top: 10%;
+  }
+
+  .floating-card.float-right-top {
+    right: 1%;
+    top: 12%;
+  }
+}
+
+/* 1024px - Tablets & Small Laptops */
+@media (max-width: 1024px) {
+  .hero-title {
+    font-size: 3rem;
+  }
+
+  .hero-floating-elements {
+    display: none; /* Hide floating decorative cards on tablet to avoid overlap */
+  }
+
+  .search-panel {
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 16px;
+  }
+
+  .search-field-divider {
+    display: none;
+  }
+
+  .search-btn {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+
+  .explore-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .filter-sidebar {
+    position: static;
+    margin-bottom: 24px;
+  }
+
+  .events-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sticky-booking-widget {
+    position: static;
+    margin-top: 30px;
+  }
+
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 28px;
+  }
+
+  .value-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .contact-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .footer-brand {
+    grid-column: 1 / -1;
+  }
+}
+
+/* 768px - Portrait Tablets & Large Mobile */
+@media (max-width: 768px) {
+  :root {
+    --header-height: 64px;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
+  .nav-actions .btn-primary {
+    display: none; /* Hide top Create Event button on mobile, shown in drawer */
+  }
+
+  .hero-section {
+    padding: 60px 0 40px;
+  }
+
+  .hero-title {
+    font-size: 2.35rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-cta-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-cta-group .btn {
+    width: 100%;
+  }
+
+  .search-panel {
+    grid-template-columns: 1fr;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .category-card {
+    padding: 16px 8px;
+  }
+
+  .category-icon-box {
+    width: 40px;
+    height: 40px;
+    font-size: 1.15rem;
+  }
+
+  .category-name {
+    font-size: 0.75rem;
+  }
+
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .event-hero-banner {
+    height: 300px;
+  }
+
+  .event-hero-title {
+    font-size: 1.85rem;
+  }
+
+  .event-hero-overlay {
+    padding: 20px;
+  }
+
+  .details-card {
+    padding: 20px;
+  }
+
+  .value-cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+/* 480px - Mobile Devices */
+@media (max-width: 480px) {
+  .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .section {
+    padding: 50px 0;
+  }
+
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .section-title {
+    font-size: 1.75rem;
+  }
+
+  .categories-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .stat-number {
+    font-size: 2.35rem;
+  }
+
+  .speakers-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .modal-container {
+    max-height: 95vh;
+  }
+}
+
+/* 375px - Small Mobile Screens */
+@media (max-width: 375px) {
+  .hero-title {
+    font-size: 1.75rem;
+  }
+
+  .brand-logo {
+    font-size: 1.15rem;
+  }
+
+  .brand-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .speakers-grid {
+    grid-template-columns: 1fr;
+  }
+}

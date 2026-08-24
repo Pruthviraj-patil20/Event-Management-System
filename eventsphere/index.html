@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EventSphere — Discover Experiences Worth Remembering</title>
+  <meta name="description" content="Asia's next-generation event discovery platform. Find conferences, concerts, workshops, festivals and tech summits with instant QR passes.">
+  
+  <!-- Open Graph Meta -->
+  <meta property="og:title" content="EventSphere — Premium Event Discovery">
+  <meta property="og:description" content="Discover world-class experiences, tech summits, concerts, and festivals.">
+  <meta property="og:type" content="website">
+
+  <!-- Google Fonts (Plus Jakarta Sans & Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- ==========================================================================
+       STICKY PREMIUM NAVBAR
+       ========================================================================== -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <!-- Left: Logo & Brand -->
+      <a href="index.html" class="brand-logo" aria-label="EventSphere Home">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logos/logo.svg" alt="EventSphere Spark Logo" width="38" height="38">
+        </div>
+        <span>EventSphere</span>
+        <span class="brand-badge">PRO</span>
+      </a>
+
+      <!-- Center: Navigation Menu -->
+      <nav class="nav-menu" aria-label="Primary Navigation">
+        <a href="index.html" class="nav-link active">Home</a>
+        <a href="explore.html" class="nav-link">Explore Events</a>
+        <a href="#categoriesSection" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <!-- Right: Action Controls -->
+      <div class="nav-actions">
+        <!-- Quick Search Link -->
+        <a href="explore.html" class="btn-icon" aria-label="Search Events" title="Search Events">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+        </a>
+
+        <!-- Wishlist / Saved Events -->
+        <a href="explore.html?bookmarked=true" class="btn-icon" style="position: relative;" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="badge-counter bookmark-counter" style="display: none;">0</span>
+        </a>
+
+        <!-- Dark/Light Mode Switcher -->
+        <button class="btn-icon theme-toggle-btn" data-action="toggle-theme" aria-label="Toggle Color Theme" title="Toggle Theme">
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <!-- Primary CTA: Create Event -->
+        <a href="contact.html?type=host" class="btn btn-primary">
+          <span>Create Event</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"></line>
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+          </svg>
+        </a>
+
+        <!-- User Avatar & Dropdown -->
+        <div class="user-menu-wrapper">
+          <button class="user-avatar-btn" aria-label="User Profile Menu">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="User Avatar" width="40" height="40">
+          </button>
+          <div class="user-dropdown">
+            <div class="user-dropdown-header">
+              <div class="user-name">Raj Patil</div>
+              <div class="user-email">raj@eventsphere.io</div>
+            </div>
+            <a href="explore.html?bookmarked=true" class="dropdown-item">
+              <span>❤️</span> My Saved Wishlist
+            </a>
+            <a href="explore.html" class="dropdown-item">
+              <span>🎟️</span> My Bookings
+            </a>
+            <a href="contact.html?type=host" class="dropdown-item">
+              <span>✨</span> Host an Event
+            </a>
+            <a href="contact.html" class="dropdown-item">
+              <span>💬</span> Help & Support
+            </a>
+          </div>
+        </div>
+
+        <!-- Mobile Hamburger Button -->
+        <button class="hamburger-btn" aria-label="Toggle Mobile Navigation">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer">
+    <a href="index.html" class="nav-link active">Home</a>
+    <a href="explore.html" class="nav-link">Explore Events</a>
+    <a href="#categoriesSection" class="nav-link">Categories</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="explore.html?bookmarked=true" class="nav-link">Saved Events ❤️</a>
+    <div style="margin-top: auto;">
+      <a href="contact.html?type=host" class="btn btn-primary" style="width: 100%;">Create Event</a>
+    </div>
+  </div>
+
+  <!-- ==========================================================================
+       HERO SECTION WITH FLOATING CARDS & AMBIENT GLOW
+       ========================================================================== -->
+  <section class="hero-section">
+    <!-- Ambient Glow Mesh -->
+    <div class="hero-glow-blob hero-glow-1"></div>
+    <div class="hero-glow-blob hero-glow-2"></div>
+    <div class="hero-glow-blob hero-glow-3"></div>
+
+    <!-- Floating Live Preview Event Cards (Desktop) -->
+    <div class="hero-floating-elements">
+      <!-- Card 1: Music Festival (Left Top) -->
+      <div class="floating-card float-left-top" onclick="UI.openQuickView(2)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?auto=format&fit=crop&w=120&q=80" alt="Sunburn Arena" />
+        <div class="floating-card-info">
+          <div class="floating-card-title">Sunburn Arena</div>
+          <div class="floating-card-meta"><span class="live-pulse"></span> Goa • Oct 18</div>
+          <span class="floating-card-badge">Music Fest</span>
+        </div>
+      </div>
+
+      <!-- Card 2: AI Summit (Right Top) -->
+      <div class="floating-card float-right-top" onclick="UI.openQuickView(1)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=120&q=80" alt="AI Future Summit" />
+        <div class="floating-card-info">
+          <div class="floating-card-title">AI Future Summit</div>
+          <div class="floating-card-meta">Mumbai • Sep 15</div>
+          <span class="floating-card-badge" style="color: var(--accent-indigo); background: rgba(99,102,241,0.12);">Technology</span>
+        </div>
+      </div>
+
+      <!-- Card 3: Startup Meetup (Right Bottom) -->
+      <div class="floating-card float-right-bottom" onclick="UI.openQuickView(3)">
+        <img class="floating-card-img" src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=120&q=80" alt="Founders Unplugged" />
+        <div class="floating-card-info">
+          <div class="floating-card-title">Founders Unplugged</div>
+          <div class="floating-card-meta">Bengaluru • Sep 28</div>
+          <span class="floating-card-badge" style="color: var(--accent-emerald); background: rgba(16,185,129,0.12);">Free Entry</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="container hero-content">
+      <div class="hero-badge shimmer-badge">
+        <span class="hero-badge-spark">✦</span>
+        <span>The Next Generation Event Experience</span>
+      </div>
+
+      <h1 class="hero-title">
+        Discover experiences <br/>
+        <span class="gradient-text">worth remembering.</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Find conferences, concerts, workshops, festivals and summits happening around you. Plan your schedule, discover new communities, and book unforgettable experiences.
+      </p>
+
+      <div class="hero-cta-group">
+        <a href="explore.html" class="btn btn-primary btn-lg">
+          <span>Explore Events</span>
+          <span>→</span>
+        </a>
+        <a href="contact.html?type=host" class="btn btn-secondary btn-lg">
+          <span>Create an Event</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- ==========================================================================
+         ADVANCED FLOATING GLASS SEARCH PANEL
+         ========================================================================== -->
+    <div class="hero-search-wrapper">
+      <form class="search-panel" id="heroSearchForm" action="explore.html" method="GET">
+        <!-- 1. Keyword Search -->
+        <div class="search-field">
+          <div class="search-field-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <div class="search-field-body">
+            <label for="heroSearch" class="search-field-label">Search Event</label>
+            <input type="text" id="heroSearch" name="search" class="search-field-input" placeholder="e.g. AI Summit, Concert..." />
+          </div>
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- 2. State / UT -->
+        <div class="search-field">
+          <div class="search-field-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          <div class="search-field-body">
+            <label for="heroState" class="search-field-label">State / UT</label>
+            <select id="heroState" name="state" class="search-field-select" data-filter="state">
+              <option value="all">All States</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- 3. City (Cascading) -->
+        <div class="search-field">
+          <div class="search-field-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 21h18"></path>
+              <path d="M5 21V7l8-4v18"></path>
+              <path d="M19 21V11l-6-4"></path>
+            </svg>
+          </div>
+          <div class="search-field-body">
+            <label for="heroCity" class="search-field-label">City</label>
+            <select id="heroCity" name="city" class="search-field-select" data-filter="city">
+              <option value="all">All Cities</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- 4. Date Picker -->
+        <div class="search-field">
+          <div class="search-field-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+              <line x1="16" y1="2" x2="16" y2="6"></line>
+              <line x1="8" y1="2" x2="8" y2="6"></line>
+              <line x1="3" y1="10" x2="21" y2="10"></line>
+            </svg>
+          </div>
+          <div class="search-field-body">
+            <label for="heroDate" class="search-field-label">Date</label>
+            <select id="heroDate" name="date" class="search-field-select">
+              <option value="all">Any Date</option>
+              <option value="weekend">This Weekend</option>
+              <option value="month">This Month</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="search-field-divider"></div>
+
+        <!-- 5. Category -->
+        <div class="search-field">
+          <div class="search-field-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect>
+              <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path>
+            </svg>
+          </div>
+          <div class="search-field-body">
+            <label for="heroCategory" class="search-field-label">Category</label>
+            <select id="heroCategory" name="category" class="search-field-select" data-filter="category">
+              <option value="all">All Categories</option>
+              <option value="Technology">Technology</option>
+              <option value="Music & Concerts">Music & Concerts</option>
+              <option value="Startups & Business">Startups & Business</option>
+              <option value="AI Workshops">AI Workshops</option>
+              <option value="Design">Design</option>
+              <option value="Sports">Sports</option>
+              <option value="Food & Lifestyle">Food & Lifestyle</option>
+              <option value="Festivals">Festivals</option>
+              <option value="Networking">Networking</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Search Action Button -->
+        <button type="submit" class="btn btn-primary search-btn">
+          <span>Explore Now</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       CATEGORY NAVIGATION SECTION
+       ========================================================================== -->
+  <section class="section" id="categoriesSection" style="padding-top: 40px; padding-bottom: 40px;">
+    <div class="container">
+      <div class="section-header" style="margin-bottom: 32px;">
+        <span class="section-badge">Explore Verticals</span>
+        <h2 class="section-title">Browse by Category</h2>
+        <p class="section-subtitle">Find high-energy concerts, cutting-edge AI summits, and intimate developer roundtables.</p>
+      </div>
+
+      <div class="categories-grid" id="categoriesContainer">
+        <!-- Rendered dynamically from CATEGORIES_LIST in JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       FEATURED EXPERIENCES SECTION
+       ========================================================================== -->
+  <section class="section" id="featuredSection">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">Curated Selection</span>
+        <h2 class="section-title">Featured Events</h2>
+        <p class="section-subtitle">Handpicked experiences worth your time, crafted by world-class hosts.</p>
+      </div>
+
+      <div class="events-grid" id="featuredEventsGrid">
+        <!-- Injected via JS -->
+      </div>
+
+      <div style="text-align: center; margin-top: 48px;">
+        <a href="explore.html" class="btn btn-secondary btn-lg">
+          View All 12+ Experiences →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       LIVE ANIMATED STATS BANNER
+       ========================================================================== -->
+  <section class="section" style="padding: 20px 0 60px;">
+    <div class="container">
+      <div class="stats-banner reveal-on-scroll">
+        <div class="stats-grid">
+          <div class="stat-item">
+            <div class="stat-number" data-target="10000" data-suffix="+">0</div>
+            <div class="stat-label">Curated Events</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="500000" data-suffix="+">0</div>
+            <div class="stat-label">Active Attendees</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="120" data-suffix="+">0</div>
+            <div class="stat-label">Metros & Cities</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-number" data-target="98" data-suffix="%">0</div>
+            <div class="stat-label">Satisfaction Rating</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       WHY LEADERS CHOOSE EVENTSPHERE
+       ========================================================================== -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-badge">The EventSphere Difference</span>
+        <h2 class="section-title">Engineered for Seamless Discovery</h2>
+        <p class="section-subtitle">A friction-free ecosystem connecting ambitious attendees with game-changing organizers.</p>
+      </div>
+
+      <div class="value-cards-grid">
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 20px; font-size: 1.6rem;">⚡</div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Instant QR Passes</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Zero waiting in lines. Instant cryptographic QR code ticketing delivered straight to your wallet and email.
+          </p>
+        </div>
+
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 20px; font-size: 1.6rem;">🛡️</div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Verified Hosts & Lineups</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Every single event is thoroughly vetted by our curation team to guarantee authentic speakers and premium venues.
+          </p>
+        </div>
+
+        <div class="value-card reveal-on-scroll">
+          <div class="category-icon-box" style="margin-bottom: 20px; font-size: 1.6rem;">🌐</div>
+          <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 10px;">Deep Geographic Curation</h3>
+          <p style="color: var(--text-secondary); font-size: 0.9375rem; line-height: 1.6;">
+            Granular state and city filtering across India's top innovation hubs from Mumbai & Bangalore to Pune & Delhi.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       SITE FOOTER
+       ========================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon-wrapper">
+              <img src="assets/logos/logo.svg" alt="EventSphere" width="34" height="34">
+            </div>
+            <span>EventSphere</span>
+          </a>
+          <p>The next-generation event discovery and ticketing platform for high-energy creators, thinkers, and explorers.</p>
+          <div class="social-links-row">
+            <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+            <a href="#" class="social-btn" aria-label="LinkedIn">in</a>
+            <a href="#" class="social-btn" aria-label="Instagram">📸</a>
+            <a href="#" class="social-btn" aria-label="GitHub">🐙</a>
+          </div>
+        </div>
+
+        <!-- Column 1: Platform -->
+        <div>
+          <h4 class="footer-column-title">Platform</h4>
+          <div class="footer-links">
+            <a href="explore.html" class="footer-link">Explore Events</a>
+            <a href="contact.html?type=host" class="footer-link">Create Event</a>
+            <a href="#categoriesSection" class="footer-link">Categories</a>
+            <a href="explore.html?bookmarked=true" class="footer-link">Saved Wishlist</a>
+          </div>
+        </div>
+
+        <!-- Column 2: Company -->
+        <div>
+          <h4 class="footer-column-title">Company</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+            <a href="about.html#story" class="footer-link">Our Story</a>
+            <a href="contact.html#faq" class="footer-link">Help Center</a>
+          </div>
+        </div>
+
+        <!-- Column 3: Legal -->
+        <div>
+          <h4 class="footer-column-title">Legal</h4>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+            <a href="#" class="footer-link">Cookie Preferences</a>
+            <a href="#" class="footer-link">Security Guidelines</a>
+          </div>
+        </div>
+
+        <!-- Column 4: Newsletter -->
+        <div>
+          <h4 class="footer-column-title">Stay in the Loop</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Get weekly handpicked event drops in your inbox.</p>
+          <form onsubmit="event.preventDefault(); UI.showToast('Subscribed to EventSphere Drops! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
+            <input type="email" placeholder="Your email address" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>© 2026 EventSphere Technologies Inc. All rights reserved.</div>
+        <div style="display: flex; gap: 20px;">
+          <a href="#">Privacy</a>
+          <a href="#">Terms</a>
+          <a href="#">Security</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/events.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    // Initialize Homepage Specific Components
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Populate Category Cards
+      const catContainer = document.getElementById('categoriesContainer');
+      if (catContainer) {
+        catContainer.innerHTML = CATEGORIES_LIST.map(cat => `
+          <a href="explore.html?category=${encodeURIComponent(cat.id === 'all' ? '' : cat.name)}" class="category-card">
+            <div class="category-icon-box">${cat.icon}</div>
+            <div class="category-name">${cat.name}</div>
+          </a>
+        `).join('');
+      }
+
+      // 2. Render Featured Events
+      const featuredGrid = document.getElementById('featuredEventsGrid');
+      if (featuredGrid) {
+        const bookmarks = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
+        const featured = EVENT_DATASET.filter(e => e.featured).slice(0, 4);
+        featuredGrid.innerHTML = featured.map(e => createEventCardHTML(e, bookmarks.includes(e.id))).join('');
+      }
+
+      // 3. Populate State & City dropdowns in Search Bar
+      const stateSelect = document.getElementById('heroState');
+      const citySelect = document.getElementById('heroCity');
+      if (stateSelect) {
+        Object.keys(LOCATIONS_MAP).forEach(st => {
+          const opt = document.createElement('option');
+          opt.value = st;
+          opt.textContent = st;
+          stateSelect.appendChild(opt);
+        });
+
+        stateSelect.addEventListener('change', (e) => {
+          const st = e.target.value;
+          citySelect.innerHTML = '<option value="all">All Cities</option>';
+          if (st !== 'all' && LOCATIONS_MAP[st]) {
+            LOCATIONS_MAP[st].forEach(city => {
+              const opt = document.createElement('option');
+              opt.value = city;
+              opt.textContent = city;
+              citySelect.appendChild(opt);
+            });
+          }
+        });
+      }
+    });
+  </script>
+</body>
+</html>

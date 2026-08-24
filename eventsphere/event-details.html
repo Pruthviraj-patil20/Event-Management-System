@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details — EventSphere</title>
+  <meta name="description" content="View full event schedule, verified speaker lineup, venue directions, and book instant digital QR passes.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="brand-logo" aria-label="EventSphere Home">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logos/logo.svg" alt="EventSphere" width="38" height="38">
+        </div>
+        <span>EventSphere</span>
+      </a>
+
+      <nav class="nav-menu">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="explore.html" class="nav-link active">Explore Events</a>
+        <a href="index.html#categoriesSection" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <a href="explore.html?bookmarked=true" class="btn-icon" style="position: relative;" title="Saved Events">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="badge-counter bookmark-counter" style="display: none;">0</span>
+        </a>
+
+        <button class="btn-icon theme-toggle-btn" data-action="toggle-theme" title="Toggle Theme">
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <a href="contact.html?type=host" class="btn btn-primary">Create Event</a>
+
+        <div class="user-menu-wrapper">
+          <button class="user-avatar-btn" aria-label="User Menu">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="User Avatar" width="40" height="40">
+          </button>
+          <div class="user-dropdown">
+            <a href="explore.html?bookmarked=true" class="dropdown-item"><span>❤️</span> My Wishlist</a>
+            <a href="contact.html?type=host" class="dropdown-item"><span>✨</span> Host Event</a>
+          </div>
+        </div>
+
+        <button class="hamburger-btn" aria-label="Menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="explore.html" class="nav-link active">Explore Events</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+  </div>
+
+  <!-- Breadcrumb Navigation -->
+  <div class="container" style="padding-top: 24px; padding-bottom: 8px;">
+    <div style="font-size: 0.8125rem; color: var(--text-tertiary); display: flex; align-items: center; gap: 8px;">
+      <a href="index.html" style="color: var(--text-secondary);">Home</a>
+      <span>›</span>
+      <a href="explore.html" style="color: var(--text-secondary);">Events</a>
+      <span>›</span>
+      <span id="breadcrumbTitle" style="color: var(--accent-indigo); font-weight: 600;">Event Details</span>
+    </div>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="section" style="padding-top: 16px;">
+    <div class="container" id="eventContentContainer">
+      <!-- Injected Dynamically via JS based on ?id=X -->
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon-wrapper">
+              <img src="assets/logos/logo.svg" alt="EventSphere" width="34" height="34">
+            </div>
+            <span>EventSphere</span>
+          </a>
+          <p>The next-generation event discovery and ticketing platform.</p>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Platform</h4>
+          <div class="footer-links">
+            <a href="explore.html" class="footer-link">Explore Events</a>
+            <a href="contact.html?type=host" class="footer-link">Create Event</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Company</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Legal</h4>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Join Drops</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Get curated event drops.</p>
+          <form onsubmit="event.preventDefault(); UI.showToast('Subscribed! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
+            <input type="email" placeholder="Your email" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 EventSphere Technologies Inc. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/events.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const params = new URLSearchParams(window.location.search);
+      const eventId = Number(params.get('id')) || 1;
+      const event = EVENT_DATASET.find(e => e.id === eventId) || EVENT_DATASET[0];
+
+      // Update Page Title and Breadcrumb
+      document.title = `${event.title} — EventSphere`;
+      document.getElementById('breadcrumbTitle').textContent = event.title;
+
+      const bookmarks = JSON.parse(localStorage.getItem('eventsphere_bookmarks') || '[]');
+      const isBookmarked = bookmarks.includes(event.id);
+      const container = document.getElementById('eventContentContainer');
+
+      // Render Full Event Details
+      container.innerHTML = `
+        <!-- Hero Banner with Media -->
+        <div class="event-hero-banner">
+          <img src="${event.image}" alt="${event.title}" class="event-hero-img" />
+          <div class="event-hero-overlay">
+            <div class="event-hero-badges">
+              <span class="event-category-pill" style="font-size: 0.8125rem; padding: 6px 14px;">${event.category}</span>
+              <span class="event-category-pill" style="background: rgba(16, 185, 129, 0.25); border-color: rgba(16, 185, 129, 0.4); color: #6ee7b7;">✓ Verified Event</span>
+            </div>
+            <h1 class="event-hero-title">${event.title}</h1>
+            <div class="event-hero-meta-bar">
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span>📅</span>
+                <strong>${event.formattedDate}</strong> (${event.time})
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span>📍</span>
+                <span>${event.location}, ${event.city}</span>
+              </div>
+              <div style="display: flex; align-items: center; gap: 8px;">
+                <span>🏢</span>
+                <span>Organized by <strong>${event.organizer.name}</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-Column Split Layout -->
+        <div class="details-layout">
+          
+          <!-- Left Main Column -->
+          <div class="details-main-content">
+            
+            <!-- About Event Card -->
+            <div class="details-card">
+              <h2 class="details-card-title">
+                <span>📖</span> About this Experience
+              </h2>
+              <p style="font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 20px;">
+                ${event.description}
+              </p>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding-top: 16px; border-top: 1px solid var(--border-subtle);">
+                <div>
+                  <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); font-weight: 700;">Format</div>
+                  <div style="font-weight: 600; margin-top: 2px;">In-Person Gathering</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); font-weight: 700;">Language</div>
+                  <div style="font-weight: 600; margin-top: 2px;">English & Hindi</div>
+                </div>
+                <div>
+                  <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--text-tertiary); font-weight: 700;">Entry Age</div>
+                  <div style="font-weight: 600; margin-top: 2px;">16+ Years</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Speaker Lineup -->
+            ${event.speakers && event.speakers.length > 0 ? `
+              <div class="details-card">
+                <h2 class="details-card-title">
+                  <span>🎙️</span> Featured Lineup & Speakers
+                </h2>
+                <div class="speakers-grid">
+                  ${event.speakers.map(s => `
+                    <div class="speaker-card">
+                      <img src="${s.avatar}" alt="${s.name}" class="speaker-avatar" />
+                      <div class="speaker-name">${s.name}</div>
+                      <div class="speaker-role">${s.role}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Schedule Timeline -->
+            ${event.schedule && event.schedule.length > 0 ? `
+              <div class="details-card">
+                <h2 class="details-card-title">
+                  <span>⏱️</span> Event Schedule
+                </h2>
+                <div class="timeline">
+                  ${event.schedule.map(item => `
+                    <div class="timeline-item">
+                      <div class="timeline-bullet"></div>
+                      <div class="timeline-time">${item.time}</div>
+                      <div class="timeline-title">${item.title}</div>
+                      <div class="timeline-desc">${item.desc}</div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+
+            <!-- Venue & Location Info -->
+            <div class="details-card">
+              <h2 class="details-card-title">
+                <span>📍</span> Venue & Directions
+              </h2>
+              <div style="margin-bottom: 16px;">
+                <div style="font-size: 1.1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 4px;">${event.location}</div>
+                <div style="color: var(--text-secondary); font-size: 0.9375rem;">${event.venueInfo.address}</div>
+                <div style="color: var(--text-tertiary); font-size: 0.875rem; margin-top: 6px;">
+                  🚇 <strong>Transit:</strong> ${event.venueInfo.metro}
+                </div>
+              </div>
+
+              <!-- Styled Interactive Map Placeholder -->
+              <div style="height: 220px; border-radius: var(--radius-lg); background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); border: 1px solid var(--border-medium); display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative; overflow: hidden; color: #fff;">
+                <div style="font-size: 2rem; margin-bottom: 8px;">🗺️</div>
+                <div style="font-weight: 700; font-size: 1rem;">${event.location}</div>
+                <div style="font-size: 0.8125rem; opacity: 0.8; margin-bottom: 14px;">${event.city}, ${event.state}</div>
+                <a href="https://maps.google.com/?q=${encodeURIComponent(event.location + ' ' + event.city)}" target="_blank" rel="noopener noreferrer" class="btn btn-secondary btn-sm" style="background: rgba(255,255,255,0.15); color: #fff; border-color: rgba(255,255,255,0.3);">
+                  Open in Google Maps ↗
+                </a>
+              </div>
+            </div>
+
+            <!-- Social Sharing -->
+            <div class="details-card" style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+              <div>
+                <div style="font-weight: 700; font-size: 1rem;">Share this experience</div>
+                <div style="font-size: 0.8125rem; color: var(--text-tertiary);">Invite friends and colleagues</div>
+              </div>
+              <div style="display: flex; gap: 10px;">
+                <button class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText(window.location.href); UI.showToast('Link copied to clipboard! 📋', 'success');">
+                  📋 Copy Link
+                </button>
+                <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent('Check out ' + event.title + ' on EventSphere!')}&url=${encodeURIComponent(window.location.href)}" target="_blank" class="btn btn-secondary btn-sm">
+                  𝕏 Share
+                </a>
+                <a href="https://api.whatsapp.com/send?text=${encodeURIComponent('Check out ' + event.title + ' on EventSphere: ' + window.location.href)}" target="_blank" class="btn btn-secondary btn-sm">
+                  💬 WhatsApp
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Sticky Booking Panel -->
+          <aside>
+            <div class="sticky-booking-widget">
+              <div class="booking-price-header">
+                <div>
+                  <div style="font-size: 0.8125rem; color: var(--text-tertiary); font-weight: 600; text-transform: uppercase;">Ticket Price</div>
+                  <div style="font-family: var(--font-heading); font-size: 2rem; font-weight: 800; color: ${event.isFree ? 'var(--accent-emerald)' : 'var(--accent-blue)'};" id="tierPriceDisplay">
+                    ${event.isFree ? 'FREE' : `₹${event.price.toLocaleString('en-IN')}`}
+                  </div>
+                </div>
+                <button class="event-bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" data-action="bookmark" data-id="${event.id}" title="Save to Wishlist" style="width: 44px; height: 44px;">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="${isBookmarked ? 'currentColor' : 'none'}" stroke="currentColor" stroke-width="2">
+                    <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+                  </svg>
+                </button>
+              </div>
+
+              <!-- Select Pass Tier -->
+              <label class="form-label" style="margin-bottom: 8px;">Choose Pass Tier</label>
+              <div class="tier-selector" id="tierSelectorGroup">
+                <div class="tier-option selected" data-tier="General" data-multiplier="1">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9375rem;">General Access</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Full Day Entry & Exhibition</div>
+                  </div>
+                  <div style="font-weight: 700; font-size: 0.9375rem;">${event.isFree ? '₹0' : `₹${event.price.toLocaleString('en-IN')}`}</div>
+                </div>
+
+                <div class="tier-option" data-tier="VIP" data-multiplier="2">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9375rem;">VIP Lounge Pass</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">Priority Entry + Networking Lounge</div>
+                  </div>
+                  <div style="font-weight: 700; font-size: 0.9375rem;">${event.isFree ? '₹0' : `₹${(event.price * 2).toLocaleString('en-IN')}`}</div>
+                </div>
+
+                <div class="tier-option" data-tier="All-Access" data-multiplier="3">
+                  <div>
+                    <div style="font-weight: 700; font-size: 0.9375rem;">All-Access Pass</div>
+                    <div style="font-size: 0.75rem; color: var(--text-tertiary);">VIP + Speaker Dinner + Swag Kit</div>
+                  </div>
+                  <div style="font-weight: 700; font-size: 0.9375rem;">${event.isFree ? '₹0' : `₹${(event.price * 3).toLocaleString('en-IN')}`}</div>
+                </div>
+              </div>
+
+              <!-- Quantity Selector -->
+              <div class="quantity-control">
+                <span style="font-size: 0.875rem; font-weight: 600;">Quantity</span>
+                <div style="display: flex; align-items: center; gap: 12px;">
+                  <button class="qty-btn" id="qtyMinusBtn">−</button>
+                  <span id="qtyVal" style="font-weight: 800; font-size: 1.1rem; min-width: 20px; text-align: center;">1</span>
+                  <button class="qty-btn" id="qtyPlusBtn">+</button>
+                </div>
+              </div>
+
+              <!-- Primary CTA -->
+              <button class="btn btn-primary btn-lg" style="width: 100%; margin-bottom: 16px;" id="bookNowCTA">
+                <span>Reserve Tickets</span>
+                <span>→</span>
+              </button>
+
+              <div style="display: flex; flex-direction: column; gap: 8px; font-size: 0.8125rem; color: var(--text-tertiary); text-align: center;">
+                <div>⚡ Instant QR pass sent via email</div>
+                <div>🛡️ 100% money-back guarantee if canceled</div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      `;
+
+      // Interactive Tier Selection & Calculation
+      let selectedTierName = 'General';
+      let currentMultiplier = 1;
+      let quantity = 1;
+
+      const tierOptions = container.querySelectorAll('.tier-option');
+      const priceDisplay = container.querySelector('#tierPriceDisplay');
+      const qtyVal = container.querySelector('#qtyVal');
+      const minusBtn = container.querySelector('#qtyMinusBtn');
+      const plusBtn = container.querySelector('#qtyPlusBtn');
+      const bookCTA = container.querySelector('#bookNowCTA');
+
+      const recalc = () => {
+        if (event.isFree) {
+          priceDisplay.textContent = 'FREE';
+          return;
+        }
+        const total = event.price * currentMultiplier * quantity;
+        priceDisplay.textContent = `₹${total.toLocaleString('en-IN')}`;
+      };
+
+      tierOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+          tierOptions.forEach(o => o.classList.remove('selected'));
+          opt.classList.add('selected');
+          selectedTierName = opt.dataset.tier;
+          currentMultiplier = Number(opt.dataset.multiplier);
+          recalc();
+        });
+      });
+
+      minusBtn.addEventListener('click', () => {
+        if (quantity > 1) {
+          quantity--;
+          qtyVal.textContent = quantity;
+          recalc();
+        }
+      });
+
+      plusBtn.addEventListener('click', () => {
+        if (quantity < 10) {
+          quantity++;
+          qtyVal.textContent = quantity;
+          recalc();
+        }
+      });
+
+      bookCTA.addEventListener('click', () => {
+        UI.openBookingModal(event.id, selectedTierName);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explore Experiences — EventSphere</title>
+  <meta name="description" content="Search and filter thousands of curated conferences, concerts, workshops, and summits across India.">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Modular Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+
+  <!-- Sticky Navbar -->
+  <header class="navbar" id="navbar">
+    <div class="container navbar-container">
+      <a href="index.html" class="brand-logo" aria-label="EventSphere Home">
+        <div class="brand-icon-wrapper">
+          <img src="assets/logos/logo.svg" alt="EventSphere Logo" width="38" height="38">
+        </div>
+        <span>EventSphere</span>
+        <span class="brand-badge">PRO</span>
+      </a>
+
+      <nav class="nav-menu" aria-label="Primary Navigation">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="explore.html" class="nav-link active">Explore Events</a>
+        <a href="index.html#categoriesSection" class="nav-link">Categories</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+
+      <div class="nav-actions">
+        <!-- Wishlist / Saved Events -->
+        <a href="explore.html?bookmarked=true" class="btn-icon" style="position: relative;" aria-label="Saved Wishlist" title="Saved Wishlist">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="badge-counter bookmark-counter" style="display: none;">0</span>
+        </a>
+
+        <!-- Theme Switcher -->
+        <button class="btn-icon theme-toggle-btn" data-action="toggle-theme" aria-label="Toggle Color Theme">
+          <svg class="moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+          <svg class="sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+        </button>
+
+        <a href="contact.html?type=host" class="btn btn-primary">Create Event</a>
+
+        <div class="user-menu-wrapper">
+          <button class="user-avatar-btn" aria-label="User Profile Menu">
+            <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=120&q=80" alt="User Avatar" width="40" height="40">
+          </button>
+          <div class="user-dropdown">
+            <div class="user-dropdown-header">
+              <div class="user-name">Raj Patil</div>
+              <div class="user-email">raj@eventsphere.io</div>
+            </div>
+            <a href="explore.html?bookmarked=true" class="dropdown-item"><span>❤️</span> My Saved Wishlist</a>
+            <a href="contact.html?type=host" class="dropdown-item"><span>✨</span> Host an Event</a>
+            <a href="contact.html" class="dropdown-item"><span>💬</span> Help & Support</a>
+          </div>
+        </div>
+
+        <button class="hamburger-btn" aria-label="Toggle Navigation">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Drawer -->
+  <div class="mobile-nav-drawer">
+    <a href="index.html" class="nav-link">Home</a>
+    <a href="explore.html" class="nav-link active">Explore Events</a>
+    <a href="index.html#categoriesSection" class="nav-link">Categories</a>
+    <a href="about.html" class="nav-link">About Us</a>
+    <a href="contact.html" class="nav-link">Contact</a>
+    <a href="explore.html?bookmarked=true" class="nav-link">Saved Events ❤️</a>
+  </div>
+
+  <!-- Page Header -->
+  <div style="background: var(--gradient-hero-glow); padding: 48px 0 24px; border-bottom: 1px solid var(--border-subtle);">
+    <div class="container">
+      <span class="section-badge">Discover & Book</span>
+      <h1 style="font-size: 2.75rem; font-weight: 800; margin-top: 8px;">Explore All Experiences</h1>
+      <p style="color: var(--text-secondary); font-size: 1.125rem; margin-top: 6px;">Find conferences, concerts, workshops, festivals, and summits across top Indian cities.</p>
+    </div>
+  </div>
+
+  <!-- Main Explore Section -->
+  <section class="section" style="padding-top: 36px;">
+    <div class="container">
+      <div class="explore-layout">
+        
+        <!-- Left: Filters Sidebar -->
+        <aside class="filter-sidebar">
+          <div class="filter-sidebar-header">
+            <div class="filter-sidebar-title">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="4" y1="21" x2="4" y2="14"></line>
+                <line x1="4" y1="10" x2="4" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="12"></line>
+                <line x1="12" y1="8" x2="12" y2="3"></line>
+                <line x1="20" y1="21" x2="20" y2="16"></line>
+                <line x1="20" y1="12" x2="20" y2="3"></line>
+                <line x1="1" y1="14" x2="7" y2="14"></line>
+                <line x1="9" y1="8" x2="15" y2="8"></line>
+                <line x1="17" y1="16" x2="23" y2="16"></line>
+              </svg>
+              <span>Filters</span>
+            </div>
+            <button class="btn btn-ghost btn-sm" data-action="reset-filters" style="font-size: 0.75rem; padding: 4px 8px;">
+              Reset All
+            </button>
+          </div>
+
+          <!-- Keyword Search -->
+          <div class="filter-group">
+            <label class="filter-group-title">Search Keywords</label>
+            <input type="text" class="filter-input" data-filter="search" placeholder="Event title, topic, venue..." />
+          </div>
+
+          <!-- Category -->
+          <div class="filter-group">
+            <label class="filter-group-title">Category</label>
+            <select class="filter-select" data-filter="category">
+              <option value="all">All Categories</option>
+              <option value="Technology">Technology</option>
+              <option value="Music & Concerts">Music & Concerts</option>
+              <option value="Startups & Business">Startups & Business</option>
+              <option value="AI Workshops">AI Workshops</option>
+              <option value="Design">Design</option>
+              <option value="Sports">Sports</option>
+              <option value="Food & Lifestyle">Food & Lifestyle</option>
+              <option value="Festivals">Festivals</option>
+              <option value="Networking">Networking</option>
+            </select>
+          </div>
+
+          <!-- State / UT -->
+          <div class="filter-group">
+            <label class="filter-group-title">State / UT</label>
+            <select class="filter-select" data-filter="state">
+              <option value="all">All States</option>
+            </select>
+          </div>
+
+          <!-- City -->
+          <div class="filter-group">
+            <label class="filter-group-title">City</label>
+            <select class="filter-select" data-filter="city">
+              <option value="all">All Cities</option>
+            </select>
+          </div>
+
+          <!-- Pricing Filter -->
+          <div class="filter-group">
+            <label class="filter-group-title">Ticket Type</label>
+            <div class="checkbox-list">
+              <label class="checkbox-label">
+                <input type="radio" name="price-type" value="all" checked />
+                <span>All Events</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="radio" name="price-type" value="free" />
+                <span>Free Entry Only</span>
+              </label>
+              <label class="checkbox-label">
+                <input type="radio" name="price-type" value="paid" />
+                <span>Paid Passes</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- Max Price Slider -->
+          <div class="filter-group">
+            <div class="filter-group-title">
+              <span>Max Price</span>
+              <span data-display="price-value" style="color: var(--accent-blue); font-weight: 800;">₹5,000</span>
+            </div>
+            <input type="range" class="range-slider" data-filter="price-range" min="0" max="5000" step="250" value="5000" />
+          </div>
+
+          <!-- Saved Wishlist Toggle -->
+          <div class="filter-group" style="padding-top: 12px; border-top: 1px solid var(--border-subtle);">
+            <button class="btn btn-secondary btn-sm" id="wishlistToggleBtn" style="width: 100%; gap: 6px;">
+              <span>❤️</span>
+              <span id="wishlistBtnText">View Saved Wishlist</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Right: Event Grid & Toolbar -->
+        <main>
+          <div class="explore-toolbar">
+            <div class="explore-results-count" id="resultsCountText">
+              Showing 12 events
+            </div>
+
+            <div class="explore-sort-wrapper">
+              <label for="sortDropdown" style="font-size: 0.8125rem; font-weight: 700; color: var(--text-tertiary);">Sort By:</label>
+              <select id="sortDropdown" class="filter-select" data-filter="sort" style="width: auto; padding: 6px 14px;">
+                <option value="date-asc">Date: Upcoming First</option>
+                <option value="date-desc">Date: Furthest Out</option>
+                <option value="price-low">Price: Low to High</option>
+                <option value="price-high">Price: High to Low</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Dynamic Grid Container -->
+          <div class="events-grid" id="exploreEventsGrid">
+            <!-- Populated via EventFilterEngine in JS -->
+          </div>
+        </main>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="brand-logo" style="margin-bottom: 14px;">
+            <div class="brand-icon-wrapper">
+              <img src="assets/logos/logo.svg" alt="EventSphere" width="34" height="34">
+            </div>
+            <span>EventSphere</span>
+          </a>
+          <p>The next-generation event discovery and ticketing platform.</p>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Platform</h4>
+          <div class="footer-links">
+            <a href="explore.html" class="footer-link">Explore Events</a>
+            <a href="contact.html?type=host" class="footer-link">Create Event</a>
+            <a href="index.html#categoriesSection" class="footer-link">Categories</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Company</h4>
+          <div class="footer-links">
+            <a href="about.html" class="footer-link">About Us</a>
+            <a href="contact.html" class="footer-link">Contact</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Legal</h4>
+          <div class="footer-links">
+            <a href="#" class="footer-link">Privacy Policy</a>
+            <a href="#" class="footer-link">Terms of Service</a>
+          </div>
+        </div>
+        <div>
+          <h4 class="footer-column-title">Stay Connected</h4>
+          <p style="font-size: 0.875rem; color: var(--text-secondary); margin-bottom: 14px;">Subscribe for VIP event drops.</p>
+          <form onsubmit="event.preventDefault(); UI.showToast('Subscribed! 📬', 'success'); this.reset();" style="display: flex; gap: 8px;">
+            <input type="email" placeholder="Your email" class="form-input" style="padding: 8px 12px; font-size: 0.875rem;" required />
+            <button type="submit" class="btn btn-primary btn-sm">Join</button>
+          </form>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <div>© 2026 EventSphere Technologies Inc. All rights reserved.</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/events.js"></script>
+  <script src="js/filters.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const grid = document.getElementById('exploreEventsGrid');
+      const countText = document.getElementById('resultsCountText');
+      
+      const filterEngine = new EventFilterEngine(EVENT_DATASET, {
+        container: grid,
+        countElement: countText
+      });
+
+      // Wishlist Toggle
+      const wishlistBtn = document.getElementById('wishlistToggleBtn');
+      const wishlistText = document.getElementById('wishlistBtnText');
+      if (wishlistBtn) {
+        wishlistBtn.addEventListener('click', () => {
+          filterEngine.filters.onlyBookmarked = !filterEngine.filters.onlyBookmarked;
+          if (filterEngine.filters.onlyBookmarked) {
+            wishlistBtn.classList.add('btn-primary');
+            wishlistBtn.classList.remove('btn-secondary');
+            wishlistText.textContent = 'Showing Saved (Click to view all)';
+          } else {
+            wishlistBtn.classList.remove('btn-primary');
+            wishlistBtn.classList.add('btn-secondary');
+            wishlistText.textContent = 'View Saved Wishlist';
+          }
+          filterEngine.applyFilters();
+        });
+
+        if (filterEngine.filters.onlyBookmarked) {
+          wishlistBtn.classList.add('btn-primary');
+          wishlistBtn.classList.remove('btn-secondary');
+          wishlistText.textContent = 'Showing Saved (Click to view all)';
+        }
+      }
+    });
+  </script>
+</body>
+</html>
