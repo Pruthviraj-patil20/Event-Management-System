@@ -264,6 +264,7 @@ h1, h2, h3, h4, h5, h6 {
   white-space: nowrap;
   position: relative;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .btn-primary {
@@ -431,6 +432,7 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-secondary);
   transition: all var(--transition-fast);
   position: relative;
+  white-space: nowrap;
 }
 
 .nav-link:hover {
@@ -450,6 +452,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
 }
 
 .theme-toggle-btn {
@@ -2058,6 +2061,7 @@ h1, h2, h3, h4, h5, h6 {
   text-decoration: none;
   cursor: pointer;
   white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .btn-live:hover {

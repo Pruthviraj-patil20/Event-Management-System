@@ -19,6 +19,18 @@
     gap: 30px;
   }
 
+  .hero-floating-elements {
+    display: none;
+  }
+
+  .nav-menu {
+    display: none;
+  }
+
+  .hamburger-btn {
+    display: flex;
+  }
+
   .floating-card.float-left-top {
     left: 1%;
     top: 10%;
@@ -34,10 +46,6 @@
 @media (max-width: 1024px) {
   .hero-title {
     font-size: 3rem;
-  }
-
-  .hero-floating-elements {
-    display: none; /* Hide floating decorative cards on tablet to avoid overlap */
   }
 
   .search-panel {
@@ -112,10 +120,6 @@
 
   .hamburger-btn {
     display: flex;
-  }
-
-  .nav-actions .btn-primary {
-    display: none; /* Hide top Create Event button on mobile, shown in drawer */
   }
 
   .hero-section {
