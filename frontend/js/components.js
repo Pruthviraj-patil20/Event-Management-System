@@ -368,6 +368,10 @@ window.requestLiveLocation = function(e) {
     window.Components.showToast('Locating you... 📍', 'info');
   }
 
+  if (targetBtn) {
+    targetBtn.innerHTML = '<span class="spinner" style="width: 14px; height: 14px; margin-right: 5px; border-width: 2px;"></span> 📍';
+  }
+
   navigator.geolocation.getCurrentPosition(async (position) => {
     try {
       const { latitude, longitude } = position.coords;
@@ -377,9 +381,16 @@ window.requestLiveLocation = function(e) {
       
       const city = data.address.city || data.address.town || data.address.village || data.address.county || data.address.state_district;
       if (city) {
+        if (targetBtn) {
+          targetBtn.innerHTML = `📍 <span style="font-size: 0.9rem; margin-left: 4px;">${city}</span>`;
+          targetBtn.style.width = 'auto';
+        }
+        
         if (window.Components && window.Components.showToast) {
           window.Components.showToast(`Found you near ${city}! Redirecting...`, 'success');
         }
+        
+        // Redirect after a short delay so they can see their location on the button
         setTimeout(() => {
           window.location.href = `/events.html?city=${encodeURIComponent(city)}`;
         }, 1000);
@@ -388,12 +399,14 @@ window.requestLiveLocation = function(e) {
       }
     } catch (err) {
       console.error('Geocoding error:', err);
+      if (targetBtn) targetBtn.innerHTML = '📍';
       if (window.Components && window.Components.showToast) {
         window.Components.showToast('Could not determine your precise city.', 'error');
       }
     }
   }, (err) => {
     console.warn('Geolocation error:', err);
+    if (targetBtn) targetBtn.innerHTML = '📍';
     if (window.Components && window.Components.showToast) {
       window.Components.showToast('Location access denied or unavailable.', 'warning');
     }
