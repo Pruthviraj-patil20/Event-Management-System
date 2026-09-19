@@ -66,6 +66,7 @@ const Components = {
           <a href="/events.html" class="nav-link ${activePage === 'events' ? 'active' : ''}">Explore Events</a>
           <a href="/about.html" class="nav-link ${activePage === 'about' ? 'active' : ''}">About</a>
           <a href="/contact.html" class="nav-link ${activePage === 'contact' ? 'active' : ''}">Contact</a>
+          <a href="/events.html?format=Online" class="nav-link" style="color: #ef4444; font-weight: bold;">LIVE Events 🔴</a>
         </div>
 
         <div class="nav-actions">
@@ -94,6 +95,7 @@ const Components = {
             <a href="/events.html" class="nav-link ${activePage === 'events' ? 'active' : ''}">Explore Events</a>
             <a href="/about.html" class="nav-link ${activePage === 'about' ? 'active' : ''}">About</a>
             <a href="/contact.html" class="nav-link ${activePage === 'contact' ? 'active' : ''}">Contact</a>
+            <a href="/events.html?format=Online" class="nav-link" style="color: #ef4444; font-weight: bold;">LIVE Events 🔴</a>
           </div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
