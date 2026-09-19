@@ -67,10 +67,10 @@ const Components = {
           <a href="/about.html" class="nav-link ${activePage === 'about' ? 'active' : ''}">About</a>
           <a href="/contact.html" class="nav-link ${activePage === 'contact' ? 'active' : ''}">Contact</a>
           <a href="/events.html?format=Online" class="nav-link" style="color: #ef4444; font-weight: bold;">LIVE Events 🔴</a>
-          <a href="/events.html?location=all" class="nav-link" style="font-weight: 600;" aria-label="Location">📍</a>
         </div>
 
         <div class="nav-actions">
+          <a href="/events.html?location=all" class="nav-link" style="font-weight: 600;" aria-label="Location">📍</a>
           <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
           ${authSectionHtml}
           <button class="mobile-nav-toggle" id="mobileMenuBtn" aria-label="Open Mobile Menu">
