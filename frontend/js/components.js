@@ -70,7 +70,7 @@ const Components = {
         </div>
 
         <div class="nav-actions">
-          <a href="/events.html?location=all" class="nav-link" style="font-weight: 600; font-size: 1.5rem; line-height: 1;" aria-label="Location">📍</a>
+          <a href="#" onclick="window.requestLiveLocation(event)" class="nav-link" style="font-weight: 600; font-size: 1.5rem; line-height: 1;" aria-label="Location">📍</a>
           <button class="theme-toggle-btn" aria-label="Toggle Theme">🌙</button>
           ${authSectionHtml}
           <button class="mobile-nav-toggle" id="mobileMenuBtn" aria-label="Open Mobile Menu">
@@ -97,7 +97,7 @@ const Components = {
             <a href="/about.html" class="nav-link ${activePage === 'about' ? 'active' : ''}">About</a>
             <a href="/contact.html" class="nav-link ${activePage === 'contact' ? 'active' : ''}">Contact</a>
             <a href="/events.html?format=Online" class="nav-link" style="color: #ef4444; font-weight: bold;">LIVE Events 🔴</a>
-            <a href="/events.html?location=all" class="nav-link" style="font-weight: 600; font-size: 1.5rem; line-height: 1;" aria-label="Location">📍</a>
+            <a href="#" onclick="window.requestLiveLocation(event)" class="nav-link" style="font-weight: 600; font-size: 1.5rem; line-height: 1;" aria-label="Location">📍</a>
           </div>
         </div>
         <div style="display: flex; flex-direction: column; gap: 0.75rem; padding-top: 1rem; border-top: 1px solid var(--border-subtle);">
@@ -352,3 +352,50 @@ const Components = {
 };
 
 window.Components = Components;
+
+// Global helper for Live Location Button
+window.requestLiveLocation = function(e) {
+  if (e) e.preventDefault();
+  
+  if (!navigator.geolocation) {
+    if (window.Components && window.Components.showToast) {
+      window.Components.showToast('Geolocation is not supported by your browser.', 'error');
+    }
+    return;
+  }
+  
+  if (window.Components && window.Components.showToast) {
+    window.Components.showToast('Locating you... 📍', 'info');
+  }
+
+  navigator.geolocation.getCurrentPosition(async (position) => {
+    try {
+      const { latitude, longitude } = position.coords;
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`);
+      if (!res.ok) throw new Error('Failed to reverse geocode');
+      const data = await res.json();
+      
+      const city = data.address.city || data.address.town || data.address.village || data.address.county || data.address.state_district;
+      if (city) {
+        if (window.Components && window.Components.showToast) {
+          window.Components.showToast(`Found you near ${city}! Redirecting...`, 'success');
+        }
+        setTimeout(() => {
+          window.location.href = `/events.html?city=${encodeURIComponent(city)}`;
+        }, 1000);
+      } else {
+        throw new Error('City not found in location data');
+      }
+    } catch (err) {
+      console.error('Geocoding error:', err);
+      if (window.Components && window.Components.showToast) {
+        window.Components.showToast('Could not determine your precise city.', 'error');
+      }
+    }
+  }, (err) => {
+    console.warn('Geolocation error:', err);
+    if (window.Components && window.Components.showToast) {
+      window.Components.showToast('Location access denied or unavailable.', 'warning');
+    }
+  }, { timeout: 10000 });
+};
