@@ -216,24 +216,28 @@ const createEvent = async (req, res, next) => {
       ticketTypes,
       image,
       tags,
+      eventType = 'In-Person',
+      meetingLink = '',
       status = EVENT_STATUS.PUBLISHED,
       featured = false
     } = req.body;
 
     let venueDoc;
-    if (venueId) {
-      venueDoc = await Venue.findById(venueId);
-    }
+    if (eventType !== 'Online') {
+      if (venueId) {
+        venueDoc = await Venue.findById(venueId);
+      }
 
-    if (!venueDoc) {
-      venueDoc = await Venue.create({
-        name: venueName || 'Grand Convention Center',
-        address: venueAddress || 'Main Avenue',
-        city: venueCity || 'Bangalore',
-        state: req.body.venueState || '',
-        capacity: capacity || 500,
-        createdBy: req.user._id
-      });
+      if (!venueDoc) {
+        venueDoc = await Venue.create({
+          name: venueName || 'Grand Convention Center',
+          address: venueAddress || 'Main Avenue',
+          city: venueCity || 'Bangalore',
+          state: req.body.venueState || '',
+          capacity: capacity || 500,
+          createdBy: req.user._id
+        });
+      }
     }
 
     const defaultTickets = ticketTypes && ticketTypes.length > 0 ? ticketTypes : [
@@ -270,14 +274,16 @@ const createEvent = async (req, res, next) => {
       description,
       shortDescription: shortDescription || description.substring(0, 150),
       category,
+      eventType,
+      meetingLink,
       organizer: req.user._id,
-      venue: venueDoc._id,
-      venueDetails: {
+      venue: venueDoc ? venueDoc._id : undefined,
+      venueDetails: venueDoc ? {
         name: venueDoc.name,
         address: venueDoc.address,
         city: venueDoc.city,
         state: venueDoc.state || ''
-      },
+      } : undefined,
       date: new Date(date),
       startTime: startTime || '09:00 AM',
       endTime: endTime || '05:00 PM',

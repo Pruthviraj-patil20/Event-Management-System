@@ -30,6 +30,33 @@ const Auth = {
     }
   },
 
+  async googleLogin(credential) {
+    try {
+      const data = await API.post('/auth/google', { credential });
+      API.setToken(data.token);
+      API.setCurrentUser(data.user);
+      Components.showToast('Signed in with Google successfully!', 'success');
+
+      const redirect = sessionStorage.getItem('redirect_after_login');
+      setTimeout(() => {
+        if (redirect) {
+          sessionStorage.removeItem('redirect_after_login');
+          window.location.href = redirect;
+        } else if (data.user.role === 'admin') {
+          window.location.href = '/admin/admin-dashboard.html';
+        } else if (data.user.role === 'organizer') {
+          window.location.href = '/dashboard/dashboard.html';
+        } else {
+          window.location.href = '/events.html';
+        }
+      }, 700);
+      return data;
+    } catch (err) {
+      Components.showToast(err.message, 'error');
+      throw err;
+    }
+  },
+
   async register(userData) {
     try {
       const data = await API.post('/auth/register', userData);
@@ -103,3 +130,22 @@ const Auth = {
 };
 
 window.Auth = Auth;
+
+// Global callback for Google Identity Services
+window.handleGoogleResponse = async function(response) {
+  if (response && response.credential) {
+    const btn = document.getElementById('submitLoginBtn');
+    if (btn) {
+      btn.disabled = true;
+      btn.innerHTML = '<span class="spinner"></span> Authenticating...';
+    }
+    try {
+      await Auth.googleLogin(response.credential);
+    } catch (e) {
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = 'Sign In 🚀';
+      }
+    }
+  }
+};

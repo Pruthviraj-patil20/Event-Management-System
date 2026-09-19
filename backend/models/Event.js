@@ -66,6 +66,16 @@ const eventSchema = new mongoose.Schema(
       enum: EVENT_CATEGORIES,
       index: true
     },
+    eventType: {
+      type: String,
+      enum: ['In-Person', 'Online', 'Hybrid'],
+      default: 'In-Person',
+      index: true
+    },
+    meetingLink: {
+      type: String,
+      default: ''
+    },
     organizer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
@@ -75,7 +85,7 @@ const eventSchema = new mongoose.Schema(
     venue: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Venue',
-      required: [true, 'Venue is required']
+      required: [function() { return this.eventType !== 'Online'; }, 'Venue is required for In-Person or Hybrid events']
     },
     venueDetails: {
       name: String,

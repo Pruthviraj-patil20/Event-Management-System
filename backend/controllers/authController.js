@@ -2,6 +2,8 @@ const User = require('../models/User');
 const { generateToken } = require('../utils/generateToken');
 const { ROLES } = require('../config/constants');
 const NotificationService = require('../services/notificationService');
+const { OAuth2Client } = require('google-auth-library');
+const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 // @desc    Register a new user (Attendee or Organizer)
 // @route   POST /api/auth/register
@@ -177,11 +179,80 @@ const resetPassword = async (req, res, next) => {
   }
 };
 
+// @desc    Google OAuth Login
+// @route   POST /api/auth/google
+// @access  Public
+const googleLogin = async (req, res, next) => {
+  try {
+    const { credential } = req.body;
+    if (!credential) {
+      return res.status(400).json({ success: false, message: 'Google credential missing.' });
+    }
+
+    const ticket = await client.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID
+    });
+    
+    const payload = ticket.getPayload();
+    const { sub: googleId, email, name, picture } = payload;
+
+    let user = await User.findOne({ email: email.toLowerCase().trim() });
+
+    if (user) {
+      if (!user.googleId) {
+        user.googleId = googleId;
+        if (picture && user.profileImage.includes('unsplash')) {
+          user.profileImage = picture;
+        }
+        await user.save();
+      }
+    } else {
+      user = await User.create({
+        name: name.trim(),
+        email: email.toLowerCase().trim(),
+        googleId,
+        role: ROLES.ATTENDEE,
+        profileImage: picture || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=400&q=80'
+      });
+
+      await NotificationService.sendNotification({
+        recipientId: user._id,
+        title: 'Welcome to EventSphere via Google! 🚀',
+        message: `Hi ${user.name}, welcome aboard. Discover, plan, and experience events worldwide.`,
+        type: 'system',
+        link: '/events.html'
+      });
+    }
+
+    const token = generateToken(user._id, user.role);
+
+    res.json({
+      success: true,
+      message: 'Google login successful.',
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        phone: user.phone,
+        role: user.role,
+        profileImage: user.profileImage,
+        organizationName: user.organizationName,
+        favorites: user.favorites
+      }
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 module.exports = {
   register,
   login,
   getMe,
   logout,
   forgotPassword,
-  resetPassword
+  resetPassword,
+  googleLogin
 };

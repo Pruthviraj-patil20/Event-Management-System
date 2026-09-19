@@ -49,9 +49,24 @@ const EventDetails = {
     if (heroImg) heroImg.src = event.image;
     if (heroTitle) heroTitle.textContent = event.title;
     if (heroCategory) heroCategory.textContent = event.category;
+
+    const formatBadge = document.getElementById('eventFormatBadge');
+    if (formatBadge && event.eventType) {
+      formatBadge.textContent = event.eventType;
+      formatBadge.style.display = 'inline-block';
+    }
+
     if (heroDate) heroDate.textContent = Utils.formatDate(event.date);
     if (heroTime) heroTime.textContent = `${event.startTime} - ${event.endTime}`;
-    if (heroVenue) heroVenue.textContent = `${event.venueDetails?.name || 'Grand Venue'}, ${event.venueDetails?.city || ''}`;
+    if (heroVenue) {
+      if (event.eventType === 'Online') {
+        heroVenue.textContent = 'Online Event';
+      } else if (event.eventType === 'Hybrid') {
+        heroVenue.textContent = `${event.venueDetails?.name || 'Grand Venue'}, ${event.venueDetails?.city || ''} (Hybrid)`;
+      } else {
+        heroVenue.textContent = `${event.venueDetails?.name || 'Grand Venue'}, ${event.venueDetails?.city || ''}`;
+      }
+    }
 
     // Description & Tags
     const descEl = document.getElementById('eventDescription');
@@ -78,9 +93,21 @@ const EventDetails = {
     const venueAddrEl = document.getElementById('venueDetailAddress');
     const venueCapEl = document.getElementById('venueDetailCapacity');
 
-    if (venueNameEl) venueNameEl.textContent = event.venueDetails?.name || (event.venue && event.venue.name) || 'City Convention Hall';
-    if (venueAddrEl) venueAddrEl.textContent = `${event.venueDetails?.address || ''}, ${event.venueDetails?.city || ''}`;
-    if (venueCapEl) venueCapEl.textContent = `${event.capacity} Attendees Capacity`;
+    if (event.eventType === 'Online') {
+      if (venueNameEl) venueNameEl.textContent = 'Online / Virtual Stream';
+      if (venueAddrEl) {
+        if (event.meetingLink) {
+          venueAddrEl.innerHTML = `<a href="${event.meetingLink}" target="_blank" style="color: var(--primary-600); text-decoration: underline;">Join Meeting Link</a>`;
+        } else {
+          venueAddrEl.textContent = 'Stream link will be available to ticket holders.';
+        }
+      }
+      if (venueCapEl) venueCapEl.textContent = 'Virtual Access';
+    } else {
+      if (venueNameEl) venueNameEl.textContent = event.venueDetails?.name || (event.venue && event.venue.name) || 'City Convention Hall';
+      if (venueAddrEl) venueAddrEl.textContent = `${event.venueDetails?.address || ''}, ${event.venueDetails?.city || ''}`;
+      if (venueCapEl) venueCapEl.textContent = `${event.capacity} Attendees Capacity`;
+    }
   },
 
   renderTicketTiers(tiers = []) {

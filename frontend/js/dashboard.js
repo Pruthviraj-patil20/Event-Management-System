@@ -159,6 +159,37 @@ const Dashboard = {
       });
     }
 
+    const eventTypeSelect = document.getElementById('eventType');
+    if (eventTypeSelect) {
+      eventTypeSelect.addEventListener('change', (e) => {
+        const mlGroup = document.getElementById('meetingLinkGroup');
+        const venueInputs = document.getElementById('venueInputsGroup');
+        const venueTitle = document.getElementById('venueSectionTitle');
+        
+        if (e.target.value === 'Online' || e.target.value === 'Hybrid') {
+          if (mlGroup) mlGroup.style.display = 'block';
+        } else {
+          if (mlGroup) mlGroup.style.display = 'none';
+        }
+        
+        if (e.target.value === 'Online') {
+          if (venueInputs) venueInputs.style.display = 'none';
+          if (venueTitle) venueTitle.textContent = '3. Schedule & Streaming';
+          document.getElementById('venueName').required = false;
+          document.getElementById('venueAddress').required = false;
+          document.getElementById('venueState').required = false;
+          document.getElementById('venueCity').required = false;
+        } else {
+          if (venueInputs) venueInputs.style.display = 'block';
+          if (venueTitle) venueTitle.textContent = '3. Schedule & Venue';
+          document.getElementById('venueName').required = true;
+          document.getElementById('venueAddress').required = true;
+          document.getElementById('venueState').required = true;
+          document.getElementById('venueCity').required = true;
+        }
+      });
+    }
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const submitBtn = form.querySelector('button[type="submit"]');
@@ -182,6 +213,8 @@ const Dashboard = {
           venueCity: document.getElementById('venueCity')?.value || '',
           capacity: parseInt(document.getElementById('eventCapacity').value, 10),
           image: document.getElementById('eventImageUrl').value || 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?auto=format&fit=crop&w=1200&q=80',
+          eventType: document.getElementById('eventType')?.value || 'In-Person',
+          meetingLink: document.getElementById('meetingLink')?.value || '',
           ticketTypes: [
             {
               name: 'Standard',

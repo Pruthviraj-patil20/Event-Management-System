@@ -107,6 +107,22 @@
                 </div>
               </div>
 
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="eventType" class="form-label form-label-required">Event Format</label>
+                  <select id="eventType" required class="select-control">
+                    <option value="In-Person">In-Person</option>
+                    <option value="Online">Online / Live Stream</option>
+                    <option value="Hybrid">Hybrid</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="meetingLinkGroup" style="display: none;">
+                  <label for="meetingLink" class="form-label">Meeting / Stream Link</label>
+                  <input type="url" id="meetingLink" class="input-control" placeholder="https://zoom.us/j/123456789">
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="eventDescription" class="form-label form-label-required">Full Event Description</label>
                 <textarea id="eventDescription" required class="textarea-control" placeholder="Detail the schedule, speaker highlights, and what attendees will learn or experience..."></textarea>
@@ -130,7 +146,7 @@
 
             <!-- 3. Date, Time & Venue -->
             <div class="form-section-card">
-              <h2 class="form-section-title">3. Schedule & Venue</h2>
+              <h2 class="form-section-title" id="venueSectionTitle">3. Schedule & Venue</h2>
               <p class="form-section-desc">Specify when and where the event takes place.</p>
 
               <div class="grid-3">
@@ -148,9 +164,10 @@
                 </div>
               </div>
 
-              <div class="grid-2">
-                <div class="form-group">
-                  <label for="venueName" class="form-label form-label-required">Venue / Center Name</label>
+              <div id="venueInputsGroup">
+                <div class="grid-2">
+                  <div class="form-group">
+                    <label for="venueName" class="form-label form-label-required">Venue / Center Name</label>
                   <input type="text" id="venueName" required class="input-control" placeholder="e.g. Nexus Convention Center">
                 </div>
                 <div class="form-group">
@@ -172,6 +189,7 @@
                     <option value="">Select City</option>
                   </select>
                 </div>
+              </div>
               </div>
 
               <div class="form-group">

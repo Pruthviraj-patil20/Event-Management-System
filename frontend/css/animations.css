@@ -49,6 +49,31 @@
   }
 }
 
+@keyframes auroraGlow {
+  0% {
+    transform: translateX(-50%) scale(1) translateY(0);
+    opacity: 0.8;
+  }
+  33% {
+    transform: translateX(-45%) scale(1.1) translateY(-20px);
+    opacity: 1;
+  }
+  66% {
+    transform: translateX(-55%) scale(0.9) translateY(10px);
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(-50%) scale(1) translateY(0);
+    opacity: 0.8;
+  }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 @keyframes spin {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }

@@ -20,6 +20,7 @@
   <link rel="stylesheet" href="/css/themes.css">
   <link rel="stylesheet" href="/css/animations.css">
   <link rel="stylesheet" href="/css/responsive.css">
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
 </head>
 <body style="display: flex; min-height: 100vh; align-items: center; justify-content: center; padding: var(--space-6) var(--space-4); background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.08), transparent 50%), var(--bg-main);">
 
@@ -51,6 +52,30 @@
 
     <!-- Registration Form -->
     <form id="registerForm">
+      <!-- Google Sign In Button -->
+      <div id="g_id_onload"
+           data-client_id="250490706521-bqkd6vb2upo0982thp81luh77ek2vj2b.apps.googleusercontent.com"
+           data-context="signup"
+           data-ux_mode="popup"
+           data-callback="handleGoogleResponse"
+           data-auto_prompt="false">
+      </div>
+      <div class="g_id_signin"
+           data-type="standard"
+           data-shape="rectangular"
+           data-theme="outline"
+           data-text="signup_with"
+           data-size="large"
+           data-logo_alignment="left"
+           style="display: flex; justify-content: center; margin-bottom: 1.25rem;">
+      </div>
+
+      <div style="display: flex; align-items: center; text-align: center; margin-bottom: 1.25rem;">
+        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-subtle);">
+        <span style="padding: 0 10px; color: var(--text-muted); font-size: 0.875rem;">OR</span>
+        <hr style="flex: 1; border: none; border-top: 1px solid var(--border-subtle);">
+      </div>
+      
       <input type="hidden" id="selectedRole" value="attendee">
 
       <div class="form-group">

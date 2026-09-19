@@ -98,6 +98,22 @@
                 </div>
               </div>
 
+              <div class="grid-2">
+                <div class="form-group">
+                  <label for="editEventType" class="form-label form-label-required">Event Format</label>
+                  <select id="editEventType" required class="select-control">
+                    <option value="In-Person">In-Person</option>
+                    <option value="Online">Online / Live Stream</option>
+                    <option value="Hybrid">Hybrid</option>
+                  </select>
+                </div>
+
+                <div class="form-group" id="editMeetingLinkGroup" style="display: none;">
+                  <label for="editMeetingLink" class="form-label">Meeting / Stream Link</label>
+                  <input type="url" id="editMeetingLink" class="input-control" placeholder="https://zoom.us/j/123456789">
+                </div>
+              </div>
+
               <div class="form-group">
                 <label for="editDescription" class="form-label form-label-required">Description</label>
                 <textarea id="editDescription" required class="textarea-control" style="min-height: 140px;"></textarea>
@@ -143,6 +159,22 @@
         document.getElementById('editDescription').value = ev.description;
         document.getElementById('editImage').value = ev.image;
 
+        if (ev.eventType) document.getElementById('editEventType').value = ev.eventType;
+        if (ev.meetingLink) document.getElementById('editMeetingLink').value = ev.meetingLink;
+        if (ev.eventType === 'Online' || ev.eventType === 'Hybrid') {
+          document.getElementById('editMeetingLinkGroup').style.display = 'block';
+        }
+
+        const editEventTypeSelect = document.getElementById('editEventType');
+        editEventTypeSelect.addEventListener('change', (e) => {
+          const mlGroup = document.getElementById('editMeetingLinkGroup');
+          if (e.target.value === 'Online' || e.target.value === 'Hybrid') {
+            mlGroup.style.display = 'block';
+          } else {
+            mlGroup.style.display = 'none';
+          }
+        });
+
         const form = document.getElementById('editEventForm');
         form.onsubmit = async (e) => {
           e.preventDefault();
@@ -152,7 +184,9 @@
               category: document.getElementById('editCategory').value,
               date: document.getElementById('editDate').value,
               description: document.getElementById('editDescription').value,
-              image: document.getElementById('editImage').value
+              image: document.getElementById('editImage').value,
+              eventType: document.getElementById('editEventType').value,
+              meetingLink: document.getElementById('editMeetingLink').value
             });
             Components.showToast('Event updated successfully!', 'success');
             setTimeout(() => window.location.href = '/dashboard/my-events.html', 800);
